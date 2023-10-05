@@ -7,7 +7,7 @@ import br.unitins.topicos1.dto.UsuarioResponseDTO;
 
 public interface UsuarioService {
     
-    public UsuarioResponseDTO insert(UsuarioDTO dto);
+    public UsuarioResponseDTO insert(UsuarioDTO dto) throws Exception;
 
     public UsuarioResponseDTO update(UsuarioDTO dto, Long id);
 
