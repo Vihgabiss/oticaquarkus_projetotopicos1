@@ -4,7 +4,7 @@ import java.util.List;
 
 public record UsuarioDTO(
     String nome,
-    String  cpf,
+    String cpf,
     String email,
     String senha,
     List<TelefoneDTO> listaTelefone,

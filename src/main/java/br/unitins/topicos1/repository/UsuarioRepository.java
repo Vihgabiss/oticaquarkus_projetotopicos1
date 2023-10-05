@@ -13,9 +13,9 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
         return find("UPPER(nome) LIKE UPPER(?1)", "%"+nome+"%").list();
     }
 
-    public Usuario findByLogin(String login){
+    public Usuario findByEmail(String email){
         try{
-            return find("login = ?1)", login).singleResult();
+            return find("email = ?1)", email).singleResult();
         }catch(NoResultException e){
             e.printStackTrace();
             return null;
