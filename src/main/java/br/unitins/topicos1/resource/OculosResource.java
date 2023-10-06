@@ -30,9 +30,9 @@ public class OculosResource {
     @Transactional
     public OculosResponseDTO insert(OculosDTO dto) {
         Oculos novOculos = new Oculos();
-        novOculos.setReferencia(dto.referencia());
-        novOculos.setTamanho(dto.tamanho());
-        novOculos.setCor(dto.cor());
+        novOculos.setReferencia(dto.getReferencia());
+        novOculos.setTamanho(dto.getTamanho());
+        novOculos.setCor(dto.getCor());
 
         repository.persist(novOculos);
 
