@@ -45,6 +45,7 @@ public class UsuarioResource {
         return Response.noContent().build();
     }
 
+
     @GET
     public Response findByAll(){
         return Response.ok(service.findByAll()).build();

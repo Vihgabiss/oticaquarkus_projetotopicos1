@@ -46,6 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
         }
 
+
         repository.persist(novoUsuario);
 
         return UsuarioResponseDTO.valueOf(novoUsuario);
@@ -62,7 +63,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void delete(Long id) {
         if(!repository.deleteById(id))
-        throw new NotFoundException();
+            throw new NotFoundException();
     }
 
     @Override
