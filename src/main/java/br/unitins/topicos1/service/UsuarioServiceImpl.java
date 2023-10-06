@@ -22,7 +22,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO insert(UsuarioDTO dto) throws Exception {
+    public UsuarioResponseDTO insert(UsuarioDTO dto) throws Exception  {
 
         if (repository.findByEmail(dto.email()) != null) {
             throw new Exception("Esse e-mail já está sendo usado.");
@@ -46,6 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
         }
 
+
         repository.persist(novoUsuario);
 
         return UsuarioResponseDTO.valueOf(novoUsuario);
@@ -62,7 +63,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void delete(Long id) {
         if(!repository.deleteById(id))
-        throw new NotFoundException();
+            throw new NotFoundException();
     }
 
     @Override
