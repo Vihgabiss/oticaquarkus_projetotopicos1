@@ -22,7 +22,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO insert(UsuarioDTO dto) throws Exception {
+    public UsuarioResponseDTO insert(UsuarioDTO dto) throws Exception  {
 
         if (repository.findByEmail(dto.email()) != null) {
             throw new Exception("Esse e-mail já está sendo usado.");
