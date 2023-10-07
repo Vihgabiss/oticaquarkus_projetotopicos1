@@ -1,22 +1,15 @@
 package br.unitins.topicos1.resource;
 
-import java.util.List;
-
 import br.unitins.topicos1.dto.OculosDTO;
 import br.unitins.topicos1.dto.OculosResponseDTO;
-import br.unitins.topicos1.model.Oculos;
-import br.unitins.topicos1.repository.OculosRepository;
+import br.unitins.topicos1.service.OculosService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/oculos")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,60 +17,60 @@ import jakarta.ws.rs.core.MediaType;
 public class OculosResource {
 
     @Inject
-    OculosRepository repository;
+    OculosService service;
 
     @POST
     @Transactional
-    public OculosResponseDTO insert(OculosDTO dto) {
-        Oculos novOculos = new Oculos();
-        novOculos.setReferencia(dto.getReferencia());
-        novOculos.setTamanho(dto.getTamanho());
-        novOculos.setCor(dto.getCor());
-
-        repository.persist(novOculos);
-
-        return OculosResponseDTO.valueOf(novOculos);
-    }
-
-    @GET
-    public List<OculosResponseDTO> findByAll() {
-        return repository.listAll().stream()
-        .map(e -> OculosResponseDTO.valueOf(e)).toList();
-    }
-
-    @GET
-    @Path("/{id}")
-    public Oculos findById(@PathParam("id") Long id) {
-        return repository.findById(id);
-    }
-
-    @GET
-    @Path("/search/referencia/{referencia}")
-    public List<Oculos> findByReferencia(@PathParam("referencia") String referencia) {
-        return repository.findByReferencia(referencia);
-    }
-
-    @DELETE
-    @Transactional
-    @Path("/{id}")
-    public boolean delete(@PathParam("id") Long id) {
-        Oculos oculos = repository.findById(id);
-        repository.delete(oculos);
-
-        return true;
+    public Response insert(@Valid OculosDTO dto) {
+        try {
+            OculosResponseDTO retorno = service.insert(dto);
+            return Response.status(201).entity(retorno).build();
+        } catch (Exception e) {
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
     }
 
     @PUT
     @Transactional
     @Path("/{id}")
-    public Oculos insert(Oculos oculos, @PathParam("id") Long id) {
-        Oculos oculosBanco = repository.findById(id);
-        oculosBanco.setReferencia(oculos.getReferencia());
-        oculosBanco.setTamanho(oculos.getTamanho());
-        oculosBanco.setCor(oculos.getCor());
+    public Response update(OculosDTO dto, @PathParam("id") Long id) {
+        try {
+            service.update(dto, id);
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
 
-        repository.persist(oculosBanco);
+    @DELETE
+    @Transactional
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Long id) {
+        try {
+            service.delete(id);
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
 
-        return oculosBanco;
+    @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") Long id) {
+        try {
+            return Response.ok(service.findById(id)).build();
+        } catch (Exception e) {
+            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/search/referencia/{referencia}")
+    public Response findByReferencia(@PathParam("referencia") String referencia) {
+        try {
+            return Response.ok(service.findByReferencia(referencia)).build();
+        } catch (Exception e) {
+            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
     }
 }
