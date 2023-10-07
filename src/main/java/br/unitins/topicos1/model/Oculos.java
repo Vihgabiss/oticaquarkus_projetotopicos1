@@ -3,6 +3,7 @@ package br.unitins.topicos1.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -26,7 +27,9 @@ public class Oculos extends DefaultEntity {
     private Integer quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "id_marca")
+    @JoinTable(name="oculos_marca",
+        joinColumns= @JoinColumn(name="id_oculos"),
+        inverseJoinColumns = @JoinColumn(name="id_marca") )
     private Marca marca;
 
     public String getReferencia() {

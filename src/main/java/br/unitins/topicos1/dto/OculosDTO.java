@@ -28,19 +28,23 @@ public class OculosDTO {
         @NotBlank(message = "O campo quantidade não pode ser nulo.")
         private final Integer quantidade;
 
-        public OculosDTO(
-                        String referencia,
-                        String cor,
-                        String tamanho,
-                        Double precoCusto,
-                        Double precoVenda,
-                        Integer quantidade) {
+        @NotBlank(message = "O campo marca não pode ser nulo.")
+        private final MarcaDTO marca;
+
+        public OculosDTO(@NotBlank(message = "O campo referência não pode ser nulo.") String referencia,
+                        @NotBlank(message = "O campo nome não pode ser nulo.") @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "Cor inválida.") String cor,
+                        @NotBlank(message = "O campo tamanho não pode ser nulo.") String tamanho,
+                        @NotNull(message = "O precoCusto tamanho não pode ser nulo.") @Positive(message = "O valor deve ser positivo") Double precoCusto,
+                        @NotNull(message = "O campo precoVenda não pode ser nulo.") @Positive(message = "O valor deve ser positivo") Double precoVenda,
+                        @PositiveOrZero(message = "O valor deve ser positivo ou zero") @NotBlank(message = "O campo quantidade não pode ser nulo.") Integer quantidade,
+                        @NotBlank(message = "O campo marca não pode ser nulo.") MarcaDTO marca) {
                 this.referencia = referencia;
                 this.cor = cor;
                 this.tamanho = tamanho;
                 this.precoCusto = precoCusto;
                 this.precoVenda = precoVenda;
                 this.quantidade = quantidade;
+                this.marca = marca;
         }
 
         public String getReferencia() {
@@ -67,6 +71,10 @@ public class OculosDTO {
                 return quantidade;
         }
 
+        public MarcaDTO getMarca() {
+                return marca;
+        }
+
         @Override
         public int hashCode() {
                 final int prime = 31;
@@ -77,6 +85,7 @@ public class OculosDTO {
                 result = prime * result + ((precoCusto == null) ? 0 : precoCusto.hashCode());
                 result = prime * result + ((precoVenda == null) ? 0 : precoVenda.hashCode());
                 result = prime * result + ((quantidade == null) ? 0 : quantidade.hashCode());
+                result = prime * result + ((marca == null) ? 0 : marca.hashCode());
                 return result;
         }
 
@@ -118,6 +127,11 @@ public class OculosDTO {
                         if (other.quantidade != null)
                                 return false;
                 } else if (!quantidade.equals(other.quantidade))
+                        return false;
+                if (marca == null) {
+                        if (other.marca != null)
+                                return false;
+                } else if (!marca.equals(other.marca))
                         return false;
                 return true;
         }
