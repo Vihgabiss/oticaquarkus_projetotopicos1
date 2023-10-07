@@ -11,9 +11,11 @@ import br.unitins.topicos1.model.Telefone;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.FornecedorRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+@ApplicationScoped
 public class FornecedorServiceImpl implements FornecedorService {
 
     @Inject
@@ -45,9 +47,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         novoFornecedor.setEndereco(enderecoEntity);
 
         repository.persist(novoFornecedor);
-
         return FornecedorResponseDTO.valueOf(novoFornecedor);
-
     }
 
     @Override
@@ -65,12 +65,14 @@ public class FornecedorServiceImpl implements FornecedorService {
             throw new RuntimeException("Telefone não encontrado com o ID: " + dto.getTelefone().getId());
         }
         fornecedor.setTelefone(telefoneEntity);
-
         Endereco enderecoEntity = enderecoRepository.findById(dto.getEndereco().getId());
         if (enderecoEntity == null) {
-            throw new RuntimeException("Endereco não encontrado com o ID: " + dto.getTelefone().getId());
+            throw new RuntimeException("Endereco não encontrado com o ID: " + dto.getEndereco().getId());
         }
         fornecedor.setEndereco(enderecoEntity);
+
+        repository.persist(fornecedor);
+        return FornecedorResponseDTO.valueOf(fornecedor);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class FornecedorServiceImpl implements FornecedorService {
     public FornecedorResponseDTO findById(Long id) {
         Fornecedor fornecedor = repository.findById(id);
         if (fornecedor == null) {
-            throw new RuntimeException("Oculos não encontrado com o ID: " + id);
+            throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
         }
         return FornecedorResponseDTO.valueOf(fornecedor);
     }

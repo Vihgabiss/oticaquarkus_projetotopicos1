@@ -14,7 +14,7 @@ public interface MarcaService {
 
     public MarcaResponseDTO findById(Long id);
 
-    public List<MarcaResponseDTO> findByNome(MarcaDTO dto);
+    public List<MarcaResponseDTO> findByNome(String nome);
 
     public List<MarcaResponseDTO> findByAll();
 }

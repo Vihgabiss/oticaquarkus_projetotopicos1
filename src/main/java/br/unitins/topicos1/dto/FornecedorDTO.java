@@ -98,4 +98,8 @@ public class FornecedorDTO {
                 return true;
         }
 
+        public Long getId() {
+                return null;
+        }
+
 }

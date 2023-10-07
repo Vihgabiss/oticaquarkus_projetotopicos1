@@ -1,5 +1,7 @@
 package br.unitins.topicos1.resource;
 
+import java.util.List;
+
 import br.unitins.topicos1.dto.OculosDTO;
 import br.unitins.topicos1.dto.OculosResponseDTO;
 import br.unitins.topicos1.service.OculosService;
@@ -22,55 +24,43 @@ public class OculosResource {
     @POST
     @Transactional
     public Response insert(@Valid OculosDTO dto) {
-        try {
-            OculosResponseDTO retorno = service.insert(dto);
-            return Response.status(201).entity(retorno).build();
-        } catch (Exception e) {
-            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
+        OculosResponseDTO retorno = service.insert(dto);
+        return Response.status(Status.CREATED).entity(retorno).build();
     }
 
     @PUT
     @Transactional
     @Path("/{id}")
-    public Response update(OculosDTO dto, @PathParam("id") Long id) {
-        try {
-            service.update(dto, id);
-            return Response.status(Status.NO_CONTENT).build();
-        } catch (Exception e) {
-            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
+    public Response update(@Valid OculosDTO dto, @PathParam("id") Long id) {
+        OculosResponseDTO retorno = service.update(dto, id);
+        return Response.status(Status.OK).entity(retorno).build();
     }
 
     @DELETE
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
-        try {
-            service.delete(id);
-            return Response.status(Status.NO_CONTENT).build();
-        } catch (Exception e) {
-            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
-        }
+        service.delete(id);
+        return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        try {
-            return Response.ok(service.findById(id)).build();
-        } catch (Exception e) {
-            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
-        }
+        OculosResponseDTO retorno = service.findById(id);
+        return Response.ok(retorno).build();
     }
 
     @GET
-    @Path("/search/referencia/{referencia}")
+    @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
-        try {
-            return Response.ok(service.findByReferencia(referencia)).build();
-        } catch (Exception e) {
-            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
-        }
+        List<OculosResponseDTO> retorno = service.findByReferencia(referencia);
+        return Response.ok(retorno).build();
+    }
+
+    @GET
+    public Response findByAll() {
+        List<OculosResponseDTO> retorno = service.findByAll();
+        return Response.ok(retorno).build();
     }
 }

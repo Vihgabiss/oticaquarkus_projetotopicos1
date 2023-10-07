@@ -76,8 +76,8 @@ public class MarcaServiceImpl implements MarcaService {
     }
 
     @Override
-    public List<MarcaResponseDTO> findByNome(MarcaDTO dto) {
-        return repository.findByNome(dto.getNome()).stream()
+    public List<MarcaResponseDTO> findByNome(String nome) {
+        return repository.findByNome(nome).stream()
                 .map(e -> MarcaResponseDTO.valueOf(e)).toList();
     }
 

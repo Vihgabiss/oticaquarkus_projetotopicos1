@@ -1,5 +1,6 @@
 package br.unitins.topicos1.dto;
 
+import br.unitins.topicos1.model.DefaultEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -120,6 +121,10 @@ public class OculosDTO {
                 } else if (!quantidade.equals(other.quantidade))
                         return false;
                 return true;
+        }
+
+        public DefaultEntity getMarca() {
+                return null;
         }
 
 }
