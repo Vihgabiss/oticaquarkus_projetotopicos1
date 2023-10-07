@@ -6,10 +6,10 @@ public record TelefoneDTO(
     String codigoArea,
     String numero
 ) {
-    public static TelefoneDTO valueOf(Telefone telefone){
-        return new TelefoneDTO(
-            telefone.getCodigoArea(), 
-            telefone.getNumero()
+    public static Telefone valueOf(TelefoneDTO dto){
+        return new Telefone(
+            dto.codigoArea(), 
+            dto.numero()
         );
 }
 }
