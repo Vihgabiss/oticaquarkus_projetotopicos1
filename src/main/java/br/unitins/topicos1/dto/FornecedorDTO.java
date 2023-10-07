@@ -11,17 +11,21 @@ public class FornecedorDTO {
         @NotBlank(message = "O campo nome não pode ser nulo.")
         private final String nome;
         @NotBlank(message = "O campo telefone não pode ser nulo.")
-        private final Telefone telefone;
+        private final TelefoneDTO telefone;
         @NotBlank(message = "O campo email não pode ser nulo.")
         @Email(message = "Email inválido.")
         private final String email;
         @NotBlank(message = "O campo endereço não pode ser nulo.")
-        private final Endereco endereco;
+        private final EnderecoDTO endereco;
         @NotBlank(message = "O campo cnpj não pode ser nulo.")
         @Pattern(regexp = "^\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}$", message = "CNPJ inválido")
         private final String cnpj;
 
-        public FornecedorDTO(String nome, Telefone telefone, String email, Endereco endereco, String cnpj) {
+        public FornecedorDTO(@NotBlank(message = "O campo nome não pode ser nulo.") String nome,
+                        @NotBlank(message = "O campo telefone não pode ser nulo.") TelefoneDTO telefone,
+                        @NotBlank(message = "O campo email não pode ser nulo.") @Email(message = "Email inválido.") String email,
+                        @NotBlank(message = "O campo endereço não pode ser nulo.") EnderecoDTO endereco,
+                        @NotBlank(message = "O campo cnpj não pode ser nulo.") @Pattern(regexp = "^\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}$", message = "CNPJ inválido") String cnpj) {
                 this.nome = nome;
                 this.telefone = telefone;
                 this.email = email;
@@ -33,7 +37,7 @@ public class FornecedorDTO {
                 return nome;
         }
 
-        public Telefone getTelefone() {
+        public TelefoneDTO getTelefone() {
                 return telefone;
         }
 
@@ -41,12 +45,16 @@ public class FornecedorDTO {
                 return email;
         }
 
-        public Endereco getEndereco() {
+        public EnderecoDTO getEndereco() {
                 return endereco;
         }
 
         public String getCnpj() {
                 return cnpj;
+        }
+
+        public Long getId() {
+                return null;
         }
 
         @Override
@@ -96,10 +104,6 @@ public class FornecedorDTO {
                 } else if (!cnpj.equals(other.cnpj))
                         return false;
                 return true;
-        }
-
-        public Long getId() {
-                return null;
         }
 
 }
