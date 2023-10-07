@@ -1,5 +1,6 @@
 package br.unitins.topicos1.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -65,6 +66,9 @@ public class Usuario extends DefaultEntity {
     }
 
      public List<Telefone> getListaTelefone() {
+        if(this.listaTelefone == null){
+            this.listaTelefone = new ArrayList<Telefone>();
+        }
         return listaTelefone;
     }
 

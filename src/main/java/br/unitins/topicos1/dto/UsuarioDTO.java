@@ -7,7 +7,7 @@ public record UsuarioDTO(
     String cpf,
     String email,
     String senha,
-    List<TelefoneDTO> listaTelefone
+    List<TelefoneResponseDTO> listaTelefone
    // List<EnderecoDTO> listaEndereco
 ) {
     
