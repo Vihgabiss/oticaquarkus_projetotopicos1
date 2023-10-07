@@ -60,4 +60,3 @@ insert into usuario_telefone (id_usuario, id_telefone) values(1, 1);
 insert into usuario_telefone (id_usuario, id_telefone) values(1, 2);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 3);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 4);
-
