@@ -11,7 +11,15 @@ public class Telefone extends DefaultEntity{
 
     @Column(length = 9)
     private String numero;
-    
+
+    public Telefone(String codigoArea, String numero) {
+        
+    }
+
+    public Telefone() {
+
+    }
+
     public String getCodigoArea() {
         return codigoArea;
     }
