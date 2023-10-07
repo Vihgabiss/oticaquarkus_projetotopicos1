@@ -8,7 +8,7 @@ public record UsuarioDTO(
     String email,
     String senha,
     List<TelefoneResponseDTO> listaTelefone
-   // List<EnderecoDTO> listaEndereco
+
 ) {
     
 }
