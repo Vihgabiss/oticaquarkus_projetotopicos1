@@ -8,8 +8,8 @@ public class MarcaDTO {
         @NotBlank(message = "O campo fornecedor não pode ser nulo.")
         private final FornecedorDTO fornecedor;
 
-        public MarcaDTO(String nome,
-                        FornecedorDTO fornecedor) {
+        public MarcaDTO(@NotBlank(message = "O campo nome não pode ser nulo.") String nome,
+                        @NotBlank(message = "O campo fornecedor não pode ser nulo.") FornecedorDTO fornecedor) {
                 this.nome = nome;
                 this.fornecedor = fornecedor;
         }
