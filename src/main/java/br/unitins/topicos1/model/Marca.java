@@ -6,14 +6,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Marca extends DefaultEntity{
+public class Marca extends DefaultEntity {
 
     @Column(length = 60, nullable = false)
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "id_oculos")
-    private Oculos oculos;
+    @JoinColumn(name = "id_fornecedor")
+    private Fornecedor fornecedor;
 
     public String getNome() {
         return nome;
@@ -23,11 +23,12 @@ public class Marca extends DefaultEntity{
         this.nome = nome;
     }
 
-    public Oculos getOculos() {
-        return oculos;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 
-    public void setOculos(Oculos oculos) {
-        this.oculos = oculos;
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
+
 }
