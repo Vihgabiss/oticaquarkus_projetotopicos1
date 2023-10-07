@@ -86,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         novoUsuario.setNome(dto.nome());
         novoUsuario.setSenha(dto.senha());
 
-        novoUsuario.getListaTelefone();
+
 
         repository.persist(novoUsuario);
 
@@ -146,5 +146,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return repositoryTel.findByCodigoArea(codigoArea).stream()
                 .map(e -> TelefoneResponseDTO.valueOf(e)).toList();
     }
+
+
 }
 
