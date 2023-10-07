@@ -5,23 +5,47 @@
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
 
+-- Inserção para Telefone
+INSERT INTO telefone(codigoarea, numero) VALUES('63', '911111111');
+INSERT INTO telefone(codigoarea, numero) VALUES('11', '922222222');
+INSERT INTO telefone(codigoarea, numero) VALUES('11', '933333333');
+INSERT INTO telefone(codigoarea, numero) VALUES('11', '944444444');
+
+-- Inserção para Endereço
+INSERT INTO endereco( cep, bairro, rua, numero, complemento, cidade) VALUES( '22222-222', 'Bairro Professor José Lopes', 'Rua 01', 123, 'Apto 456', 'Palmas');
+INSERT INTO endereco( cep, bairro, rua, numero, complemento, cidade) VALUES( '11111-111', 'Bairro do Limoeiro', 'Rua 12', 01,  'Casa', 'São Paulo');
+INSERT INTO endereco( cep, bairro, rua, numero, complemento, cidade) VALUES( '33333-333', 'Bairro Laranja Lima', 'Rua 14', 33, 'Apto 055', 'Rio de Janeiro');
+INSERT INTO endereco( cep, bairro, rua, numero, complemento, cidade) VALUES( '44444-444', 'Bairro JK', 'Rua 11', 13, 'Casa', 'Palmas');
+
+
+-- Inserção para Fornecedor
+insert into fornecedor(nome, email, cnpj) values ("LuxOtica","luxotica@gmail.com", "11.111.111/0001-00" );
+insert into fornecedor(nome, email, cnpj) values ("Safilo","safilo@gmail.com", "22.222.222/0001-00");
+insert into fornecedor(nome, email, cnpj) values ("RVGlasses","rvglasses@gmail.com", "33.333.333/0001-00");
+insert into fornecedor(nome, email, cnpj) values ("Cluss","cluss@gmail.com", "44.444.444/0001-00");
+
+-- Associando Telefone e Endereço ao Fornecedor 
+INSERT INTO fornecedor_telefone(id_fornecedor, id_telefone) VALUES(1, 1);
+INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(1, 1);
+INSERT INTO fornecedor_telefone(id_fornecedor, id_telefone) VALUES(2, 2);
+INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(2, 2);
+INSERT INTO fornecedor_telefone(id_fornecedor, id_telefone) VALUES(3, 3);
+INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(3, 3);
+INSERT INTO fornecedor_telefone(id_fornecedor, id_telefone) VALUES(4, 4);
+INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(4, 4);
+
+-- Inserção de Marca
+insert into marca(nome, id_oculos) values('Ray-Ban', 1);
+insert into marca(nome, id_oculos) values('Ray-Ban', 4);
+insert into marca(nome, id_oculos) values('GUESS', 2);
+insert into marca(nome, id_oculos) values('Tommy Hilfiger', 3);
+
+
 -- inserção de óculos
 insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('C12A3', 'A2', '145', 85.00, 120.00, 10);
 insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('B2023', 'C6', '145', 78.00, 110.00, 5);
 insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('B2023', 'C5', '140', 99.90, 135.80, 2);
 insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('A62G3', 'B2', '50', 100.00, 110.00, 12);
- 
--- inserção de fornecedor
-insert into fornecedor(nome, telefone, email, endereco, cnpj) values ();
-insert into fornecedor(nome, telefone, email, endereco, cnpj) values ();
-insert into fornecedor(nome, telefone, email, endereco, cnpj) values ();
-insert into fornecedor(nome, telefone, email, endereco, cnpj) values ();
-
--- inserção de marca
-insert into marca(nome, id_oculos) values('Ray-Ban', 1);
-insert into marca(nome, id_oculos) values('Ray-Ban', 4);
-insert into marca(nome, id_oculos) values('GUESS', 2);
-insert into marca(nome, id_oculos) values('Tommy Hilfiger', 3);
 
 
 insert into usuario(nome, cpf, email, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', '111');
@@ -37,22 +61,3 @@ insert into usuario_telefone (id_usuario, id_telefone) values(1, 2);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 3);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 4);
 
-
--- Inserção para Telefone
-INSERT INTO telefone(id, codigoarea, numero) VALUES(nextval('seq_telefone'), '11', '999999999');
-
--- Inserção para Endereço
-INSERT INTO endereco(id, cep, bairro, rua, numero, complemento, cidade) VALUES(nextval('seq_endereco'), '01234-567', 'Bairro Exemplo', 'Rua Exemplo', 123, 'Apto 456', 'Cidade Exemplo');
-
--- Inserção para Fornecedor
-INSERT INTO fornecedor(id, nome, email, cnpj) VALUES(nextval('seq_fornecedor'), 'Fornecedor Exemplo', 'fornecedor@example.com', '00.000.000/0001-00');
-
--- Associando Telefone e Endereço ao Fornecedor (assumindo que os IDs são 1, pois são os primeiros registros inseridos)
-INSERT INTO fornecedor_telefone(id_fornecedor, id_telefone) VALUES(1, 1);
-INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(1, 1);
-
--- Inserção para Marca
-INSERT INTO marca(id, nome, id_fornecedor) VALUES(nextval('seq_marca'), 'Marca Exemplo', 1);
-
--- Inserção para Óculos
-INSERT INTO oculos(id, referencia, cor, tamanho, precocusto, precovenda, quantidade, id_marca) VALUES(nextval('seq_oculos'), 'REF123', 'Azul', 'M', 100.00, 200.00, 50, 1);
