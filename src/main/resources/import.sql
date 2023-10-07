@@ -28,10 +28,10 @@ insert into usuario_telefone (id_usuario, id_telefone) values(1, 2);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 3);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 4);
 
-insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('77006-020', '110 Norte', 'alameda 15', '25', 'casa', 'Palmas');
-insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('77010-000', '106 Norte', 'Av.JK', '10', 'loja 1, Sapataria', 'Salvador');
-insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('77006-500', '204 Sul', 'alameda 02', '13', 'casa', 'Palmas');
+-- insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('77006-020', '110 Norte', 'alameda 15', '25', 'casa', 'Palmas');
+-- insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('77010-000', '106 Norte', 'Av.JK', '10', 'loja 1, Sapataria', 'Salvador');
+-- insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('77006-500', '204 Sul', 'alameda 02', '13', 'casa', 'Palmas');
 
-insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
-insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
-insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
+-- insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
+-- insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
+-- insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
