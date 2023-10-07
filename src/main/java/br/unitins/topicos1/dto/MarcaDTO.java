@@ -53,4 +53,8 @@ public class MarcaDTO {
                 return true;
         }
 
+        public Long getId() {
+            return null;
+        }
+
 }
