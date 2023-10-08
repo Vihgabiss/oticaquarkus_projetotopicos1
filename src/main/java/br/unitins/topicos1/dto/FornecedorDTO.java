@@ -8,12 +8,12 @@ public class FornecedorDTO {
 
         @NotBlank(message = "O campo nome não pode ser nulo.")
         private final String nome;
-        @NotBlank(message = "O campo telefone não pode ser nulo.")
+
         private final TelefoneDTO telefone;
         @NotBlank(message = "O campo email não pode ser nulo.")
         @Email(message = "Email inválido.")
         private final String email;
-        @NotBlank(message = "O campo endereço não pode ser nulo.")
+
         private final EnderecoDTO endereco;
         @NotBlank(message = "O campo cnpj não pode ser nulo.")
         @Pattern(regexp = "^\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}$", message = "CNPJ inválido")
