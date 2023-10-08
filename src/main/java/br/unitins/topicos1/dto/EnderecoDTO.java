@@ -22,5 +22,9 @@ public record EnderecoDTO(
     @NotBlank(message = "Insira a Cidade.") 
     String cidade
 ) {
+
+    public Long getId() {
+        return null;
+    }
     
 }
