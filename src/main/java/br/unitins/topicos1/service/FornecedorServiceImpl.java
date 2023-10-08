@@ -52,8 +52,10 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setNome(dto.getNome());
         fornecedor.setCnpj(dto.getCnpj());
         fornecedor.setEmail(dto.getEmail());
+
         fornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
         fornecedor.setEndereco(getEnderecoEntityOrThrow(dto.getEndereco().getId()));
+
 
         repository.persist(fornecedor);
         return FornecedorResponseDTO.valueOf(fornecedor);
