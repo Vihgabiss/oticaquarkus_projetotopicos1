@@ -9,7 +9,8 @@ public record UsuarioResponseDTO(
     String nome,
     String  cpf,
     String email,
-    List<TelefoneResponseDTO> listaTelefone 
+    List<TelefoneResponseDTO> listaTelefone,
+    List<EnderecoResponseDTO> listaEndereco
 ) {
     
     public static UsuarioResponseDTO valueOf(Usuario usuario){
@@ -20,7 +21,10 @@ public record UsuarioResponseDTO(
             usuario.getEmail(),
             usuario.getListaTelefone()
                 .stream()
-                .map(t -> TelefoneResponseDTO.valueOf(t)).toList()
+                .map(t -> TelefoneResponseDTO.valueOf(t)).toList(),
+            usuario.getListaEndereco()
+                .stream()
+                .map(e -> EnderecoResponseDTO.valueOf(e)).toList()
         );
     }
 
