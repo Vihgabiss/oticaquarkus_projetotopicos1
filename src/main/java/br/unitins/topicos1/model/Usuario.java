@@ -77,6 +77,9 @@ public class Usuario extends DefaultEntity {
     }
 
     public List<Endereco> getListaEndereco() {
+            if(this.listaEndereco == null){
+            this.listaEndereco = new ArrayList<Endereco>();
+        }
         return listaEndereco;
     }
 

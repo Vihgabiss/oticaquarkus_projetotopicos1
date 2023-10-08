@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
-import br.unitins.topicos1.model.Endereco;
 import br.unitins.topicos1.model.Fornecedor;
 import br.unitins.topicos1.model.Telefone;
 import br.unitins.topicos1.repository.FornecedorRepository;
