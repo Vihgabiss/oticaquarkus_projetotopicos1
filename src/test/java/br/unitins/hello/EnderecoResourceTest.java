@@ -113,7 +113,7 @@ public class EnderecoResourceTest {
 
     }
 
-    @Teste
+    @Test
     public void testDelete() throws Exception {
         UsuarioDTO user = new UsuarioDTO(
                 "Bily Birds", "111.222.363-22",
