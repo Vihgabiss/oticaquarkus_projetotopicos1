@@ -31,13 +31,13 @@ public class OculosDTO {
         @NotBlank(message = "O campo marca não pode ser nulo.")
         private final MarcaDTO marca;
 
-        public OculosDTO(@NotBlank(message = "O campo referência não pode ser nulo.") String referencia,
-                        @NotBlank(message = "O campo nome não pode ser nulo.") @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "Cor inválida.") String cor,
-                        @NotBlank(message = "O campo tamanho não pode ser nulo.") String tamanho,
-                        @NotNull(message = "O precoCusto tamanho não pode ser nulo.") @Positive(message = "O valor deve ser positivo") Double precoCusto,
-                        @NotNull(message = "O campo precoVenda não pode ser nulo.") @Positive(message = "O valor deve ser positivo") Double precoVenda,
-                        @PositiveOrZero(message = "O valor deve ser positivo ou zero") @NotBlank(message = "O campo quantidade não pode ser nulo.") Integer quantidade,
-                        @NotBlank(message = "O campo marca não pode ser nulo.") MarcaDTO marca) {
+        public OculosDTO(String referencia,
+                        String cor,
+                        String tamanho,
+                        Double precoCusto,
+                        Double precoVenda,
+                        Integer quantidade,
+                        MarcaDTO marca) {
                 this.referencia = referencia;
                 this.cor = cor;
                 this.tamanho = tamanho;
