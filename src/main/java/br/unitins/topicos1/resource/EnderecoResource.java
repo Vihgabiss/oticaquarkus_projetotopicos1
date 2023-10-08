@@ -4,6 +4,7 @@ import br.unitins.topicos1.dto.EnderecoDTO;
 import br.unitins.topicos1.service.EnderecoService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -37,20 +38,20 @@ public class EnderecoResource {
 
     @GET
     @Path("/cep/{cep}")
-    public Response findByCep(@PathParam("cep") String cep){
+    public Response findByCep(@Valid @PathParam("cep") String cep){
         return Response.ok(service.findByCep(cep)).build();
     }
 
     @POST
     @Path("/insere-endereco/{idUsuario}")
-    public Response insert(@PathParam("idUsuario") Long idUsuario, EnderecoDTO dto){
+    public Response insert(@Valid @PathParam("idUsuario") Long idUsuario, EnderecoDTO dto){
         return Response.status(Status.CREATED).entity(service.insert(idUsuario, dto)).build();
     }
 
     @PUT
     @Transactional
     @Path("/atualiza-endereco/{id}/{idEndereco}")
-    public Response update(EnderecoDTO dto, @PathParam("id") Long id,  @PathParam("idEndereco") Long idEndereco){
+    public Response update(@Valid EnderecoDTO dto, @PathParam("id") Long id,  @PathParam("idEndereco") Long idEndereco){
         service.update(idEndereco, id, dto);
         return Response.noContent().build();
     }
