@@ -20,4 +20,8 @@ public record TelefoneDTO(
             dto.numero()
         );
 }
+
+    public Long getId() {
+        return null;
+    }
 }
