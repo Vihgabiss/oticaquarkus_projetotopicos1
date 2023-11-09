@@ -2,6 +2,7 @@ package br.unitins.topicos1.dto;
 
 import java.util.List;
 
+import br.unitins.topicos1.model.Perfil;
 import br.unitins.topicos1.model.Usuario;
 
 public record UsuarioResponseDTO(
@@ -9,6 +10,7 @@ public record UsuarioResponseDTO(
     String nome,
     String  cpf,
     String email,
+    Perfil perfil,
     List<TelefoneResponseDTO> listaTelefone,
     List<EnderecoResponseDTO> listaEndereco
 ) {
@@ -19,6 +21,7 @@ public record UsuarioResponseDTO(
             usuario.getNome(),
             usuario.getCpf(),
             usuario.getEmail(),
+            usuario.getPerfil(),
             usuario.getListaTelefone()
                 .stream()
                 .map(t -> TelefoneResponseDTO.valueOf(t)).toList(),

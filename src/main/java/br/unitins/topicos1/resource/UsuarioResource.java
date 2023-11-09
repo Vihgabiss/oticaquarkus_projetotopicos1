@@ -4,7 +4,6 @@ import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.inject.Inject;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -27,13 +26,13 @@ public class UsuarioResource {
     UsuarioService service;
 
     @POST
-    public Response insert(@Valid UsuarioDTO dto) throws Exception{
+    public Response insert(UsuarioDTO dto) throws Exception{
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
     @PATCH
     @Path("/insere-telefone/{idUsuario}")
-    public Response insertTelefone(@Valid TelefoneDTO dto, @PathParam("idUsuario") Long idUsuario){
+    public Response insertTelefone(TelefoneDTO dto, @PathParam("idUsuario") Long idUsuario){
         service.insertTelefone(idUsuario, dto);
         return Response.noContent().build();
     }
@@ -41,7 +40,7 @@ public class UsuarioResource {
 
     @PATCH
     @Path("/atualiza-telefone/{id}/{idTelefone}")
-    public Response updateTelefone(@Valid TelefoneDTO dto, @PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
+    public Response updateTelefone(TelefoneDTO dto, @PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
         service.updateTelefone(id, idTelefone, dto);
         return Response.noContent().build();
     }
@@ -49,7 +48,7 @@ public class UsuarioResource {
 
     @PUT
     @Path("/{id}")
-    public Response update(@ Valid UsuarioDTO dto, @PathParam("id") Long id){
+    public Response update(UsuarioDTO dto, @PathParam("id") Long id){
         service.update(dto, id);
         return Response.noContent().build();
     }
