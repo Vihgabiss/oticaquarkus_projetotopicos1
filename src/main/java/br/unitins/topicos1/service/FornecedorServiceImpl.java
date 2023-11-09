@@ -7,13 +7,15 @@ import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.model.Endereco;
 import br.unitins.topicos1.model.Fornecedor;
+
 import br.unitins.topicos1.model.Telefone;
 import br.unitins.topicos1.repository.EnderecoRepository;
+
 import br.unitins.topicos1.repository.FornecedorRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
+//import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
@@ -94,13 +96,13 @@ public class FornecedorServiceImpl implements FornecedorService {
                 .map(e -> FornecedorResponseDTO.valueOf(e)).toList();
     }
 
-    private Telefone getTelefoneEntityOrThrow(Long id) {
-        Telefone telefoneEntity = telefoneRepository.findById(id);
-        if (telefoneEntity == null) {
-            throw new EntityNotFoundException("Telefone não encontrado com o ID: " + id);
-        }
-        return telefoneEntity;
-    }
+    // private Telefone getTelefoneEntityOrThrow(Long id) {
+    //     Telefone telefoneEntity = telefoneRepository.findById(id);
+    //     if (telefoneEntity == null) {
+    //         throw new EntityNotFoundException("Telefone não encontrado com o ID: " + id);
+    //     }
+    //     return telefoneEntity;
+    // }
 
     private Endereco getEnderecoEntityOrThrow(Long id) {
         Endereco enderecoEntity = enderecoRepository.findById(id);

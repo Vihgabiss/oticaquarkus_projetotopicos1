@@ -22,8 +22,9 @@ public class Usuario extends DefaultEntity {
     @Column(length = 40)
     private String email;
 
-    @Column(length = 15)
     private String senha;
+
+    private Perfil perfil;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "usuario_telefone", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_telefone"))
@@ -85,6 +86,14 @@ public class Usuario extends DefaultEntity {
 
     public void setListaEndereco(List<Endereco> listaEndereco) {
         this.listaEndereco = listaEndereco;
+    }
+
+        public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
 }
