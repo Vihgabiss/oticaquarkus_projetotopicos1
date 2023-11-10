@@ -25,14 +25,24 @@ public class MarcaServiceImpl implements MarcaService {
     @Transactional
     public MarcaResponseDTO insert(MarcaDTO dto) {
         Marca novaMarca = new Marca();
-        novaMarca.setNome(dto.getNome());
-        Fornecedor fornecedorEntity = fornecedorRepository.findById(dto.getFornecedor().getId());
-        if (fornecedorEntity == null) {
-            throw new RuntimeException("Fornecedor não encontrado com o ID: " + dto.getFornecedor().getId());
-        }
-        novaMarca.setFornecedor(fornecedorEntity);
+        novaMarca.setNome(dto.nome());
 
+        Fornecedor fornecedorEntity = fornecedorRepository.findById(dto.fornecedor().id());
+        if (fornecedorEntity == null) {
+            Fornecedor novoFornecedor = new Fornecedor();
+            novoFornecedor.setNome(dto.fornecedor().nome());
+            novoFornecedor.setEmail(dto.fornecedor().email());
+            novoFornecedor.setCnpj(dto.fornecedor().cnpj());
+            novoFornecedor.setTelefone(dto.fornecedor().telefone());
+            novoFornecedor.setEndereco(dto.fornecedor().endereco());
+            fornecedorRepository.persist(novoFornecedor);
+
+            novaMarca.setFornecedor(novoFornecedor);
+        } else {
+            novaMarca.setFornecedor(fornecedorEntity);
+        }
         repository.persist(novaMarca);
+
         return MarcaResponseDTO.valueOf(novaMarca);
     }
 
@@ -43,14 +53,22 @@ public class MarcaServiceImpl implements MarcaService {
         if (marca == null) {
             throw new RuntimeException("Marca não encontrada com o ID: " + id);
         }
-        marca.setNome(dto.getNome());
+        marca.setNome(dto.nome());
 
-        Fornecedor fornecedorEntity = fornecedorRepository.findById(dto.getFornecedor().getId());
+        Fornecedor fornecedorEntity = fornecedorRepository.findById(dto.fornecedor().id());
         if (fornecedorEntity == null) {
-            throw new RuntimeException("Fornecedor não encontrado com o ID: " + dto.getFornecedor().getId());
-        }
-        marca.setFornecedor(fornecedorEntity);
+            Fornecedor novoFornecedor = new Fornecedor();
+            novoFornecedor.setNome(dto.fornecedor().nome());
+            novoFornecedor.setEmail(dto.fornecedor().email());
+            novoFornecedor.setCnpj(dto.fornecedor().cnpj());
+            novoFornecedor.setTelefone(dto.fornecedor().telefone());
+            novoFornecedor.setEndereco(dto.fornecedor().endereco());
+            fornecedorRepository.persist(novoFornecedor);
 
+            marca.setFornecedor(novoFornecedor);
+        } else {
+            marca.setFornecedor(fornecedorEntity);
+        }
         repository.persist(marca);
 
         return MarcaResponseDTO.valueOf(marca);

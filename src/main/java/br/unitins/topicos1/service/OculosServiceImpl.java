@@ -26,15 +26,16 @@ public class OculosServiceImpl implements OculosService {
     @Transactional
     public OculosResponseDTO insert(OculosDTO dto) {
         Oculos novoOculos = new Oculos();
-        novoOculos.setReferencia(dto.getReferencia());
-        novoOculos.setCor(dto.getCor());
-        novoOculos.setTamanho(dto.getTamanho());
-        novoOculos.setPrecoCusto(dto.getPrecoCusto());
-        novoOculos.setPrecoVenda(dto.getPrecoVenda());
-        novoOculos.setQuantidade(dto.getQuantidade());
-        Marca marcaEntity = marcaRepository.findById(dto.getMarca().getId());
+        novoOculos.setReferencia(dto.referencia());
+        novoOculos.setCor(dto.cor());
+        novoOculos.setTamanho(dto.tamanho());
+        novoOculos.setPrecoCusto(dto.precoCusto());
+        novoOculos.setPrecoVenda(dto.precoVenda());
+        novoOculos.setQuantidade(dto.quantidade());
+
+        Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
-            throw new RuntimeException("Marca não encontrada com o ID: " + dto.getMarca().getId());
+            throw new RuntimeException("Marca não encontrada com o ID: " + dto.marca().getId());
         }
         novoOculos.setMarca(marcaEntity);
 
@@ -50,15 +51,15 @@ public class OculosServiceImpl implements OculosService {
         if (oculos == null) {
             throw new RuntimeException("Oculos não encontrado com o ID: " + id);
         }
-        oculos.setReferencia(dto.getReferencia());
-        oculos.setCor(dto.getCor());
-        oculos.setTamanho(dto.getTamanho());
-        oculos.setPrecoCusto(dto.getPrecoCusto());
-        oculos.setPrecoVenda(dto.getPrecoVenda());
-        oculos.setQuantidade(dto.getQuantidade());
-        Marca marcaEntity = marcaRepository.findById(dto.getMarca().getId());
+        oculos.setReferencia(dto.referencia());
+        oculos.setCor(dto.cor());
+        oculos.setTamanho(dto.tamanho());
+        oculos.setPrecoCusto(dto.precoCusto());
+        oculos.setPrecoVenda(dto.precoVenda());
+        oculos.setQuantidade(dto.quantidade());
+        Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
-            throw new RuntimeException("Marca não encontrada com o ID: " + dto.getMarca().getId());
+            throw new RuntimeException("Marca não encontrada com o ID: " + dto.marca().getId());
         }
         oculos.setMarca(marcaEntity);
 

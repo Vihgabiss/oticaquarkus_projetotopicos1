@@ -16,5 +16,5 @@ public interface OculosService {
 
     public List<OculosResponseDTO> findByReferencia(String referencia);
 
-    public List<OculosResponseDTO> findByAll(); 
+    public List<OculosResponseDTO> findByAll();
 }

@@ -1,13 +1,21 @@
 package br.unitins.topicos1.resource;
 
 import java.util.List;
+
 import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.service.FornecedorService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -25,7 +33,7 @@ public class FornecedorResource {
     public Response insert(@Valid FornecedorDTO dto) {
         try {
             FornecedorResponseDTO retorno = service.insert(dto);
-            return Response.status(201).entity(retorno).build();
+            return Response.status(Status.CREATED).entity(retorno).build();
         } catch (Exception e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -34,10 +42,10 @@ public class FornecedorResource {
     @PUT
     @Transactional
     @Path("/{id}")
-    public Response update(FornecedorDTO dto, @PathParam("id") Long id) {
+    public Response update(@Valid FornecedorDTO dto, @PathParam("id") Long id) {
         try {
             service.update(dto, id);
-            return Response.status(Status.NO_CONTENT).build();
+            return Response.noContent().build();
         } catch (Exception e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -49,7 +57,7 @@ public class FornecedorResource {
     public Response delete(@PathParam("id") Long id) {
         try {
             service.delete(id);
-            return Response.status(Status.NO_CONTENT).build();
+            return Response.noContent().build();
         } catch (Exception e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -77,7 +85,11 @@ public class FornecedorResource {
 
     @GET
     public Response findByAll() {
-        List<FornecedorResponseDTO> retorno = service.findByAll();
-        return Response.ok(retorno).build();
+        try {
+            List<FornecedorResponseDTO> retorno = service.findByAll();
+            return Response.ok(retorno).build();
+        } catch (Exception e) {
+            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
     }
 }
