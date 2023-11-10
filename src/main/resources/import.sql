@@ -26,8 +26,8 @@ insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, i
 insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca) values('A62G3', 'B2', '50', 100.00, 110.00, 12, 4);
 
 
-insert into usuario(nome, cpf, email, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', '111');
-insert into usuario(nome, cpf, email, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', '222');
+insert into usuario(nome, cpf, email, senha, perfil) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', '111', 1);
+insert into usuario(nome, cpf, email, senha, perfil) values('Bill Gates','222.222.222-22', 'gates@gmail.com', '222', 1);
 
 insert into telefone (codigoArea, numero) values('63', '9999-9999');
 insert into telefone (codigoArea, numero) values('62', '8888-8888');
@@ -46,3 +46,5 @@ insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('7700
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
+
+

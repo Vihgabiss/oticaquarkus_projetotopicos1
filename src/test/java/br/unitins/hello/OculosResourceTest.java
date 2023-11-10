@@ -1,4 +1,4 @@
-package br.unitins.hello;
+// package br.unitins.hello;
 
 // import static io.restassured.RestAssured.given;
 // import static org.hamcrest.Matchers.is;
@@ -6,8 +6,12 @@ package br.unitins.hello;
 
 // import org.junit.jupiter.api.Test;
 
+// import br.unitins.topicos1.dto.FornecedorDTO;
+// import br.unitins.topicos1.dto.FornecedorResponseDTO;
 // import br.unitins.topicos1.dto.MarcaDTO;
+// import br.unitins.topicos1.dto.MarcaResponseDTO;
 // import br.unitins.topicos1.dto.OculosDTO;
+// import br.unitins.topicos1.service.FornecedorService;
 // import br.unitins.topicos1.service.OculosService;
 // import io.quarkus.test.junit.QuarkusTest;
 // import io.restassured.http.ContentType;
@@ -19,19 +23,43 @@ package br.unitins.hello;
 //     @Inject
 //     OculosService oculosService;
 
+//     @Inject
+//     FornecedorService fornecedorService;
+
 //     @Test
 //     public void testInsertOculos() {
-//         MarcaDTO marcaDTO = new MarcaDTO(
-//                 "SomeBrand",
-//                 "SomeDescription");
 
-//         marcaDTO = given()
+//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
+//                 "Anitta Glasses",
+//                 "(63) 98000-0000",
+//                 "Rua X Bairro Y",
+//                 "anittag@ag.com",
+//                 "12.757.753/2352-68");
+
+//         FornecedorResponseDTO fornecedorResponseDTO = given()
+//                 .contentType(ContentType.JSON)
+//                 .body(fornecedorDTO)
+//                 .when().post("/fornecedor")
+//                 .then().statusCode(201)
+//                 .body("id", notNullValue(),
+//                         "nome", is("Anitta Glasses"),
+//                         "cnpj", is("12.757.753/2352-68"))
+//                 .extract().as(FornecedorResponseDTO.class);
+
+//         MarcaDTO marcaDTO = new MarcaDTO(
+//                 "Nike",
+//                 fornecedorResponseDTO);
+
+
+                
+//         MarcaResponseDTO marcaResponseDTO  = given()
 //                 .contentType(ContentType.JSON)
 //                 .body(marcaDTO)
 //                 .when().post("/marca")
-//                 .then()
-//                 .statusCode(201)
-//                 .extract().as(MarcaDTO.class);
+//                 .then().statusCode(201)
+//                 .body("id", notNullValue(),
+//                         "nome", is("Nike"),
+//                         "fornecedor.cnpj", is("12.757.753/2352-68"));
 
 //         OculosDTO oculosDTO = new OculosDTO(
 //                 "SomeReference",
@@ -40,7 +68,7 @@ package br.unitins.hello;
 //                 100.0,
 //                 150.0,
 //                 10,
-//                 marcaDTO.toMarcaResponseDTO());
+//                 marcaResponseDTO);
 
 //         given()
 //                 .contentType(ContentType.JSON)
@@ -84,7 +112,6 @@ package br.unitins.hello;
 
 //     @Test
 //     public void testDeleteOculos() {
-//         // Assuming there is an existing oculos with ID 1 in the system
 //         given()
 //                 .when().delete("/oculos/1")
 //                 .then()
@@ -93,7 +120,6 @@ package br.unitins.hello;
 
 //     @Test
 //     public void testFindByIdOculos() {
-//         // Assuming there is an existing oculos with ID 1 in the system
 //         given()
 //                 .when().get("/oculos/1")
 //                 .then()
@@ -108,8 +134,6 @@ package br.unitins.hello;
 
 //     @Test
 //     public void testFindByReferenciaOculos() {
-//         // Assuming there is an existing oculos with reference "SomeReference" in the
-//         // system
 //         given()
 //                 .when().get("/oculos/referencia/SomeReference")
 //                 .then()
