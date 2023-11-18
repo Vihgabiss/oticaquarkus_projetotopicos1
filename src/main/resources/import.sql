@@ -20,10 +20,10 @@ insert into marca(nome, id_fornecedor) values('Tommy Hilfiger', 3);
 
 
 -- inserção de óculos
-insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca) values('C12A3', 'A2', '145', 85.00, 120.00, 10, 1);
-insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca) values('B2023', 'C6', '145', 78.00, 110.00, 5, 2);
-insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca) values('B2023', 'C5', '140', 99.90, 135.80, 2, 3);
-insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca) values('A62G3', 'B2', '50', 100.00, 110.00, 12, 4);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 1);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2, 2);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 3, 2);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 4, 3);
 
 
 insert into usuario(nome, cpf, email, senha, perfil) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', '111', 1);

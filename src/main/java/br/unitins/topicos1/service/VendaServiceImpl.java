@@ -9,6 +9,7 @@ import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.ItemVenda;
 import br.unitins.topicos1.model.Oculos;
+import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.model.Venda;
 import br.unitins.topicos1.repository.OculosRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
@@ -41,6 +42,8 @@ public class VendaServiceImpl implements VendaService {
             total += (itemDto.preco() * itemDto.quantidade());
         }
         venda.setValorTotal(total);
+
+        venda.setTipoPagamento(TipoPagamento.valueOf(dto.idTipoPagamento()));
 
         venda.setItens(new ArrayList<ItemVenda>());
         for (ItemVendaDTO itemDto : dto.itens()) {

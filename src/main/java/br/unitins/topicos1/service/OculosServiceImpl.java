@@ -7,6 +7,7 @@ import br.unitins.topicos1.dto.OculosDTO;
 import br.unitins.topicos1.dto.OculosResponseDTO;
 import br.unitins.topicos1.model.Marca;
 import br.unitins.topicos1.model.Oculos;
+import br.unitins.topicos1.model.TipoOculos;
 import br.unitins.topicos1.repository.MarcaRepository;
 import br.unitins.topicos1.repository.OculosRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -39,6 +40,7 @@ public class OculosServiceImpl implements OculosService {
         }
         novoOculos.setMarca(marcaEntity);
 
+        novoOculos.setTipoOculos(TipoOculos.valueOf(dto.idTipoOculos()));
         repository.persist(novoOculos);
 
         return OculosResponseDTO.valueOf(novoOculos);
