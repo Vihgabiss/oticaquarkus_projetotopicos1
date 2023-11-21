@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Perfil {
-
     USER(1, "User"),
     ADMIN(2, "Admin");
 
     private final Integer id;
     private final String label;
-
     private Perfil(Integer id, String label) {
         this.id = id;
         this.label = label;

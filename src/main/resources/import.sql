@@ -26,8 +26,13 @@ insert into marca(nome, id_fornecedor) values('Tommy Hilfiger', 3);
 -- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 4, 3);
 
 
+<<<<<<< HEAD
 insert into usuario(nome, cpf, email, senha, perfil) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', '111', 1);
 insert into usuario(nome, cpf, email, senha, perfil) values('Bill Gates','222.222.222-22', 'gates@gmail.com', '222', 1);
+=======
+insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', 1, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
+insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');
+>>>>>>> 8943fdec1b0168781538d146bae23d4db20067f3
 
 insert into telefone (codigoArea, numero) values('63', '9999-9999');
 insert into telefone (codigoArea, numero) values('62', '8888-8888');
