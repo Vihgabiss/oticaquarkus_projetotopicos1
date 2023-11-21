@@ -16,16 +16,16 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsuarioLogadoResource {
-    
-    @Inject 
+
+    @Inject
     JsonWebToken jwt;
 
     @Inject
     UsuarioService usuarioService;
 
     @GET
-    @RolesAllowed({"User", "Admin"})
-    public Response getUsuario(){
+    @RolesAllowed({ "User", "Admin" })
+    public Response getUsuario() {
         String email = jwt.getSubject();
 
         return Response.ok(usuarioService.findByEmail(email)).build();

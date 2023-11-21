@@ -1,6 +1,7 @@
 package br.unitins.topicos1.dto;
 
 import br.unitins.topicos1.model.Oculos;
+import br.unitins.topicos1.model.TipoOculos;
 
 public record OculosResponseDTO(
         Long id,
@@ -9,7 +10,9 @@ public record OculosResponseDTO(
         String tamanho,
         Double precoCusto,
         Double precoVenda,
-        Integer quantidade) {
+        Integer quantidade,
+        MarcaResponseDTO marca,
+        TipoOculos tipoOculos) {
     public static OculosResponseDTO valueOf(Oculos oculos) {
         return new OculosResponseDTO(
                 oculos.getId(),
@@ -18,7 +21,8 @@ public record OculosResponseDTO(
                 oculos.getTamanho(),
                 oculos.getPrecoCusto(),
                 oculos.getPrecoVenda(),
-                oculos.getQuantidade());
-
+                oculos.getQuantidade(),
+                MarcaResponseDTO.valueOf(oculos.getMarca()),
+                oculos.getTipoOculos());
     }
 }

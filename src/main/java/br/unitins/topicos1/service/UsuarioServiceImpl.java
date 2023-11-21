@@ -70,8 +70,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone, TelefoneDTO dto) {
         Usuario usuario = repository.findById(id);
-        
-            for (Telefone tel : usuario.getListaTelefone()) {
+
+        for (Telefone tel : usuario.getListaTelefone()) {
             if (tel.getId().equals(idTelefone)) {
 
                 tel.setCodigoArea(dto.codigoArea());
@@ -81,8 +81,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
 
         }
-         return UsuarioResponseDTO.valueOf(usuario);
-    
+        return UsuarioResponseDTO.valueOf(usuario);
+
     }
 
     @Override
@@ -93,8 +93,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         novoUsuario.setNome(dto.nome());
         novoUsuario.setSenha(dto.senha());
 
-
-
         repository.persist(novoUsuario);
 
         return UsuarioResponseDTO.valueOf(novoUsuario);
@@ -102,21 +100,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public void deleteTelefone(Long id,  Long idTelefone) {
+    public void deleteTelefone(Long id, Long idTelefone) {
         Usuario usuario = repository.findById(id);
-        Telefone telefone =  new Telefone();
+        Telefone telefone = new Telefone();
 
-
-         for (Telefone tel : usuario.getListaTelefone()) {
+        for (Telefone tel : usuario.getListaTelefone()) {
             if (tel.getId().equals(idTelefone)) {
                 telefone = tel;
             }
         }
 
-                usuario.getListaTelefone().remove(telefone);
-                
-                if(!repositoryTel.deleteById(idTelefone))
-                 throw new NotFoundException();
+        usuario.getListaTelefone().remove(telefone);
+
+        if (!repositoryTel.deleteById(idTelefone))
+            throw new NotFoundException();
     }
 
     @Override
@@ -149,25 +146,25 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List <TelefoneResponseDTO> findTelByCodigoArea(String codigoArea) {
+    public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea) {
         return repositoryTel.findByCodigoArea(codigoArea).stream()
                 .map(e -> TelefoneResponseDTO.valueOf(e)).toList();
     }
 
     @Override
     public UsuarioResponseDTO findByEmailAndSenha(String email, String senha) {
-       Usuario usuario = repository.findByEmailAndSenha(email, senha);
-       if(usuario == null)
-        throw new ValidationException("login", "E-mail ou senha inválido");
+        Usuario usuario = repository.findByEmailAndSenha(email, senha);
+        if (usuario == null)
+            throw new ValidationException("login", "E-mail ou senha inválido");
 
         return UsuarioResponseDTO.valueOf(usuario);
     }
 
     @Override
     public UsuarioResponseDTO findByEmail(String email) {
-       Usuario usuario = repository.findByEmail(email);
-       if(usuario == null)
-        throw new ValidationException("email", "E-mail inválido");
+        Usuario usuario = repository.findByEmail(email);
+        if (usuario == null)
+            throw new ValidationException("email", "E-mail inválido");
 
         return UsuarioResponseDTO.valueOf(usuario);
     }
@@ -180,4 +177,3 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 }
-

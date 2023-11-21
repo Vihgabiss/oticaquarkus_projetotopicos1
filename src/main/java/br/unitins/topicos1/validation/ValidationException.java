@@ -1,7 +1,7 @@
 package br.unitins.topicos1.validation;
 
-public class ValidationException extends RuntimeException{
-    
+public class ValidationException extends RuntimeException {
+
     private String fieldName;
 
     public ValidationException(String fieldName, String message) {
@@ -12,5 +12,5 @@ public class ValidationException extends RuntimeException{
     public String getFieldName() {
         return fieldName;
     }
-    
+
 }

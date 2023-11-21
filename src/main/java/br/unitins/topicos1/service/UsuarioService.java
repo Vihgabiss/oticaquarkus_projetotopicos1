@@ -9,18 +9,18 @@ import br.unitins.topicos1.dto.UsuarioResponseDTO;
 import jakarta.validation.Valid;
 
 public interface UsuarioService {
-    
+
     public UsuarioResponseDTO insert(@Valid UsuarioDTO dto) throws Exception;
 
     public UsuarioResponseDTO insertTelefone(@Valid Long idUsuario, TelefoneDTO dto);
 
     public UsuarioResponseDTO update(@Valid UsuarioDTO dto, Long id);
 
-    public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone,TelefoneDTO dto);
+    public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone, TelefoneDTO dto);
 
     public void delete(Long id);
 
-    public void deleteTelefone(Long id,  Long idTelefone);
+    public void deleteTelefone(Long id, Long idTelefone);
 
     public UsuarioResponseDTO findById(Long id);
 
@@ -34,6 +34,6 @@ public interface UsuarioService {
 
     public TelefoneResponseDTO findTelById(Long id);
 
-    public List <TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
+    public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
 
 }

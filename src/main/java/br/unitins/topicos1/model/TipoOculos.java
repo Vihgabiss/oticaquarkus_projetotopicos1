@@ -3,13 +3,15 @@ package br.unitins.topicos1.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Perfil {
-    USER(1, "User"),
-    ADMIN(2, "Admin");
+public enum TipoOculos {
+    GRAU(1, "Grau"),
+    SOL(2, "Sol"),
+    CLIPON(3, "Clipon");
 
     private final Integer id;
     private final String label;
-    private Perfil(Integer id, String label) {
+
+    TipoOculos(Integer id, String label) {
         this.id = id;
         this.label = label;
     }
@@ -22,14 +24,13 @@ public enum Perfil {
         return label;
     }
 
-    public static Perfil valueOf(Integer id) throws IllegalArgumentException {
+    public static TipoOculos valueOf(Integer id) throws IllegalArgumentException {
         if (id == null)
             return null;
-        for (Perfil perfil : Perfil.values()) {
-            if (perfil.getId().equals(id))
-                return perfil;
+        for (TipoOculos tipoOculos : TipoOculos.values()) {
+            if (tipoOculos.getId().equals(id))
+                return tipoOculos;
         }
-
-        throw new IllegalArgumentException("Id inválida" + id);
+        throw new IllegalArgumentException("Id inválido" + id);
     }
 }

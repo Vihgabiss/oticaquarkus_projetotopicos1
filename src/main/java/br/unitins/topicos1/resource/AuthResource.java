@@ -18,7 +18,6 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
-    
     @Inject
     UsuarioService service;
 
@@ -29,8 +28,8 @@ public class AuthResource {
     JwtService jwtService;
 
     @POST
-    public Response login(@Valid LoginDTO dto){
-       String hashSenha = hashService.getHashSenha(dto.senha());
+    public Response login(@Valid LoginDTO dto) {
+        String hashSenha = hashService.getHashSenha(dto.senha());
 
         UsuarioResponseDTO result = service.findByEmailAndSenha(dto.email(), hashSenha);
         String token = jwtService.generateJwt(result);

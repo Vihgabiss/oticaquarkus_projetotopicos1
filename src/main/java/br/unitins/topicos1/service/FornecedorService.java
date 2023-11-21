@@ -6,6 +6,7 @@ import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
 
 public interface FornecedorService {
+
     public FornecedorResponseDTO insert(FornecedorDTO dto);
 
     public FornecedorResponseDTO update(FornecedorDTO dto, Long id);
