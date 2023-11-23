@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 
 public interface UsuarioService {
     
-    public UsuarioResponseDTO insert(@Valid UsuarioDTO dto) throws Exception;
+    public UsuarioResponseDTO insert(@Valid UsuarioDTO dto);
 
     public UsuarioResponseDTO insertTelefone(@Valid Long idUsuario, TelefoneDTO dto);
 

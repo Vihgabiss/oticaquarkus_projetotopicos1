@@ -32,7 +32,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO insert(@Valid UsuarioDTO dto) throws Exception {
+    public UsuarioResponseDTO insert(@Valid UsuarioDTO dto) {
 
         if (repository.findByEmail(dto.email()) != null) {
             throw new ValidationException("email", "Email já existe.");

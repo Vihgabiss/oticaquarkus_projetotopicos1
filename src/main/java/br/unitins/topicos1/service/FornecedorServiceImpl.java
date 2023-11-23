@@ -8,7 +8,7 @@ import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.model.Endereco;
 import br.unitins.topicos1.model.Fornecedor;
 
-import br.unitins.topicos1.model.Telefone;
+
 import br.unitins.topicos1.repository.EnderecoRepository;
 
 import br.unitins.topicos1.repository.FornecedorRepository;
@@ -37,7 +37,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         novoFornecedor.setNome(dto.getNome());
         novoFornecedor.setEmail(dto.getEmail());
         novoFornecedor.setCnpj(dto.getCnpj());
-        novoFornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
+        // novoFornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
         novoFornecedor.setEndereco(getEnderecoEntityOrThrow(dto.getEndereco().getId()));
 
         repository.persist(novoFornecedor);
@@ -55,7 +55,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setCnpj(dto.getCnpj());
         fornecedor.setEmail(dto.getEmail());
 
-        fornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
+        // fornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
         fornecedor.setEndereco(getEnderecoEntityOrThrow(dto.getEndereco().getId()));
 
 

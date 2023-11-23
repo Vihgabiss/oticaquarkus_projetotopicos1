@@ -68,3 +68,15 @@ insert into endereco(cep, bairro, rua, numero, complemento, cidade) values('7700
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
+
+insert into estado(nome, sigla) values('Tocantins', 'TO');
+insert into estado(nome, sigla) values('Bahia', 'BA');
+
+insert into cidade(nome) values('Palmas');
+insert into cidade(nome) values('Paraíso');
+insert into cidade(nome) values('Salvador');
+
+insert into estado_cidade(id_estado, id_cidade) values(1, 1);
+insert into estado_cidade(id_estado, id_cidade) values(1, 2);
+insert into estado_cidade(id_estado, id_cidade) values(2, 3);
+
