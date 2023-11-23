@@ -9,13 +9,12 @@ public record EstadoResponseDTO(
         String sigla,
         List<CidadeResponseDTO> listaCidade) {
 
-    public static EstadoResponseDTO valueOf(Estado estado){
+    public static EstadoResponseDTO valueOf(Estado estado) {
         return new EstadoResponseDTO(
-            estado.getNome(), 
-            estado.getSigla(),
-            estado.getListaCidade()
-                .stream()
-                .map(c -> CidadeResponseDTO.valueOf(c)).toList()
-        );
+                estado.getNome(),
+                estado.getSigla(),
+                estado.getListaCidade()
+                        .stream()
+                        .map(c -> CidadeResponseDTO.valueOf(c)).toList());
     }
 }

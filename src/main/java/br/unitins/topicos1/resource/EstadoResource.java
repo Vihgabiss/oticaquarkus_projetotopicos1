@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -32,9 +33,18 @@ public class EstadoResource {
         return Response.ok(service.findByAll()).build();
     }
 
-     @GET
+    @GET
     @Path("/sigla/{sigla}")
     public Response findBySigla(@Valid @PathParam("sigla") String sigla){
         return Response.ok(service.findBySigla(sigla)).build();
     }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(EstadoDTO dto, @PathParam("id") Long id){
+        service.update(id, dto);
+        return Response.noContent().build();
+    }
+
+
 }

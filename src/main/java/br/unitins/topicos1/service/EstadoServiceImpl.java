@@ -49,9 +49,20 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
+    @Transactional
     public EstadoResponseDTO update(@Valid Long idEstado, EstadoDTO dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+       Estado estadoAtualizado = repository.findById(idEstado);
+
+       estadoAtualizado.setNome(dto.nome());
+       if (repository.findBySigla(dto.sigla())!= null && !estadoAtualizado.getSigla().equals(dto.sigla())) 
+         throw new ValidationException("sigla", "Sigla já existe, verifique se este estado já está cadastrado.");
+
+        estadoAtualizado.setSigla(dto.sigla());
+
+        repository.persist(estadoAtualizado);
+
+        return EstadoResponseDTO.valueOf(estadoAtualizado);
+    
     }
 
     @Override
@@ -67,9 +78,8 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
-    public EstadoResponseDTO findById() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    public EstadoResponseDTO findById(Long id) {
+        return EstadoResponseDTO.valueOf(repository.findById(id));
     }
 
     @Override
@@ -83,5 +93,6 @@ public class EstadoServiceImpl implements EstadoService{
         return EstadoResponseDTO.valueOf(repository.findBySigla(sigla));
                
     }
+
     
 }
