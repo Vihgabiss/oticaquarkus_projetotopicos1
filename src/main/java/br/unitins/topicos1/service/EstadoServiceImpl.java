@@ -4,22 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.topicos1.dto.CidadeDTO;
+import br.unitins.topicos1.dto.CidadeResponseDTO;
 import br.unitins.topicos1.dto.EstadoDTO;
 import br.unitins.topicos1.dto.EstadoResponseDTO;
 import br.unitins.topicos1.model.Cidade;
 import br.unitins.topicos1.model.Estado;
+import br.unitins.topicos1.repository.CidadeRepository;
 import br.unitins.topicos1.repository.EstadoRepository;
 import br.unitins.topicos1.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class EstadoServiceImpl implements EstadoService{
 
     @Inject
     EstadoRepository repository;
+
+    @Inject
+    CidadeRepository cidadeRepository;
 
     @Override
     @Transactional
@@ -66,9 +72,10 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
+    @Transactional
     public void delete(@Valid Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        if(!repository.deleteById(id))
+        throw new NotFoundException(); 
     }
 
     @Override
@@ -84,14 +91,68 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     public List<EstadoResponseDTO> findByNome(String nome) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByNome'");
+       return repository.findByNome(nome).stream()
+                .map(e-> EstadoResponseDTO.valueOf(e)).toList();
     }
 
     @Override
     public EstadoResponseDTO findBySigla(String sigla) {
         return EstadoResponseDTO.valueOf(repository.findBySigla(sigla));
                
+    }
+
+    @Override
+    @Transactional
+    public EstadoResponseDTO insertCidade(@Valid Long idEstado, CidadeDTO dto) {
+        Estado estado = repository.findById(idEstado);
+
+        Cidade cidade = new Cidade();
+        cidade.setNome(dto.nome());
+        estado.getListaCidade().add(cidade);
+
+        repository.persist(estado);
+
+        return EstadoResponseDTO.valueOf(estado);
+    }
+
+    @Override
+    @Transactional
+    public EstadoResponseDTO updateCidade(@Valid Long idEstado, Long idCidade, CidadeDTO dto) {
+         Estado estado = repository.findById(idEstado);
+
+         for(Cidade cid : estado.getListaCidade()){
+            if(cid.getId().equals(idCidade)){
+
+                cid.setNome(dto.nome());
+
+                repository.persist(estado);
+            }
+         }
+         return EstadoResponseDTO.valueOf(estado);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCidade(Long idEstado, Long idCidade) {
+        Estado estado = repository.findById(idEstado);
+        Cidade cidade = new Cidade();
+
+        for(Cidade cid : estado.getListaCidade()){
+            if(cid.getId().equals(idCidade)){
+                cidade = cid;
+            }
+        }
+
+        estado.getListaCidade().remove(cidade);
+
+        if(!cidadeRepository.deleteById(idCidade))
+            throw new NotFoundException();
+    }
+
+    @Override
+    public List<CidadeResponseDTO> findAllCities() {
+       return cidadeRepository.listAll().stream()
+            .map(c -> CidadeResponseDTO.valueOf(c)).toList();
     }
 
     
