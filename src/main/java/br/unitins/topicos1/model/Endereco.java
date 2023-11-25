@@ -72,17 +72,4 @@ public class Endereco extends DefaultEntity {
         this.cidade = cidade;
     }
 
-
-    // public Cidade getCidade() {
-    //     return cidade;
-    // }
-
-    // public void setCidade(Cidade cidade) {
-    //     this.cidade = cidade;
-    // }
-
-    // @ManyToOne
-    // @JoinColumn(name = "id_cidade")
-    // private Cidade cidade;
-
 }

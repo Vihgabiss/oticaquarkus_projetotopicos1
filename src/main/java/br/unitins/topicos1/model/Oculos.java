@@ -2,8 +2,6 @@ package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -28,7 +26,7 @@ public class Oculos extends DefaultEntity {
     @Column(length = 10)
     private Integer quantidade;
 
-    @Enumerated(EnumType.ORDINAL)
+    // @Enumerated(EnumType.ORDINAL)
     private TipoOculos tipoOculos;
 
     @ManyToOne
