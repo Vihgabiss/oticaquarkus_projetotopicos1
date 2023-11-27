@@ -22,9 +22,5 @@ public record EnderecoDTO(
     @NotBlank(message = "Insira o estado.") 
     Long idEstado
 ) {
-
-    public Long getId() {
-        return null;
-    }
     
 }

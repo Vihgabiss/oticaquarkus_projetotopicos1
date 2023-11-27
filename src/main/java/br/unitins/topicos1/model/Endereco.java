@@ -1,7 +1,9 @@
 package br.unitins.topicos1.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Endereco extends DefaultEntity {
@@ -21,8 +23,10 @@ public class Endereco extends DefaultEntity {
     @Column(length = 80)
     private String complemento;
 
+    @Column(name = "id_estado")
     private Long idEstado;
 
+    @ManyToOne(cascade = CascadeType.ALL)
     private Estado estado;
 
     public Estado getEstado() {
