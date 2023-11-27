@@ -36,4 +36,5 @@ public interface UsuarioService {
 
     public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
 
+
 }

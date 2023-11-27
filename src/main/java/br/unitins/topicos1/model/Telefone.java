@@ -4,8 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Telefone extends DefaultEntity{
-    
+public class Telefone extends DefaultEntity {
+
     @Column(length = 2)
     private String codigoArea;
 
@@ -13,7 +13,7 @@ public class Telefone extends DefaultEntity{
     private String numero;
 
     public Telefone(String codigoArea, String numero) {
-        
+
     }
 
     public Telefone() {
@@ -23,15 +23,17 @@ public class Telefone extends DefaultEntity{
     public String getCodigoArea() {
         return codigoArea;
     }
+
     public void setCodigoArea(String codigoArea) {
         this.codigoArea = codigoArea;
     }
+
     public String getNumero() {
         return numero;
     }
+
     public void setNumero(String numero) {
         this.numero = numero;
     }
 
-    
 }

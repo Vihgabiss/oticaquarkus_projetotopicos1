@@ -175,5 +175,4 @@ public class UsuarioServiceImpl implements UsuarioService {
         System.out.println(service.getHashSenha("222"));
 
     }
-
 }

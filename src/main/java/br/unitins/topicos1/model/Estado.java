@@ -22,7 +22,6 @@ public class Estado extends DefaultEntity {
     @JoinTable(name = "estado_cidade", joinColumns = @JoinColumn(name = "id_estado"), inverseJoinColumns = @JoinColumn(name = "id_cidade"))
     private List<Cidade> listaCidade;
 
-
     public String getNome() {
         return nome;
     }
