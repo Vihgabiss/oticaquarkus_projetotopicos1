@@ -1,13 +1,15 @@
 package br.unitins.topicos1.model;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Oculos extends DefaultEntity {
+
     @Column(length = 15)
     private String referencia;
 
@@ -17,19 +19,20 @@ public class Oculos extends DefaultEntity {
     @Column(length = 10)
     private String tamanho;
 
-    @Column(length = 13)
+    @Column
     private Double precoCusto;
 
-    @Column(length = 13)
+    @Column
     private Double precoVenda;
 
     @Column(length = 10)
     private Integer quantidade;
 
+    @Enumerated(EnumType.ORDINAL)
+    private TipoOculos tipoOculos;
+
     @ManyToOne
-    @JoinTable(name="oculos_marca",
-        joinColumns= @JoinColumn(name="id_oculos"),
-        inverseJoinColumns = @JoinColumn(name="id_marca") )
+    @JoinColumn(name = "id_marca")
     private Marca marca;
 
     public String getReferencia() {
@@ -86,6 +89,14 @@ public class Oculos extends DefaultEntity {
 
     public void setMarca(Marca marca) {
         this.marca = marca;
+    }
+
+    public TipoOculos getTipoOculos() {
+        return tipoOculos;
+    }
+
+    public void setTipoOculos(TipoOculos tipoOculos) {
+        this.tipoOculos = tipoOculos;
     }
 
 }

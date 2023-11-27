@@ -1,30 +1,24 @@
 package br.unitins.topicos1.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Fornecedor extends DefaultEntity {
 
-    @Column(length = 250)
+    @Column(length = 200)
     private String nome;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "fornecedor_telefone", joinColumns = @JoinColumn(name = "id_fornecedor"), inverseJoinColumns = @JoinColumn(name = "id_telefone"))
-    private Telefone telefone;
-
     @Column
+    private String telefone;
+
+    @Column(length = 200)
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "fornecedor_endereco", joinColumns = @JoinColumn(name = "id_fornecedor"), inverseJoinColumns = @JoinColumn(name = "id_endereco"))
-    private Endereco endereco;
+    @Column
+    private String endereco;
 
-    @Column(length = 17)
+    @Column(length = 20)
     private String cnpj;
 
     public String getNome() {
@@ -35,11 +29,11 @@ public class Fornecedor extends DefaultEntity {
         this.nome = nome;
     }
 
-    public Telefone getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(Telefone telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
@@ -51,11 +45,11 @@ public class Fornecedor extends DefaultEntity {
         this.email = email;
     }
 
-    public Endereco getEndereco() {
+    public String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 

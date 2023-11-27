@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+
 public record TelefoneDTO(
     @NotBlank(message = "O campo código de área não pode ser nulo.")
     @Size(min = 2, message = "O código de área precisa ter pelo menos 2 dígitos")

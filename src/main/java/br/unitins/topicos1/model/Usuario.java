@@ -66,8 +66,8 @@ public class Usuario extends DefaultEntity {
         this.senha = senha;
     }
 
-     public List<Telefone> getListaTelefone() {
-        if(this.listaTelefone == null){
+    public List<Telefone> getListaTelefone() {
+        if (this.listaTelefone == null) {
             this.listaTelefone = new ArrayList<Telefone>();
         }
         return listaTelefone;
@@ -78,7 +78,7 @@ public class Usuario extends DefaultEntity {
     }
 
     public List<Endereco> getListaEndereco() {
-            if(this.listaEndereco == null){
+        if (this.listaEndereco == null) {
             this.listaEndereco = new ArrayList<Endereco>();
         }
         return listaEndereco;
@@ -88,7 +88,7 @@ public class Usuario extends DefaultEntity {
         this.listaEndereco = listaEndereco;
     }
 
-        public Perfil getPerfil() {
+    public Perfil getPerfil() {
         return perfil;
     }
 

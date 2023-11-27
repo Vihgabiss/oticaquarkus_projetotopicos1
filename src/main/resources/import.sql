@@ -33,12 +33,20 @@ INSERT INTO telefone(codigoarea, numero) VALUES('11', '944444444');
 -- INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(3, 3);
 -- INSERT INTO fornecedor_telefone(id_fornecedor, id_telefone) VALUES(4, 4);
 -- INSERT INTO fornecedor_endereco(id_fornecedor, id_endereco) VALUES(4, 4);
+-- insert into fornecedor(nome, email, cnpj, telefone, endereco) values ('LuxOtica','luxotica@gmail.com', '11.111.111/0001-00', '(63) 99111-0101', 'Bairro Professor José Lopes Rua 01' );
+-- insert into fornecedor(nome, email, cnpj, telefone, endereco) values ('Safilo','safilo@gmail.com', '22.222.222/0001-00', '(63) 99222-0221', 'Bairro do Limoeiro Rua 20');
+-- insert into fornecedor(nome, email, cnpj, telefone, endereco) values ('RVGlasses','rvglasses@gmail.com', '33.333.333/0001-00', '(63) 99333-3333', 'Bairro Laranja Lima Rua 01');
+-- insert into fornecedor(nome, email, cnpj, telefone, endereco) values ('Cluss','cluss@gmail.com', '44.444.444/0001-00', '(63) 90000-0000', 'Bairro JK Rua 28');
 
 -- Inserção de Marca
 -- insert into marca(nome, id_oculos) values('Ray-Ban', 1);
 -- insert into marca(nome, id_oculos) values('Ray-Ban', 4);
 -- insert into marca(nome, id_oculos) values('GUESS', 2);
 -- insert into marca(nome, id_oculos) values('Tommy Hilfiger', 3);
+-- insert into marca(nome, id_fornecedor) values('Ray-Ban', 1);
+-- insert into marca(nome, id_fornecedor) values('Ray-Ban', 4);
+-- insert into marca(nome, id_fornecedor) values('GUESS', 2);
+-- insert into marca(nome, id_fornecedor) values('Tommy Hilfiger', 3);
 
 
 -- inserção de óculos
@@ -46,10 +54,14 @@ INSERT INTO telefone(codigoarea, numero) VALUES('11', '944444444');
 -- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('B2023', 'C6', '145', 78.00, 110.00, 5);
 -- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('B2023', 'C5', '140', 99.90, 135.80, 2);
 -- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade) values('A62G3', 'B2', '50', 100.00, 110.00, 12);
-
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 1);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2, 2);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 3, 2);
+-- insert into oculos(referencia, cor, tamanho, precoCusto,precoVenda,quantidade, id_marca, tipooculos) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 4, 3);
 
 insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', 1, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
 insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');
+
 
 insert into telefone (codigoArea, numero) values('63', '9999-9999');
 insert into telefone (codigoArea, numero) values('62', '8888-8888');
@@ -79,4 +91,6 @@ insert into cidade(nome) values('Salvador');
 insert into estado_cidade(id_estado, id_cidade) values(1, 1);
 insert into estado_cidade(id_estado, id_cidade) values(1, 2);
 insert into estado_cidade(id_estado, id_cidade) values(2, 3);
+
+
 
