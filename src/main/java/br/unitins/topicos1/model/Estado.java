@@ -10,7 +10,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Estado extends DefaultEntity{
+public class Estado extends DefaultEntity {
 
     @Column(length = 60)
     private String nome;
@@ -21,6 +21,7 @@ public class Estado extends DefaultEntity{
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "estado_cidade", joinColumns = @JoinColumn(name = "id_estado"), inverseJoinColumns = @JoinColumn(name = "id_cidade"))
     private List<Cidade> listaCidade;
+
 
     public String getNome() {
         return nome;
@@ -45,6 +46,5 @@ public class Estado extends DefaultEntity{
     public void setListaCidade(List<Cidade> listaCidade) {
         this.listaCidade = listaCidade;
     }
-
     
 }

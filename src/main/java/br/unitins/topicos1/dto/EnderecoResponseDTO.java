@@ -9,7 +9,7 @@ public record EnderecoResponseDTO(
     String rua, 
     Integer numero,
     String complemento,
-    String cidade
+    Long idEstado
 ) {
          public static EnderecoResponseDTO valueOf(Endereco endereco){
         return new EnderecoResponseDTO(
@@ -19,6 +19,7 @@ public record EnderecoResponseDTO(
             endereco.getRua(),
             endereco.getNumero(),
             endereco.getComplemento(),
-            endereco.getCidade());
+            endereco.getIdEstado());
+  
     }
 }

@@ -21,8 +21,17 @@ public class Endereco extends DefaultEntity {
     @Column(length = 80)
     private String complemento;
 
-    @Column(length = 20)
-    private String cidade;
+    private Long idEstado;
+
+    private Estado estado;
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 
     public String getCep() {
         return cep;
@@ -64,13 +73,12 @@ public class Endereco extends DefaultEntity {
         this.complemento = complemento;
     }
 
-    public String getCidade() {
-        return cidade;
+    public Long getIdEstado() {
+        return idEstado;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setIdEstado(Long idEstado) {
+        this.idEstado = idEstado;
     }
-
 
 }
