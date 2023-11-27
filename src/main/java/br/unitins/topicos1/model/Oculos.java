@@ -26,8 +26,9 @@ public class Oculos extends DefaultEntity {
     @Column(length = 10)
     private Integer quantidade;
 
-    // @Enumerated(EnumType.ORDINAL)
     private TipoOculos tipoOculos;
+
+    private String nomeImagem;
 
     @ManyToOne
     @JoinColumn(name = "id_marca")
@@ -95,6 +96,14 @@ public class Oculos extends DefaultEntity {
 
     public void setTipoOculos(TipoOculos tipoOculos) {
         this.tipoOculos = tipoOculos;
+    }
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
     }
 
 }

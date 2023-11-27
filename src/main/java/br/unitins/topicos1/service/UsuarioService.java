@@ -36,6 +36,5 @@ public interface UsuarioService {
 
     public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
 
-    public UsuarioResponseDTO updateNomeImagem(Long id, String nomeImagem) ;
 
 }

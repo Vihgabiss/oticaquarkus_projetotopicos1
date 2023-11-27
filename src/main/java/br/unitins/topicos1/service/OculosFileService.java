@@ -13,12 +13,12 @@ import java.util.UUID;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class UsuarioFileService implements FileService {
-    // /Users/janio/quarkus/images/usuario/
-    private final String PATH_USER = System.getProperty("user.home") +
+public class OculosFileService implements FileService {
+
+    private final String PATH_OCULOS = System.getProperty("user.home") +
             File.separator + "quarkus" +
             File.separator + "images" +
-            File.separator + "usuario" + File.separator;
+            File.separator + "oculos" + File.separator;
 
     private static final List<String> SUPPORTED_MIME_TYPES = Arrays.asList("image/jpeg", "image/jpg", "image/png",
             "image/gif");
@@ -28,11 +28,10 @@ public class UsuarioFileService implements FileService {
     @Override
     public String salvar(String nomeArquivo, byte[] arquivo) throws IOException {
         verificarTamanhoImagem(arquivo);
-
         verificarTipoImagem(nomeArquivo);
 
-        // criar diretorio caso nao exista
-        Path diretorio = Paths.get(PATH_USER);
+        // criar diretório caso não exista
+        Path diretorio = Paths.get(PATH_OCULOS);
         Files.createDirectories(diretorio);
 
         // criando o nome do arquivo randomico
@@ -40,11 +39,11 @@ public class UsuarioFileService implements FileService {
         String extensao = mimeType.substring(mimeType.lastIndexOf('/') + 1);
         String novoNomeArquivo = UUID.randomUUID() + "." + extensao;
 
-        // defindo o caminho completo do arquivo
+        // definindo o caminho completo do arquivo
         Path filePath = diretorio.resolve(novoNomeArquivo);
 
         if (filePath.toFile().exists())
-            throw new IOException("Nome de arquivo ja existe. Os alunos vão buscar uma melhor solucao.");
+            throw new IOException("Nome de arquivo já existe.");
 
         // salvar arquivo
         try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
@@ -56,7 +55,7 @@ public class UsuarioFileService implements FileService {
 
     @Override
     public File obter(String nomeArquivo) {
-        File file = new File(PATH_USER + nomeArquivo);
+        File file = new File(PATH_OCULOS + nomeArquivo);
         return file;
     }
 
@@ -68,8 +67,6 @@ public class UsuarioFileService implements FileService {
     private void verificarTipoImagem(String nomeArquivo) throws IOException {
         String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
         if (!SUPPORTED_MIME_TYPES.contains(mimeType))
-            throw new IOException("Tipo de imagem não suportada.");
-
+            throw new IOException("Tipo de imagem não suportado.");
     }
-
 }

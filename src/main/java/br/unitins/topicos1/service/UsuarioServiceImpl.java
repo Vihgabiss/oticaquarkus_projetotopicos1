@@ -175,13 +175,4 @@ public class UsuarioServiceImpl implements UsuarioService {
         System.out.println(service.getHashSenha("222"));
 
     }
-
-    @Override
-    @Transactional
-    public UsuarioResponseDTO updateNomeImagem(Long id, String nomeImagem) {
-        Usuario usuario = repository.findById(id);
-        usuario.setNomeImagem(nomeImagem);
-        return UsuarioResponseDTO.valueOf(usuario);
-    }
-
 }

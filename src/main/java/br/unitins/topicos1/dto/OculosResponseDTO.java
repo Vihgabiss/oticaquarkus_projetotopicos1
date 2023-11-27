@@ -12,7 +12,9 @@ public record OculosResponseDTO(
         Double precoVenda,
         Integer quantidade,
         MarcaResponseDTO marca,
-        TipoOculos tipoOculos) {
+        TipoOculos tipoOculos,
+        String nomeImagem) {
+
     public static OculosResponseDTO valueOf(Oculos oculos) {
         return new OculosResponseDTO(
                 oculos.getId(),
@@ -23,6 +25,7 @@ public record OculosResponseDTO(
                 oculos.getPrecoVenda(),
                 oculos.getQuantidade(),
                 MarcaResponseDTO.valueOf(oculos.getMarca()),
-                oculos.getTipoOculos());
+                oculos.getTipoOculos(),
+                oculos.getNomeImagem());
     }
 }

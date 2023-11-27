@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoOculos {
-    GRAU(1, "Grau"),
-    SOL(2, "Sol"),
-    CLIPON(3, "Clipon");
+    GRAU(0, "Grau"),
+    SOL(1, "Sol"),
+    CLIPON(2, "Clipon");
 
     private final Integer id;
     private final String label;

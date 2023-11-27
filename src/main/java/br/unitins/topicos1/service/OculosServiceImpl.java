@@ -1,6 +1,5 @@
 package br.unitins.topicos1.service;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,5 +101,35 @@ public class OculosServiceImpl implements OculosService {
     public List<OculosResponseDTO> findByAll() {
         return repository.listAll().stream()
                 .map(e -> OculosResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    @Transactional
+    public OculosResponseDTO insertNomeImagem(Long id, String nomeImagem) {
+        Oculos oculos = repository.findById(id);
+        if (oculos == null) {
+            throw new RuntimeException("Oculos não encontrado com o ID: " + id);
+        }
+
+        oculos.setNomeImagem(nomeImagem);
+
+        repository.persist(oculos);
+
+        return OculosResponseDTO.valueOf(oculos);
+    }
+
+    @Override
+    @Transactional
+    public OculosResponseDTO updateNomeImagem(Long id, String nomeImagem) {
+        Oculos oculos = repository.findById(id);
+        if (oculos == null) {
+            throw new RuntimeException("Oculos não encontrado com o ID: " + id);
+        }
+
+        oculos.setNomeImagem(nomeImagem);
+
+        repository.persist(oculos);
+
+        return OculosResponseDTO.valueOf(oculos);
     }
 }

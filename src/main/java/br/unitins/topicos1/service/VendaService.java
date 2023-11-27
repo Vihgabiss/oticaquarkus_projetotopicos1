@@ -8,7 +8,10 @@ import br.unitins.topicos1.dto.VendaResponseDTO;
 public interface VendaService {
 
     public VendaResponseDTO insert(VendaDTO dto, String login);
+
     public VendaResponseDTO findById(Long id);
+
     public List<VendaResponseDTO> findByAll();
+
     public List<VendaResponseDTO> findByAll(String login);
 }

@@ -4,7 +4,7 @@ import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import jakarta.ws.rs.FormParam;
 
-public class UsuarioImageForm {
+public class OculosImageForm {
 
     @FormParam("nomeImagem")
     private String nomeImagem;
@@ -28,5 +28,4 @@ public class UsuarioImageForm {
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
-
 }
