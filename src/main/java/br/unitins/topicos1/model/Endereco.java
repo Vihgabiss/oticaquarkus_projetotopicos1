@@ -1,8 +1,8 @@
 package br.unitins.topicos1.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -23,19 +23,9 @@ public class Endereco extends DefaultEntity {
     @Column(length = 80)
     private String complemento;
 
-    @Column(name = "id_estado")
-    private Long idEstado;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Estado estado;
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
+    @ManyToOne
+    @JoinColumn(name = "id_cidade")
+    private Cidade idCidade;
 
     public String getCep() {
         return cep;
@@ -77,12 +67,16 @@ public class Endereco extends DefaultEntity {
         this.complemento = complemento;
     }
 
-    public Long getIdEstado() {
-        return idEstado;
+    public Cidade getIdCidade() {
+        return idCidade;
     }
 
-    public void setIdEstado(Long idEstado) {
-        this.idEstado = idEstado;
+    public void setIdCidade(Cidade idCidade) {
+        this.idCidade = idCidade;
     }
+
+   
+
+
 
 }

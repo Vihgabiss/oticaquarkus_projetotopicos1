@@ -5,16 +5,12 @@ import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
-import br.unitins.topicos1.model.Endereco;
 import br.unitins.topicos1.model.Fornecedor;
-import br.unitins.topicos1.model.Telefone;
 import br.unitins.topicos1.repository.EnderecoRepository;
-
 import br.unitins.topicos1.repository.FornecedorRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped

@@ -23,11 +23,11 @@ public interface EstadoService {
 
     public EstadoResponseDTO findBySigla(String sigla);
 
-    public EstadoResponseDTO insertCidade(@Valid Long idEstado, CidadeDTO dto);
+    public CidadeResponseDTO insertCidade(@Valid CidadeDTO dto);
 
-    public EstadoResponseDTO updateCidade(@Valid Long idEstado, Long idCidade, CidadeDTO dto);
+    public CidadeResponseDTO updateCidade(@Valid Long idCidade, CidadeDTO dto);
 
-    public void deleteCidade(Long idEstado, Long idCidade);
+    public void deleteCidade(Long idCidade);
 
     public List<CidadeResponseDTO> findAllCities();
 }

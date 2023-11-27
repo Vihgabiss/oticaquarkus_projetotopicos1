@@ -1,6 +1,5 @@
 package br.unitins.topicos1.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.topicos1.dto.CidadeDTO;
@@ -11,7 +10,6 @@ import br.unitins.topicos1.model.Cidade;
 import br.unitins.topicos1.model.Estado;
 import br.unitins.topicos1.repository.CidadeRepository;
 import br.unitins.topicos1.repository.EstadoRepository;
-import br.unitins.topicos1.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -30,24 +28,10 @@ public class EstadoServiceImpl implements EstadoService{
     @Override
     @Transactional
     public EstadoResponseDTO insert(@Valid EstadoDTO dto) {
-        if(repository.findBySigla(dto.sigla()) != null){
-            throw new ValidationException("sigla", "Sigla já existe, verifique se este estado já está cadastrado.");
-        }
 
         Estado novoEstado = new Estado();
         novoEstado.setNome(dto.nome());
         novoEstado.setSigla(dto.sigla());
-
-        if (dto.listaCidade() != null && !dto.listaCidade().isEmpty()) {
-            novoEstado.setListaCidade(new ArrayList<Cidade>());
-
-            for(CidadeDTO cidade : dto.listaCidade()){
-                Cidade cid = new Cidade();
-                cid.setNome(cidade.nome());
-                novoEstado.getListaCidade().add(cid);
-
-            }
-        }
 
         repository.persist(novoEstado);
 
@@ -60,10 +44,7 @@ public class EstadoServiceImpl implements EstadoService{
        Estado estadoAtualizado = repository.findById(idEstado);
 
        estadoAtualizado.setNome(dto.nome());
-       if (repository.findBySigla(dto.sigla())!= null && !estadoAtualizado.getSigla().equals(dto.sigla())) 
-         throw new ValidationException("sigla", "Sigla já existe, verifique se este estado já está cadastrado.");
-
-        estadoAtualizado.setSigla(dto.sigla());
+       estadoAtualizado.setSigla(dto.sigla());
 
         repository.persist(estadoAtualizado);
 
@@ -103,47 +84,36 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     @Transactional
-    public EstadoResponseDTO insertCidade(@Valid Long idEstado, CidadeDTO dto) {
-        Estado estado = repository.findById(idEstado);
+    public CidadeResponseDTO insertCidade(@Valid CidadeDTO dto) {
+        Estado estado = repository.findById(dto.idEstado());
 
         Cidade cidade = new Cidade();
         cidade.setNome(dto.nome());
-        estado.getListaCidade().add(cidade);
+        cidade.setIdEstado(estado);
 
-        repository.persist(estado);
+        cidadeRepository.persist(cidade);
 
-        return EstadoResponseDTO.valueOf(estado);
+        return CidadeResponseDTO.valueOf(cidade);
     }
 
     @Override
     @Transactional
-    public EstadoResponseDTO updateCidade(@Valid Long idEstado, Long idCidade, CidadeDTO dto) {
-         Estado estado = repository.findById(idEstado);
+    public CidadeResponseDTO updateCidade(@Valid Long idCidade, CidadeDTO dto) {
+        if(idCidade == null)
+            throw new NotFoundException();
 
-         for(Cidade cid : estado.getListaCidade()){
-            if(cid.getId().equals(idCidade)){
+        Cidade cidade = cidadeRepository.findById(idCidade);
+                cidade.setNome(dto.nome());
 
-                cid.setNome(dto.nome());
-
-                repository.persist(estado);
-            }
-         }
-         return EstadoResponseDTO.valueOf(estado);
+                cidadeRepository.persist(cidade);
+        
+         
+         return CidadeResponseDTO.valueOf(cidade);
     }
 
     @Override
     @Transactional
-    public void deleteCidade(Long idEstado, Long idCidade) {
-        Estado estado = repository.findById(idEstado);
-        Cidade cidade = new Cidade();
-
-        for(Cidade cid : estado.getListaCidade()){
-            if(cid.getId().equals(idCidade)){
-                cidade = cid;
-            }
-        }
-
-        estado.getListaCidade().remove(cidade);
+    public void deleteCidade(Long idCidade) {
 
         if(!cidadeRepository.deleteById(idCidade))
             throw new NotFoundException();

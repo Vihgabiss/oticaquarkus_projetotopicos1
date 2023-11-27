@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -63,24 +62,24 @@ public class EstadoResource {
         return Response.ok(service.findByNome(nome)).build();
     }
 
-    @PATCH
-    @Path("/insere-cidade/{idEstado}")
-    public Response insertCidade(CidadeDTO dto, @PathParam("idEstado") Long idEstado){
-        service.insertCidade(idEstado, dto);
+    @POST
+    @Path("/insere-cidade/")
+    public Response insertCidade(CidadeDTO dto){
+        service.insertCidade(dto);
         return Response.noContent().build();
     }
 
-    @PATCH
+    @PUT
     @Path("/atualiza-cidade/{idEstado}/{idCidade}")
     public Response updateCidade(CidadeDTO dto, @PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
-        service.updateCidade(idEstado, idCidade, dto);
+        service.updateCidade(idCidade, dto);
         return Response.noContent().build();
     }
 
     @DELETE
     @Path("/deleta-cidade/{idEstado}/{idCidade}")
     public Response deleteCidade(@PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
-        service.deleteCidade(idEstado, idCidade);
+        service.deleteCidade(idCidade);
         return Response.noContent().build();
     }
 

@@ -4,11 +4,11 @@ import java.util.List;
 
 import br.unitins.topicos1.dto.EnderecoDTO;
 import br.unitins.topicos1.dto.EnderecoResponseDTO;
+import br.unitins.topicos1.model.Cidade;
 import br.unitins.topicos1.model.Endereco;
-import br.unitins.topicos1.model.Estado;
 import br.unitins.topicos1.model.Usuario;
+import br.unitins.topicos1.repository.CidadeRepository;
 import br.unitins.topicos1.repository.EnderecoRepository;
-import br.unitins.topicos1.repository.EstadoRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -25,7 +25,7 @@ public class EnderecoServiceImpl implements EnderecoService {
     EnderecoRepository repositoryEnd;
 
     @Inject
-    EstadoRepository repositoryEst;
+    CidadeRepository repositoryCidade;
 
    
 
@@ -33,7 +33,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Transactional
     public EnderecoResponseDTO insert(Long idUsuario, EnderecoDTO dto) {
         Usuario usuario = repositoryUser.findById(idUsuario);
-        Estado estado = repositoryEst.findById(dto.idEstado());
+        Cidade cidade = repositoryCidade.findById(dto.idCidade());
+        
 
         Endereco endereco = new Endereco();
         endereco.setBairro(dto.bairro());
@@ -41,16 +42,9 @@ public class EnderecoServiceImpl implements EnderecoService {
         endereco.setRua(dto.rua());
         endereco.setNumero(dto.numero());
         endereco.setComplemento(dto.complemento());
-        endereco.setEstado(estado);
-        
-
-        if(repositoryEst.findById(dto.idEstado()) != null){
-            
-        }
-
+        endereco.setIdCidade(cidade);
 
         usuario.getListaEndereco().add(endereco);
-
 
         repositoryEnd.persist(endereco);
 

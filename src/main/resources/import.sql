@@ -37,21 +37,17 @@ insert into usuario_telefone (id_usuario, id_telefone) values(1, 2);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 3);
 insert into usuario_telefone (id_usuario, id_telefone) values(2, 4);
 
-insert into endereco(cep, bairro, rua, numero, complemento, id_estado) values('77006-020', '110 Norte', 'alameda 15', '25', 'casa', 1);
-insert into endereco(cep, bairro, rua, numero, complemento, id_estado) values('77010-000', '106 Norte', 'Av.JK', '10', 'loja 1, Sapataria', 1);
-insert into endereco(cep, bairro, rua, numero, complemento, id_estado) values('77006-500', '204 Sul', 'alameda 02', '13', 'casa', 2);
+insert into estado(nome, sigla) values('Tocantins', 'TO');
+insert into estado(nome, sigla) values('Bahia', 'BA');
+
+insert into cidade(nome, id_estado) values('Palmas', 1);
+insert into cidade(nome, id_estado) values('Paraíso', 1);
+insert into cidade(nome, id_estado) values('Salvador', 2);
+
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77006-020', '110 Norte', 'alameda 15', '25', 'casa', 1);
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77010-000', '106 Norte', 'Av.JK', '10', 'loja 1, Sapataria', 1);
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77006-500', '204 Sul', 'alameda 02', '13', 'casa', 2);
 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
-
-insert into estado(nome, sigla) values('Tocantins', 'TO');
-insert into estado(nome, sigla) values('Bahia', 'BA');
-
-insert into cidade(nome) values('Palmas');
-insert into cidade(nome) values('Paraíso');
-insert into cidade(nome) values('Salvador');
-
-insert into estado_cidade(id_estado, id_cidade) values(1, 1);
-insert into estado_cidade(id_estado, id_cidade) values(1, 2);
-insert into estado_cidade(id_estado, id_cidade) values(2, 3);
