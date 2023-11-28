@@ -7,6 +7,7 @@ import br.unitins.topicos1.dto.OculosDTO;
 import br.unitins.topicos1.dto.OculosResponseDTO;
 import br.unitins.topicos1.model.Marca;
 import br.unitins.topicos1.model.Oculos;
+import br.unitins.topicos1.model.TipoOculos;
 import br.unitins.topicos1.repository.MarcaRepository;
 import br.unitins.topicos1.repository.OculosRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,18 +27,20 @@ public class OculosServiceImpl implements OculosService {
     @Transactional
     public OculosResponseDTO insert(OculosDTO dto) {
         Oculos novoOculos = new Oculos();
-        novoOculos.setReferencia(dto.getReferencia());
-        novoOculos.setCor(dto.getCor());
-        novoOculos.setTamanho(dto.getTamanho());
-        novoOculos.setPrecoCusto(dto.getPrecoCusto());
-        novoOculos.setPrecoVenda(dto.getPrecoVenda());
-        novoOculos.setQuantidade(dto.getQuantidade());
-        Marca marcaEntity = marcaRepository.findById(dto.getMarca().getId());
+        novoOculos.setReferencia(dto.referencia());
+        novoOculos.setCor(dto.cor());
+        novoOculos.setTamanho(dto.tamanho());
+        novoOculos.setPrecoCusto(dto.precoCusto());
+        novoOculos.setPrecoVenda(dto.precoVenda());
+        novoOculos.setQuantidade(dto.quantidade());
+
+        Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
-            throw new RuntimeException("Marca não encontrada com o ID: " + dto.getMarca().getId());
+            throw new RuntimeException("Marca não encontrada com o ID: " + dto.marca().getId());
         }
         novoOculos.setMarca(marcaEntity);
 
+        novoOculos.setTipoOculos(TipoOculos.valueOf(dto.idTipoOculos()));
         repository.persist(novoOculos);
 
         return OculosResponseDTO.valueOf(novoOculos);
@@ -50,15 +53,15 @@ public class OculosServiceImpl implements OculosService {
         if (oculos == null) {
             throw new RuntimeException("Oculos não encontrado com o ID: " + id);
         }
-        oculos.setReferencia(dto.getReferencia());
-        oculos.setCor(dto.getCor());
-        oculos.setTamanho(dto.getTamanho());
-        oculos.setPrecoCusto(dto.getPrecoCusto());
-        oculos.setPrecoVenda(dto.getPrecoVenda());
-        oculos.setQuantidade(dto.getQuantidade());
-        Marca marcaEntity = marcaRepository.findById(dto.getMarca().getId());
+        oculos.setReferencia(dto.referencia());
+        oculos.setCor(dto.cor());
+        oculos.setTamanho(dto.tamanho());
+        oculos.setPrecoCusto(dto.precoCusto());
+        oculos.setPrecoVenda(dto.precoVenda());
+        oculos.setQuantidade(dto.quantidade());
+        Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
-            throw new RuntimeException("Marca não encontrada com o ID: " + dto.getMarca().getId());
+            throw new RuntimeException("Marca não encontrada com o ID: " + dto.marca().getId());
         }
         oculos.setMarca(marcaEntity);
 
@@ -98,5 +101,35 @@ public class OculosServiceImpl implements OculosService {
     public List<OculosResponseDTO> findByAll() {
         return repository.listAll().stream()
                 .map(e -> OculosResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    @Transactional
+    public OculosResponseDTO insertNomeImagem(Long id, String nomeImagem) {
+        Oculos oculos = repository.findById(id);
+        if (oculos == null) {
+            throw new RuntimeException("Oculos não encontrado com o ID: " + id);
+        }
+
+        oculos.setNomeImagem(nomeImagem);
+
+        repository.persist(oculos);
+
+        return OculosResponseDTO.valueOf(oculos);
+    }
+
+    @Override
+    @Transactional
+    public OculosResponseDTO updateNomeImagem(Long id, String nomeImagem) {
+        Oculos oculos = repository.findById(id);
+        if (oculos == null) {
+            throw new RuntimeException("Oculos não encontrado com o ID: " + id);
+        }
+
+        oculos.setNomeImagem(nomeImagem);
+
+        repository.persist(oculos);
+
+        return OculosResponseDTO.valueOf(oculos);
     }
 }

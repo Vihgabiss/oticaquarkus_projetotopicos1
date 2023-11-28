@@ -5,15 +5,12 @@ import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
-import br.unitins.topicos1.model.Endereco;
 import br.unitins.topicos1.model.Fornecedor;
-import br.unitins.topicos1.model.Telefone;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.FornecedorRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
@@ -32,11 +29,11 @@ public class FornecedorServiceImpl implements FornecedorService {
     @Transactional
     public FornecedorResponseDTO insert(FornecedorDTO dto) {
         Fornecedor novoFornecedor = new Fornecedor();
-        novoFornecedor.setNome(dto.getNome());
-        novoFornecedor.setEmail(dto.getEmail());
-        novoFornecedor.setCnpj(dto.getCnpj());
-        novoFornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
-        novoFornecedor.setEndereco(getEnderecoEntityOrThrow(dto.getEndereco().getId()));
+        novoFornecedor.setNome(dto.nome());
+        novoFornecedor.setEmail(dto.email());
+        novoFornecedor.setCnpj(dto.cnpj());
+        // novoFornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
+        // novoFornecedor.setEndereco(getEnderecoEntityOrThrow(dto.endereco()));
 
         repository.persist(novoFornecedor);
         return FornecedorResponseDTO.valueOf(novoFornecedor);
@@ -49,12 +46,12 @@ public class FornecedorServiceImpl implements FornecedorService {
         if (fornecedor == null) {
             throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
         }
-        fornecedor.setNome(dto.getNome());
-        fornecedor.setCnpj(dto.getCnpj());
-        fornecedor.setEmail(dto.getEmail());
+        fornecedor.setNome(dto.nome());
+        fornecedor.setCnpj(dto.cnpj());
+        fornecedor.setEmail(dto.email());
 
-        fornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
-        fornecedor.setEndereco(getEnderecoEntityOrThrow(dto.getEndereco().getId()));
+        // fornecedor.setTelefone(getTelefoneEntityOrThrow(dto.getTelefone().getId()));
+        // fornecedor.setEndereco(getEnderecoEntityOrThrow(dto.getEndereco().getId()));
 
 
         repository.persist(fornecedor);
@@ -94,19 +91,19 @@ public class FornecedorServiceImpl implements FornecedorService {
                 .map(e -> FornecedorResponseDTO.valueOf(e)).toList();
     }
 
-    private Telefone getTelefoneEntityOrThrow(Long id) {
-        Telefone telefoneEntity = telefoneRepository.findById(id);
-        if (telefoneEntity == null) {
-            throw new EntityNotFoundException("Telefone não encontrado com o ID: " + id);
-        }
-        return telefoneEntity;
-    }
+    // private Telefone getTelefoneEntityOrThrow(Long id) {
+    //     Telefone telefoneEntity = telefoneRepository.findById(id);
+    //     if (telefoneEntity == null) {
+    //         throw new EntityNotFoundException("Telefone não encontrado com o ID: " + id);
+    //     }
+    //     return telefoneEntity;
+    // }
 
-    private Endereco getEnderecoEntityOrThrow(Long id) {
-        Endereco enderecoEntity = enderecoRepository.findById(id);
-        if (enderecoEntity == null) {
-            throw new EntityNotFoundException("Endereço não encontrado com o ID: " + id);
-        }
-        return enderecoEntity;
-    }
+    // private Endereco getEnderecoEntityOrThrow(Long id) {
+    //     Endereco enderecoEntity = enderecoRepository.findById(id);
+    //     if (enderecoEntity == null) {
+    //         throw new EntityNotFoundException("Endereço não encontrado com o ID: " + id);
+    //     }
+    //     return enderecoEntity;
+    // }
 }

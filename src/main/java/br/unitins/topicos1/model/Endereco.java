@@ -2,6 +2,8 @@ package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Endereco extends DefaultEntity {
@@ -21,8 +23,9 @@ public class Endereco extends DefaultEntity {
     @Column(length = 80)
     private String complemento;
 
-    @Column(length = 20)
-    private String cidade;
+    @ManyToOne
+    @JoinColumn(name = "id_cidade")
+    private Cidade idCidade;
 
     public String getCep() {
         return cep;
@@ -64,25 +67,16 @@ public class Endereco extends DefaultEntity {
         this.complemento = complemento;
     }
 
-    public String getCidade() {
-        return cidade;
+    public Cidade getIdCidade() {
+        return idCidade;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setIdCidade(Cidade idCidade) {
+        this.idCidade = idCidade;
     }
 
+   
 
-    // public Cidade getCidade() {
-    //     return cidade;
-    // }
 
-    // public void setCidade(Cidade cidade) {
-    //     this.cidade = cidade;
-    // }
-
-    // @ManyToOne
-    // @JoinColumn(name = "id_cidade")
-    // private Cidade cidade;
 
 }

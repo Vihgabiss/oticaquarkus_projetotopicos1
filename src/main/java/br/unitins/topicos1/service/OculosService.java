@@ -16,5 +16,9 @@ public interface OculosService {
 
     public List<OculosResponseDTO> findByReferencia(String referencia);
 
-    public List<OculosResponseDTO> findByAll(); 
+    public List<OculosResponseDTO> findByAll();
+
+    public OculosResponseDTO insertNomeImagem(Long id, String nomeImagem);
+
+    public OculosResponseDTO updateNomeImagem(Long id, String nomeImagem);
 }

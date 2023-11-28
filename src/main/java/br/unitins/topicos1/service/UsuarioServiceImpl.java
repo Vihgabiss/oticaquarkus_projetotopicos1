@@ -6,13 +6,16 @@ import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.model.Perfil;
 import br.unitins.topicos1.model.Telefone;
 import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
+import br.unitins.topicos1.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
@@ -24,19 +27,23 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Inject
     TelefoneRepository repositoryTel;
 
+    @Inject
+    HashService hashService;
+
     @Override
     @Transactional
-    public UsuarioResponseDTO insert(UsuarioDTO dto) throws Exception {
+    public UsuarioResponseDTO insert(@Valid UsuarioDTO dto) {
 
         if (repository.findByEmail(dto.email()) != null) {
-            throw new Exception("Esse e-mail já está sendo usado.");
+            throw new ValidationException("email", "Email já existe.");
         }
 
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(dto.nome());
         novoUsuario.setCpf(dto.cpf());
         novoUsuario.setEmail(dto.email());
-        novoUsuario.setSenha(dto.senha());
+        novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
+        novoUsuario.setPerfil(Perfil.valueOf(dto.idPerfil()));
 
         repository.persist(novoUsuario);
 
@@ -46,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO insertTelefone(Long idUsuario, TelefoneDTO dto) {
+    public UsuarioResponseDTO insertTelefone(@Valid Long idUsuario, TelefoneDTO dto) {
         Usuario usuario = repository.findById(idUsuario);
 
         Telefone telefone = new Telefone();
@@ -61,10 +68,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO updateTelefone(Long id, Long idTelefone, TelefoneDTO dto) {
+    public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone, TelefoneDTO dto) {
         Usuario usuario = repository.findById(id);
-        
-            for (Telefone tel : usuario.getListaTelefone()) {
+
+        for (Telefone tel : usuario.getListaTelefone()) {
             if (tel.getId().equals(idTelefone)) {
 
                 tel.setCodigoArea(dto.codigoArea());
@@ -74,19 +81,17 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
 
         }
-         return UsuarioResponseDTO.valueOf(usuario);
-    
+        return UsuarioResponseDTO.valueOf(usuario);
+
     }
 
     @Override
     @Transactional
-    public UsuarioResponseDTO update(UsuarioDTO dto, Long id) {
+    public UsuarioResponseDTO update(@Valid UsuarioDTO dto, Long id) {
 
         Usuario novoUsuario = repository.findById(id);
         novoUsuario.setNome(dto.nome());
         novoUsuario.setSenha(dto.senha());
-
-
 
         repository.persist(novoUsuario);
 
@@ -95,21 +100,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public void deleteTelefone(Long id,  Long idTelefone) {
+    public void deleteTelefone(Long id, Long idTelefone) {
         Usuario usuario = repository.findById(id);
-        Telefone telefone =  new Telefone();
+        Telefone telefone = new Telefone();
 
-
-         for (Telefone tel : usuario.getListaTelefone()) {
+        for (Telefone tel : usuario.getListaTelefone()) {
             if (tel.getId().equals(idTelefone)) {
                 telefone = tel;
             }
         }
 
-                usuario.getListaTelefone().remove(telefone);
-                
-                if(!repositoryTel.deleteById(idTelefone))
-                 throw new NotFoundException();
+        usuario.getListaTelefone().remove(telefone);
+
+        if (!repositoryTel.deleteById(idTelefone))
+            throw new NotFoundException();
     }
 
     @Override
@@ -142,11 +146,33 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List <TelefoneResponseDTO> findTelByCodigoArea(String codigoArea) {
+    public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea) {
         return repositoryTel.findByCodigoArea(codigoArea).stream()
                 .map(e -> TelefoneResponseDTO.valueOf(e)).toList();
     }
 
+    @Override
+    public UsuarioResponseDTO findByEmailAndSenha(String email, String senha) {
+        Usuario usuario = repository.findByEmailAndSenha(email, senha);
+        if (usuario == null)
+            throw new ValidationException("login", "E-mail ou senha inválido");
 
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+    @Override
+    public UsuarioResponseDTO findByEmail(String email) {
+        Usuario usuario = repository.findByEmail(email);
+        if (usuario == null)
+            throw new ValidationException("email", "E-mail inválido");
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+    public static void main(String[] args) {
+        HashService service = new HashServiceImpl();
+        System.out.println(service.getHashSenha("222"));
+        System.out.println(service.getHashSenha("222"));
+
+    }
 }
-
