@@ -14,11 +14,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class OculosFileService implements FileService {
-
+            // /Users/janio/quarkus/images/usuario/  
     private final String PATH_OCULOS = System.getProperty("user.home") +
-            File.separator + "quarkus" +
-            File.separator + "images" +
-            File.separator + "oculos" + File.separator;
+  
+            File.separator + "Documents" +
+            File.separator + "Julynha" + File.separator;
 
     private static final List<String> SUPPORTED_MIME_TYPES = Arrays.asList("image/jpeg", "image/jpg", "image/png",
             "image/gif");
