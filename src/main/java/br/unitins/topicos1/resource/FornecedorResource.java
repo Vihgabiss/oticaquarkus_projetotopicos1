@@ -34,7 +34,7 @@ public class FornecedorResource {
     @POST
     @Transactional
     public Response insert(@Valid FornecedorDTO dto) {
-        //LOG.info("Iniciando a inserção de %s", dto.nome());
+        LOG.info("Iniciando a inserção de fornecedor");
         try {
             FornecedorResponseDTO retorno = service.insert(dto);
             return Response.status(201).entity(retorno).build();
