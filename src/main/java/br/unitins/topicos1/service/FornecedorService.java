@@ -17,4 +17,6 @@ public interface FornecedorService {
     public List<FornecedorResponseDTO> findByNome(String nome);
 
     public List<FornecedorResponseDTO> findByAll();
+
+    public List<FornecedorResponseDTO> findByCNPJ(String cnpj);
 }

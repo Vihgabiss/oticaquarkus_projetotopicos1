@@ -13,6 +13,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -33,7 +34,7 @@ public class VendaResource {
     UsuarioService usuarioService;
 
     @POST
-    @RolesAllowed({ "User" })
+    @RolesAllowed({ "User", "Admin" })
     public Response insert(@Valid VendaDTO dto) {
         try {
             String email = jwt.getSubject();
@@ -46,7 +47,8 @@ public class VendaResource {
 
     @GET
     @RolesAllowed({ "User", "Admin" })
-    public Response findAll() {
-        return Response.ok(service.findByAll()).build();
+    @Path("/venda/{email}")
+    public Response findAll(@PathParam("email") String email) {
+        return Response.ok(service.findByAll(email)).build();
     }
 }
