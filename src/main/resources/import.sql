@@ -51,3 +51,8 @@ insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('7
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
+
+-- teste de venda
+
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into itemvenda(preco, quantidade, id_oculos, id_venda) values (200.00, 2, 1, 1);

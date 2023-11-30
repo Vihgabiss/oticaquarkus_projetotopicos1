@@ -2,6 +2,8 @@ package br.unitins.topicos1.resource;
 
 import java.util.List;
 
+import org.jboss.logging.Logger;
+
 import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.service.FornecedorService;
@@ -28,9 +30,11 @@ public class FornecedorResource {
     @Inject
     FornecedorService service;
 
+    private static final Logger LOG = Logger.getLogger(FornecedorResource.class);
     @POST
     @Transactional
     public Response insert(@Valid FornecedorDTO dto) {
+        //LOG.info("Iniciando a inserção de %s", dto.nome());
         try {
             FornecedorResponseDTO retorno = service.insert(dto);
             return Response.status(201).entity(retorno).build();

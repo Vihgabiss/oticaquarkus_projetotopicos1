@@ -13,5 +13,5 @@ public interface VendaService {
 
     public List<VendaResponseDTO> findByAll();
 
-    public List<VendaResponseDTO> findByAll(String login);
+    public List<VendaResponseDTO> findByAll(String email);
 }
