@@ -48,7 +48,7 @@ public class VendaResource {
     @GET
     @RolesAllowed({ "User", "Admin" })
     @Path("/venda/{email}")
-    public Response findAll(@PathParam("email") String email) {
+    public Response findAll(@PathParam ("email") String email) {
         return Response.ok(service.findByAll(email)).build();
     }
 }

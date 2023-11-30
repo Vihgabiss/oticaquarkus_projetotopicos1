@@ -45,8 +45,8 @@ public class VendaServiceImpl implements VendaService {
         venda.setValorTotal(total);
 
         venda.setTipoPagamento(TipoPagamento.valueOf(dto.idTipoPagamento()));
-        venda.setStatusVenda(StatusVenda.valueOf(dto.statusVenda().getId()));
-        
+        venda.setStatusVenda(StatusVenda.valueOf(dto.idStatusVenda()));
+
         venda.setItens(new ArrayList<ItemVenda>());
         for (ItemVendaDTO itemDto : dto.itens()) {
             ItemVenda item = new ItemVenda();
