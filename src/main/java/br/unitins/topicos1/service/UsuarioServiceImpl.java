@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import br.unitins.topicos1.dto.EnderecoDTO;
+import br.unitins.topicos1.dto.EnderecoResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
@@ -38,6 +40,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     UsuarioRepository usuarioRepository;
+
+    @Inject
+    EnderecoService enderecoService;
 
     @Override
     @Transactional
@@ -224,5 +229,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto){
         Usuario usuario = getUsuarioByEmail(); 
         return updateTelefone(usuario.getId(), idTelefone, dto);  
+    }
+
+    @Override
+    @Transactional
+    public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto){
+        Usuario usuario = getUsuarioByEmail(); 
+        return enderecoService.insert(usuario.getId(), dto);  
     }
 }

@@ -3,6 +3,7 @@ package br.unitins.topicos1.resource;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.service.UsuarioService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -26,12 +27,14 @@ public class UsuarioResource {
     UsuarioService service;
 
     @POST
+    @RolesAllowed({ "User", "Admin"})
     public Response insert(UsuarioDTO dto) throws Exception{
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
     @PATCH
     @Path("/insere-telefone/{idUsuario}")
+    @RolesAllowed({"Admin"})
     public Response insertTelefone(TelefoneDTO dto, @PathParam("idUsuario") Long idUsuario){
         service.insertTelefone(idUsuario, dto);
         return Response.noContent().build();
@@ -40,6 +43,7 @@ public class UsuarioResource {
 
     @PATCH
     @Path("/atualiza-telefone/{id}/{idTelefone}")
+    @RolesAllowed({"Admin"})
     public Response updateTelefone(TelefoneDTO dto, @PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
         service.updateTelefone(id, idTelefone, dto);
         return Response.noContent().build();
@@ -48,6 +52,7 @@ public class UsuarioResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response update(UsuarioDTO dto, @PathParam("id") Long id){
         service.update(dto, id);
         return Response.noContent().build();
@@ -55,6 +60,7 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id){
         service.delete(id);
         return Response.noContent().build();
@@ -62,6 +68,7 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/deleta-telefone/{id}/{idTelefone}")
+    @RolesAllowed({"Admin"})
     public Response deleteTelefone(@PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
         service.deleteTelefone(id, idTelefone);
         return Response.noContent().build();
@@ -69,30 +76,35 @@ public class UsuarioResource {
 
 
     @GET
+    @RolesAllowed({"Admin"})
     public Response findByAll(){
         return Response.ok(service.findByAll()).build();
     }
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response findById(@PathParam("id") Long id){
         return Response.ok(service.findById(id)).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
+    @RolesAllowed({"Admin"})
     public Response findByNome(@PathParam("nome") String nome){
         return Response.ok(service.findByNome(nome)).build();
     }
 
     @GET
     @Path("/telefone/{id}")
+    @RolesAllowed({"Admin"})
     public Response findTelById(@PathParam("id") Long id){
         return Response.ok(service.findTelById(id)).build();
     }
 
     @GET
     @Path("/telefone/{codigoArea}")
+    @RolesAllowed({"Admin"})
     public Response findTelByCodigoArea(@PathParam("codigoArea") String codigoArea){
         return Response.ok(service.findTelByCodigoArea(codigoArea)).build();
     }

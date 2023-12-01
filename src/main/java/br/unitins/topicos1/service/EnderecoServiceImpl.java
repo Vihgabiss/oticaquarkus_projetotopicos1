@@ -28,7 +28,9 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Inject
     CidadeRepository repositoryCidade;
 
-   
+    @Inject
+    UsuarioService usuarioService;
+
 
     @Override
     @Transactional

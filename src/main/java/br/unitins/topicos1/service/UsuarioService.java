@@ -2,6 +2,8 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 
+import br.unitins.topicos1.dto.EnderecoDTO;
+import br.unitins.topicos1.dto.EnderecoResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
@@ -44,6 +46,8 @@ public interface UsuarioService {
     public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto);
 
     public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto);
+
+    public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto);
 
 
 }

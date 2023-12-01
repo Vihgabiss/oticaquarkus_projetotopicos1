@@ -6,6 +6,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.application.Error;
+import br.unitins.topicos1.dto.EnderecoDTO;
 import br.unitins.topicos1.dto.OculosResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
@@ -84,8 +85,16 @@ public class UsuarioLogadoResource {
     }
 
     @PATCH
+    @Path("/insere/endereco")
+    @RolesAllowed({"User", "Admin"})
+    public Response insertEnderecoUsuario(EnderecoDTO dto){
+        usuarioService.insertEnderecoUsuarioLogado(dto);
+        return Response.noContent().build();
+    }
+
+    @PATCH
     @Path("/upload/imagem/{oculosId}")
-    @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "User", "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
         try {
@@ -101,7 +110,7 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/upload/novaImagem/{oculosId}")
-    @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "User", "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadNovaImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
         try {
