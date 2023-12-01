@@ -4,6 +4,7 @@ import java.util.List;
 
 public record VendaDTO(
         Integer idTipoPagamento,
-        List<ItemVendaDTO> itens) {
+        List<ItemVendaDTO> itens,
+        Integer idStatusVenda) {
 
 }

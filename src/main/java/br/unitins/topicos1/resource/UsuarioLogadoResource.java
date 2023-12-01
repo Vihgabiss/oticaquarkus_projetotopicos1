@@ -74,6 +74,34 @@ public class UsuarioLogadoResource {
         }
     }
 
+    @PATCH
+    @Path("/upload/novaImagem/{oculosId}")
+    @RolesAllowed({ "Admin" })
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadNovaImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
+        try {
+            //deleta a atual imagem
+            String nomeImagemAtual = oculosService.findById(oculosId).nomeImagem();
+            if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
+                fileService.excluir(nomeImagemAtual);
+            }
+    
+            // salva a nova imagem
+            String nomeImagemNovo = fileService.salvar(form.getNomeImagem(), form.getImagem());
+    
+            // atualiza a nova imagem
+            oculosService.updateNomeImagem(oculosId, nomeImagemNovo);
+    
+            // rotorna a imagem atualizada
+            OculosResponseDTO oculosDTO = oculosService.findById(oculosId);
+            return Response.ok(oculosDTO).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Error error = new Error("500", "Erro ao processar a imagem.");
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
+        }
+    }
+
     @GET
     @Path("/download/imagem/{nomeImagem}")
     @RolesAllowed({ "User", "Admin" })

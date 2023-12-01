@@ -10,6 +10,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class MarcaRepository implements PanacheRepository<Marca> {
     public List<Marca> findByNome(String nome) {
-        return list("nome", Parameters.with("nome", nome));
+        return list("nome = :nome", Parameters.with("nome", nome));
     }
 }
