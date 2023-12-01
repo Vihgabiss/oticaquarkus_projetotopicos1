@@ -15,4 +15,5 @@ public class VendaRepository implements PanacheRepository<Venda> {
     public List<Venda> findAll(Long idUsuario) {
         return find("usuario.id = ?1", idUsuario).list();
     }
+
 }

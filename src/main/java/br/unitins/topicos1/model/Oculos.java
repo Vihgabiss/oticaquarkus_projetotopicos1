@@ -23,7 +23,7 @@ public class Oculos extends DefaultEntity {
     @Column
     private Double precoVenda;
 
-    @Column(columnDefinition = "INT CHECK (estoque >= 0)")
+    //@Column(columnDefinition = "INT CHECK (estoque >= 0)")
     private Integer quantidade;
 
     private TipoOculos tipoOculos;
