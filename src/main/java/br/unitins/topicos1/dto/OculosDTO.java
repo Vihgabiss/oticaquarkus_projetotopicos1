@@ -17,7 +17,7 @@ public record OculosDTO(
                 @NotNull(message = "O tamanho não pode ser nulo.") 
                 String tamanho,
 
-                @NotNull(message = "O precoCusto tamanho não pode ser nulo.")
+                @NotNull(message = "O precoCusto não pode ser nulo.")
                 @Positive(message = "O valor deve ser positivo") 
                 Double precoCusto,
 
@@ -25,7 +25,7 @@ public record OculosDTO(
                 @Positive(message = "O valor deve ser positivo") 
                 Double precoVenda,
 
-                @NotNull(message = "Quantidade cannot be null")
+                @NotNull(message = "Quantidade não pode ser nula")
                 @Min(value = 1, message = "Quantidade deve ser maior ou igual a um") 
                 Integer quantidade,
 
