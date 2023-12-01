@@ -11,9 +11,9 @@ import jakarta.validation.Valid;
 public interface EstadoService {
     public EstadoResponseDTO insert(@Valid EstadoDTO dto);
 
-    public EstadoResponseDTO update(@Valid Long idEstado, EstadoDTO dto);
+    public EstadoResponseDTO update(Long idEstado, @Valid EstadoDTO dto);
 
-    public void delete(@Valid Long id);
+    public void delete(Long id);
 
     public List<EstadoResponseDTO> findByAll();
 
@@ -25,7 +25,7 @@ public interface EstadoService {
 
     public CidadeResponseDTO insertCidade(@Valid CidadeDTO dto);
 
-    public CidadeResponseDTO updateCidade(@Valid Long idCidade, CidadeDTO dto);
+    public CidadeResponseDTO updateCidade(Long idCidade, @Valid CidadeDTO dto);
 
     public void deleteCidade(Long idCidade);
 

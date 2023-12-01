@@ -13,11 +13,11 @@ public interface UsuarioService {
     
     public UsuarioResponseDTO insert(@Valid UsuarioDTO dto);
 
-    public UsuarioResponseDTO insertTelefone(@Valid Long idUsuario, TelefoneDTO dto);
+    public UsuarioResponseDTO insertTelefone(Long idUsuario, @Valid TelefoneDTO dto);
 
     public UsuarioResponseDTO update(@Valid UsuarioDTO dto, Long id);
 
-    public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone, TelefoneDTO dto);
+    public UsuarioResponseDTO updateTelefone(Long id, Long idTelefone,@Valid TelefoneDTO dto);
 
     public void delete(Long id);
 
@@ -37,7 +37,7 @@ public interface UsuarioService {
 
     public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
 
-     public void updateSenha(SenhaDTO dto);
+     public void updateSenha(@Valid SenhaDTO dto);
 
 
 }

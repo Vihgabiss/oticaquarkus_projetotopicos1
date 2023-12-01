@@ -25,8 +25,8 @@ public record OculosDTO(
         @Positive(message = "O valor deve ser positivo") 
         Double precoVenda,
 
-        @NotNull(message = "Quantidade cannot be null")
-        @Min(value = 1, message = "Quantidade must be greater than or equal to 1") 
+        @NotNull(message = "Quantidade não pode ser nula.")
+        @Min(value = 1, message = "Quantidade deve ser maior ou igual a 1") 
         Integer quantidade,
 
         MarcaResponseDTO marca,

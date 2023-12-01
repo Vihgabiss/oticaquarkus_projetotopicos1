@@ -40,7 +40,7 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     @Transactional
-    public EstadoResponseDTO update(@Valid Long idEstado, EstadoDTO dto) {
+    public EstadoResponseDTO update(Long idEstado, @Valid EstadoDTO dto) {
        Estado estadoAtualizado = repository.findById(idEstado);
 
        estadoAtualizado.setNome(dto.nome());
@@ -54,7 +54,7 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     @Transactional
-    public void delete(@Valid Long id) {
+    public void delete(Long id) {
         if(!repository.deleteById(id))
         throw new NotFoundException(); 
     }
@@ -98,7 +98,7 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     @Transactional
-    public CidadeResponseDTO updateCidade(@Valid Long idCidade, CidadeDTO dto) {
+    public CidadeResponseDTO updateCidade(Long idCidade, @Valid CidadeDTO dto) {
         if(idCidade == null)
             throw new NotFoundException();
 

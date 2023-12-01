@@ -62,7 +62,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO insertTelefone(@Valid Long idUsuario, TelefoneDTO dto) {
+    public UsuarioResponseDTO insertTelefone(Long idUsuario, @Valid TelefoneDTO dto) {
         Usuario usuario = repository.findById(idUsuario);
 
         Telefone telefone = new Telefone();
@@ -77,7 +77,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone, TelefoneDTO dto) {
+    public UsuarioResponseDTO updateTelefone(Long id, Long idTelefone, @Valid TelefoneDTO dto) {
         Usuario usuario = repository.findById(id);
 
         for (Telefone tel : usuario.getListaTelefone()) {
@@ -180,7 +180,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public void updateSenha(SenhaDTO dto){
+    public void updateSenha(@Valid SenhaDTO dto){
         String email = jwt.getSubject();
         Usuario usuario = usuarioRepository.findByEmail(email);
         String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
