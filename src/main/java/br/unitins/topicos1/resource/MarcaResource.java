@@ -5,6 +5,7 @@ import java.util.List;
 import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.dto.MarcaResponseDTO;
 import br.unitins.topicos1.service.MarcaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public class MarcaResource {
     MarcaService service;
 
     @POST
+    @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid MarcaDTO dto) {
         try {
@@ -40,6 +42,7 @@ public class MarcaResource {
     }
 
     @PUT
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(MarcaDTO dto, @PathParam("id") Long id) {
@@ -52,6 +55,7 @@ public class MarcaResource {
     }
 
     @DELETE
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -64,6 +68,7 @@ public class MarcaResource {
     }
 
     @GET
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         try {
@@ -76,6 +81,7 @@ public class MarcaResource {
 
     @GET
     @Path("/search/nome/{nome}")
+    @RolesAllowed({ "Admin" })
     public Response findByNome(@PathParam("nome") String nome) {
         try {
             List<MarcaResponseDTO> retorno = service.findByNome(nome);
@@ -86,6 +92,7 @@ public class MarcaResource {
     }
 
     @GET
+    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         try {
             List<MarcaResponseDTO> retorno = service.findByAll();

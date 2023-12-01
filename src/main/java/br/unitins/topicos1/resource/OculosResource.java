@@ -5,6 +5,7 @@ import java.util.List;
 import br.unitins.topicos1.dto.OculosDTO;
 import br.unitins.topicos1.dto.OculosResponseDTO;
 import br.unitins.topicos1.service.OculosService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public class OculosResource {
     OculosService service;
 
     @POST
+    @RolesAllowed({"Admin"})
     @Transactional
     public Response insert(@Valid OculosDTO dto) {
         OculosResponseDTO retorno = service.insert(dto);
@@ -36,6 +38,7 @@ public class OculosResource {
     }
 
     @PUT
+    @RolesAllowed({"Admin"})
     @Transactional
     @Path("/{id}")
     public Response update(@Valid OculosDTO dto, @PathParam("id") Long id) {
@@ -44,6 +47,7 @@ public class OculosResource {
     }
 
     @DELETE
+    @RolesAllowed({"Admin"})
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -52,6 +56,7 @@ public class OculosResource {
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         OculosResponseDTO retorno = service.findById(id);
@@ -59,6 +64,7 @@ public class OculosResource {
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
         List<OculosResponseDTO> retorno = service.findByReferencia(referencia);
@@ -66,6 +72,7 @@ public class OculosResource {
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     public Response findByAll() {
         List<OculosResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
