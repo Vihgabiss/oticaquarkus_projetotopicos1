@@ -4,11 +4,12 @@ import java.util.List;
 
 import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.dto.MarcaResponseDTO;
+import jakarta.validation.Valid;
 
 public interface MarcaService {
-    public MarcaResponseDTO insert(MarcaDTO dto);
+    public MarcaResponseDTO insert(@Valid MarcaDTO dto);
 
-    public MarcaResponseDTO update(MarcaDTO dto, Long id);
+    public MarcaResponseDTO update(@Valid MarcaDTO dto, Long id);
 
     public void delete(Long id);
 

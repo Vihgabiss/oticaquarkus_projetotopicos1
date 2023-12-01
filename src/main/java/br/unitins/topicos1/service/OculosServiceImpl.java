@@ -13,6 +13,7 @@ import br.unitins.topicos1.repository.OculosRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class OculosServiceImpl implements OculosService {
@@ -25,7 +26,7 @@ public class OculosServiceImpl implements OculosService {
 
     @Override
     @Transactional
-    public OculosResponseDTO insert(OculosDTO dto) {
+    public OculosResponseDTO insert(@Valid OculosDTO dto) {
         Oculos novoOculos = new Oculos();
         novoOculos.setReferencia(dto.referencia());
         novoOculos.setCor(dto.cor());
@@ -49,7 +50,7 @@ public class OculosServiceImpl implements OculosService {
 
     @Override
     @Transactional
-    public OculosResponseDTO update(OculosDTO dto, Long id) {
+    public OculosResponseDTO update(@Valid OculosDTO dto, Long id) {
         Oculos oculos = repository.findById(id);
         if (oculos == null) {
             throw new RuntimeException("Oculos não encontrado com o ID: " + id);

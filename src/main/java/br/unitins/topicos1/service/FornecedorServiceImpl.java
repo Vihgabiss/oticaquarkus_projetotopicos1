@@ -12,6 +12,7 @@ import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
@@ -28,7 +29,7 @@ public class FornecedorServiceImpl implements FornecedorService {
 
     @Override
     @Transactional
-    public FornecedorResponseDTO insert(FornecedorDTO dto) {
+    public FornecedorResponseDTO insert(@Valid FornecedorDTO dto) {
         Fornecedor novoFornecedor = new Fornecedor();
         novoFornecedor.setNome(dto.nome());
         novoFornecedor.setEmail(dto.email());
@@ -42,7 +43,7 @@ public class FornecedorServiceImpl implements FornecedorService {
 
     @Override
     @Transactional
-    public FornecedorResponseDTO update(FornecedorDTO dto, Long id) {
+    public FornecedorResponseDTO update(@Valid FornecedorDTO dto, Long id) {
         Fornecedor fornecedor = repository.findById(id);
         if (fornecedor == null) {
             throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);

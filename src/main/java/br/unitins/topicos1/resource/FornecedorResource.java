@@ -31,6 +31,7 @@ public class FornecedorResource {
     FornecedorService service;
 
     private static final Logger LOG = Logger.getLogger(FornecedorResource.class);
+
     @POST
     @Transactional
     public Response insert(@Valid FornecedorDTO dto) {
@@ -99,4 +100,5 @@ public class FornecedorResource {
         List<FornecedorResponseDTO> retorno = service.findByCNPJ(cnpj);
         return Response.ok(retorno).build();
     }
+
 }

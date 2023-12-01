@@ -4,11 +4,12 @@ import java.util.List;
 
 import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
+import jakarta.validation.Valid;
 
 public interface FornecedorService {
-    public FornecedorResponseDTO insert(FornecedorDTO dto);
+    public FornecedorResponseDTO insert(@Valid FornecedorDTO dto);
 
-    public FornecedorResponseDTO update(FornecedorDTO dto, Long id);
+    public FornecedorResponseDTO update(@Valid FornecedorDTO dto, Long id);
 
     public void delete(Long id);
 
@@ -19,4 +20,5 @@ public interface FornecedorService {
     public List<FornecedorResponseDTO> findByAll();
 
     public List<FornecedorResponseDTO> findByCNPJ(String cnpj);
+
 }

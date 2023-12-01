@@ -12,4 +12,5 @@ public class MarcaRepository implements PanacheRepository<Marca> {
     public List<Marca> findByNome(String nome) {
         return list("nome = :nome", Parameters.with("nome", nome));
     }
+
 }

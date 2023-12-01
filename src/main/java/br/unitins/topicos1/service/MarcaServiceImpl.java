@@ -11,6 +11,7 @@ import br.unitins.topicos1.repository.MarcaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class MarcaServiceImpl implements MarcaService {
@@ -23,7 +24,7 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional
-    public MarcaResponseDTO insert(MarcaDTO dto) {
+    public MarcaResponseDTO insert(@Valid MarcaDTO dto) {
         Marca novaMarca = new Marca();
         novaMarca.setNome(dto.nome());
 
@@ -48,7 +49,7 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional
-    public MarcaResponseDTO update(MarcaDTO dto, Long id) {
+    public MarcaResponseDTO update(@Valid MarcaDTO dto, Long id) {
         Marca marca = repository.findById(id);
         if (marca == null) {
             throw new RuntimeException("Marca não encontrada com o ID: " + id);
