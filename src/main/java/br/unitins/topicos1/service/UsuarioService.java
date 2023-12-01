@@ -2,6 +2,7 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 
+import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
@@ -35,6 +36,8 @@ public interface UsuarioService {
     public TelefoneResponseDTO findTelById(Long id);
 
     public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
+
+     public void updateSenha(SenhaDTO dto);
 
 
 }
