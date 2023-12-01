@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.topicos1.dto.ItemVendaDTO;
+import br.unitins.topicos1.dto.ItemVendaResponseDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.ItemVenda;
@@ -91,6 +92,21 @@ public class VendaServiceImpl implements VendaService {
     @Override
     public VendaResponseDTO findById(Long id) {
         return VendaResponseDTO.valueOf(vendaRepository.findById(id));
+    }
+
+    @Override
+    public VendaResponseDTO findItemVendaById(Long id) {
+        Venda venda = vendaRepository.findById(id);
+
+        if (venda != null) {
+            VendaResponseDTO vendaResponseDTO = VendaResponseDTO.valueOf(venda);
+
+            vendaResponseDTO.itens(ItemVendaResponseDTO.valueOf(venda.getItens()));
+
+            return vendaResponseDTO;
+        } else {
+            return null;
+        }
     }
 
 }

@@ -25,4 +25,8 @@ public record VendaResponseDTO(
                 venda.getTipoPagamento(),
                 venda.getStatusVenda());
     }
+
+    public VendaResponseDTO itens(List<ItemVendaResponseDTO> itens) {
+        return new VendaResponseDTO(id, dataHora, usuario, valorTotal, itens, tipoPagamento, statusVenda);
+    }
 }

@@ -66,4 +66,20 @@ public class VendaResource {
     public Response findAllByUserEmail(@PathParam("email") String email) {
         return Response.ok(service.findByAll(email)).build();
     }
+
+    @GET
+    @Path("/{id}/itens")
+    @RolesAllowed({ "User", "Admin" })
+    public Response findItensByVendaId(@PathParam("id") Long id) {
+        try {
+            VendaResponseDTO venda = service.findById(id);
+            if (venda != null) {
+                return Response.ok(venda.itens()).build();
+            } else {
+                return Response.status(Status.NOT_FOUND).entity("Venda não encontrada").build();
+            }
+        } catch (Exception e) {
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
 }
