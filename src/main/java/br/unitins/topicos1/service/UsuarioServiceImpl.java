@@ -178,11 +178,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         return UsuarioResponseDTO.valueOf(usuario);
     }
 
+    public Usuario getUsuarioByEmail(){
+        String email = jwt.getSubject();
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
+        return usuario;
+    }
+
     @Override
     @Transactional
     public void updateSenha(@Valid SenhaDTO dto){
-        String email = jwt.getSubject();
-        Usuario usuario = usuarioRepository.findByEmail(email);
+        Usuario usuario = getUsuarioByEmail();
         String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
 
         if (usuario.getSenha().equals(senhaAtualHash)){
@@ -191,5 +197,32 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         else
             throw new ValidationException("senha", "Senha errada!");
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO updateNomeUsuarioLogado(String nome){
+        Usuario usuario = getUsuarioByEmail();
+
+        if (nome != null && !nome.isEmpty())
+            usuario.setNome(nome);
+        else
+        throw new ValidationException("nome", "Nome não pode ser nulo.");
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto){
+        Usuario usuario = getUsuarioByEmail(); 
+        return insertTelefone(usuario.getId(), dto);   
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto){
+        Usuario usuario = getUsuarioByEmail(); 
+        return updateTelefone(usuario.getId(), idTelefone, dto);  
     }
 }

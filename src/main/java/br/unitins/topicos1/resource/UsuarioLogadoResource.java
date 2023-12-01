@@ -8,6 +8,7 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import br.unitins.topicos1.application.Error;
 import br.unitins.topicos1.dto.OculosResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
+import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.form.OculosImageForm;
 import br.unitins.topicos1.service.OculosFileService;
 import br.unitins.topicos1.service.OculosService;
@@ -50,12 +51,36 @@ public class UsuarioLogadoResource {
     }
 
     @PATCH
-    @Path("/altera/senha/")
+    @Path("/altera/senha")
     @RolesAllowed({ "User", "Admin" })
     public Response updateSenha(SenhaDTO dto) {
         usuarioService.updateSenha(dto);
         return Response.noContent().build();
 
+    }
+
+    @PATCH
+    @Path("/altera/nome/{nome}")
+    @RolesAllowed({"User", "Admin"})
+    public Response updateNomeUsuario(@PathParam("nome") String nome){
+        usuarioService.updateNomeUsuarioLogado(nome);
+        return Response.noContent().build();
+    }
+
+    @PATCH
+    @Path("/insere/telefone")
+    @RolesAllowed({"User", "Admin"})
+    public Response insertTelefoneUsuario(TelefoneDTO dto){
+        usuarioService.insertTelefoneUsuarioLogado(dto);
+        return Response.noContent().build();
+    }
+
+    @PATCH
+    @Path("/update/telefone/{idTelefone}")
+    @RolesAllowed({"User", "Admin"})
+    public Response updateTelefoneUsuario(@PathParam("idTelefone") Long idTelefone, TelefoneDTO dto){
+        usuarioService.updateTelefoneUsuarioLogado(idTelefone, dto);
+        return Response.noContent().build();
     }
 
     @PATCH
