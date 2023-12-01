@@ -7,6 +7,7 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.application.Error;
 import br.unitins.topicos1.dto.OculosResponseDTO;
+import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.form.OculosImageForm;
 import br.unitins.topicos1.service.OculosFileService;
 import br.unitins.topicos1.service.OculosService;
@@ -46,6 +47,15 @@ public class UsuarioLogadoResource {
     public Response getUsuarioLogado() {
         String email = jwt.getSubject();
         return Response.ok(usuarioService.findByEmail(email)).build();
+    }
+
+    @PATCH
+    @Path("/altera/senha/")
+    @RolesAllowed({ "User", "Admin" })
+    public Response updateSenha(SenhaDTO dto) {
+        usuarioService.updateSenha(dto);
+        return Response.noContent().build();
+
     }
 
     @PATCH

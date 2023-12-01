@@ -2,6 +2,9 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
+import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
@@ -29,6 +32,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     HashService hashService;
+
+     @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional
@@ -169,10 +178,18 @@ public class UsuarioServiceImpl implements UsuarioService {
         return UsuarioResponseDTO.valueOf(usuario);
     }
 
-    public static void main(String[] args) {
-        HashService service = new HashServiceImpl();
-        System.out.println(service.getHashSenha("222"));
-        System.out.println(service.getHashSenha("222"));
+    @Override
+    @Transactional
+    public void updateSenha(SenhaDTO dto){
+        String email = jwt.getSubject();
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
 
+        if (usuario.getSenha().equals(senhaAtualHash)){
+                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
+        } 
+
+        else
+            throw new ValidationException("senha", "Senha errada!");
     }
 }
