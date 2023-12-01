@@ -53,16 +53,16 @@ public class VendaResource {
     }
 
     @GET
-    @RolesAllowed({ "User", "Admin" })
     @Path("/{id}")
+    @RolesAllowed({ "User", "Admin" })
     public Response findById(@PathParam("id") Long id) {
         VendaResponseDTO retorno = service.findById(id);
         return Response.ok(retorno).build();
     }
 
     @GET
-    @RolesAllowed({ "User", "Admin" })
     @Path("/vendas/{email}")
+    @RolesAllowed({ "User", "Admin" })
     public Response findAllByUserEmail(@PathParam("email") String email) {
         return Response.ok(service.findByAll(email)).build();
     }
