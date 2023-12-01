@@ -33,6 +33,7 @@ public class OculosServiceImpl implements OculosService {
         novoOculos.setPrecoCusto(dto.precoCusto());
         novoOculos.setPrecoVenda(dto.precoVenda());
         novoOculos.setQuantidade(dto.quantidade());
+        novoOculos.setNomeImagem(dto.nomeImagem());
 
         Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
@@ -59,6 +60,7 @@ public class OculosServiceImpl implements OculosService {
         oculos.setPrecoCusto(dto.precoCusto());
         oculos.setPrecoVenda(dto.precoVenda());
         oculos.setQuantidade(dto.quantidade());
+        oculos.setNomeImagem(dto.nomeImagem());
         Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
             throw new RuntimeException("Marca não encontrada com o ID: " + dto.marca().getId());

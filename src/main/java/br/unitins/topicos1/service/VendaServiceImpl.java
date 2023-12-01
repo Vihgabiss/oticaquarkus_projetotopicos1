@@ -43,18 +43,23 @@ public class VendaServiceImpl implements VendaService {
             Oculos oculos = oculosRepository.findById(itemDto.idProduto());
             total += (oculos.getPrecoVenda() * itemDto.quantidade());
         }
+
         venda.setValorTotal(total);
 
         venda.setTipoPagamento(TipoPagamento.valueOf(dto.idTipoPagamento()));
+
         venda.setStatusVenda(StatusVenda.valueOf(dto.idStatusVenda()));
 
         venda.setItens(new ArrayList<ItemVenda>());
+
         for (ItemVendaDTO itemDto : dto.itens()) {
             ItemVenda item = new ItemVenda();
             item.setPreco(itemDto.preco());
             item.setQuantidade(itemDto.quantidade());
             item.setVenda(venda);
+
             Oculos oculos = oculosRepository.findById(itemDto.idProduto());
+
             item.setOculos(oculos);
 
             oculos.setQuantidade(oculos.getQuantidade() - item.getQuantidade());
@@ -64,11 +69,15 @@ public class VendaServiceImpl implements VendaService {
 
         venda.setUsuario(usuarioRepository.findByEmail(email));
 
+        vendaRepository.persist(venda);
+
         return VendaResponseDTO.valueOf(venda);
     }
 
     public List<VendaResponseDTO> findByAll() {
+
         return vendaRepository.listAll().stream()
+
                 .map(e -> VendaResponseDTO.valueOf(e)).toList();
     }
 
