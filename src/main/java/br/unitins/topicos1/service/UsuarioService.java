@@ -37,7 +37,13 @@ public interface UsuarioService {
 
     public List<TelefoneResponseDTO> findTelByCodigoArea(String codigoArea);
 
-     public void updateSenha(@Valid SenhaDTO dto);
+    public void updateSenha(@Valid SenhaDTO dto);
+
+    public UsuarioResponseDTO updateNomeUsuarioLogado(String nome);
+
+    public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto);
+
+    public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto);
 
 
 }
