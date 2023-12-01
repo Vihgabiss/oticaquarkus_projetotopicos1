@@ -3,6 +3,7 @@ package br.unitins.topicos1.resource;
 import java.io.IOException;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.application.Error;
@@ -44,10 +45,15 @@ public class UsuarioLogadoResource {
     @Inject
     OculosService oculosService;
 
+    private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
+
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response getUsuarioLogado() {
+        LOG.info("Pegando e-mail do usuário logado.");
         String email = jwt.getSubject();
+        
+        LOG.info("Retornando os dados do usuário logado.");
         return Response.ok(usuarioService.findByEmail(email)).build();
     }
 
@@ -55,7 +61,10 @@ public class UsuarioLogadoResource {
     @Path("/altera/senha/")
     @RolesAllowed({ "User", "Admin" })
     public Response updateSenha(SenhaDTO dto) {
+        LOG.info("Atualizando a senha do usuário.");
         usuarioService.updateSenha(dto);
+
+        LOG.info("Finalizando a atualização da senha.");
         return Response.noContent().build();
 
     }
@@ -64,7 +73,10 @@ public class UsuarioLogadoResource {
     @Path("/altera/nome/{nome}")
     @RolesAllowed({"User", "Admin"})
     public Response updateNomeUsuario(@PathParam("nome") String nome){
+        LOG.infof("Atualizando o nome do usuário para %s", nome);
         usuarioService.updateNomeUsuarioLogado(nome);
+        
+        LOG.info("Finalizando a atualização do nome.");
         return Response.noContent().build();
     }
 
@@ -72,7 +84,10 @@ public class UsuarioLogadoResource {
     @Path("/insere/telefone")
     @RolesAllowed({"User", "Admin"})
     public Response insertTelefoneUsuario(TelefoneDTO dto){
+        LOG.info("Inserindo o telefone.");
         usuarioService.insertTelefoneUsuarioLogado(dto);
+
+        LOG.info("Finalizando o insert de telefone.");
         return Response.noContent().build();
     }
 
@@ -80,7 +95,10 @@ public class UsuarioLogadoResource {
     @Path("/update/telefone/{idTelefone}")
     @RolesAllowed({"User", "Admin"})
     public Response updateTelefoneUsuario(@PathParam("idTelefone") Long idTelefone, TelefoneDTO dto){
+        LOG.infof("Atualizando o telefone %s", idTelefone);
         usuarioService.updateTelefoneUsuarioLogado(idTelefone, dto);
+
+        LOG.info("Finalizando a atualização do telefone.");
         return Response.noContent().build();
     }
 
@@ -88,7 +106,10 @@ public class UsuarioLogadoResource {
     @Path("/insere/endereco")
     @RolesAllowed({"User", "Admin"})
     public Response insertEnderecoUsuario(EnderecoDTO dto){
+         LOG.info("Inserindo o endereço.");
         usuarioService.insertEnderecoUsuarioLogado(dto);
+
+         LOG.info("Finalizando o insert de endereço.");
         return Response.noContent().build();
     }
 
@@ -98,11 +119,18 @@ public class UsuarioLogadoResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
         try {
+            LOG.info("Salvando a imagem.");
             String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
+            
+            LOG.info("Atualizando a nova imagem.");
             OculosResponseDTO oculosDTO = oculosService.updateNomeImagem(oculosId, nomeImagem);
+            
+            LOG.info("Retornando a imagem.");
             return Response.ok(oculosDTO).build();
         } catch (IOException e) {
             e.printStackTrace();
+
+            LOG.info("Retornando um erro do servidor.");
             Error error = new Error("500", "Erro ao processar a imagem.");
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
         }
@@ -114,19 +142,19 @@ public class UsuarioLogadoResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadNovaImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
         try {
-            //deleta a atual imagem
+            LOG.info("Deletando a imagem atual.");
             String nomeImagemAtual = oculosService.findById(oculosId).nomeImagem();
             if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
                 fileService.excluir(nomeImagemAtual);
             }
     
-            // salva a nova imagem
+            LOG.info("Salvando a nova imagem.");
             String nomeImagemNovo = fileService.salvar(form.getNomeImagem(), form.getImagem());
     
-            // atualiza a nova imagem
+            LOG.info("Atualizando a nova imagem.");
             oculosService.updateNomeImagem(oculosId, nomeImagemNovo);
     
-            // rotorna a imagem atualizada
+            LOG.info("Retornando a imagem atualizada.");
             OculosResponseDTO oculosDTO = oculosService.findById(oculosId);
             return Response.ok(oculosDTO).build();
         } catch (IOException e) {
