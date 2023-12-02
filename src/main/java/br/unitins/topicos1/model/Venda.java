@@ -5,8 +5,6 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -23,10 +21,11 @@ public class Venda extends DefaultEntity {
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda")
     private List<ItemVenda> itens;
 
-    @Enumerated(EnumType.ORDINAL)
     private TipoPagamento tipoPagamento;
 
     private Double valorTotal;
+
+    private StatusVenda statusVenda;
 
     public LocalDateTime getDataHora() {
         return dataHora;
@@ -66,6 +65,14 @@ public class Venda extends DefaultEntity {
 
     public void setValorTotal(Double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public StatusVenda getStatusVenda() {
+        return statusVenda;
+    }
+
+    public void setStatusVenda(StatusVenda statusVenda) {
+        this.statusVenda = statusVenda;
     }
 
 }

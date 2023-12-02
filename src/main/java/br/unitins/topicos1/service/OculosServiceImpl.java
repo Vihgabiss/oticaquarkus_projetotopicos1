@@ -13,6 +13,7 @@ import br.unitins.topicos1.repository.OculosRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class OculosServiceImpl implements OculosService {
@@ -25,7 +26,7 @@ public class OculosServiceImpl implements OculosService {
 
     @Override
     @Transactional
-    public OculosResponseDTO insert(OculosDTO dto) {
+    public OculosResponseDTO insert(@Valid OculosDTO dto) {
         Oculos novoOculos = new Oculos();
         novoOculos.setReferencia(dto.referencia());
         novoOculos.setCor(dto.cor());
@@ -33,6 +34,7 @@ public class OculosServiceImpl implements OculosService {
         novoOculos.setPrecoCusto(dto.precoCusto());
         novoOculos.setPrecoVenda(dto.precoVenda());
         novoOculos.setQuantidade(dto.quantidade());
+        novoOculos.setNomeImagem(dto.nomeImagem());
 
         Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
@@ -48,7 +50,7 @@ public class OculosServiceImpl implements OculosService {
 
     @Override
     @Transactional
-    public OculosResponseDTO update(OculosDTO dto, Long id) {
+    public OculosResponseDTO update(@Valid OculosDTO dto, Long id) {
         Oculos oculos = repository.findById(id);
         if (oculos == null) {
             throw new RuntimeException("Oculos não encontrado com o ID: " + id);
@@ -59,6 +61,7 @@ public class OculosServiceImpl implements OculosService {
         oculos.setPrecoCusto(dto.precoCusto());
         oculos.setPrecoVenda(dto.precoVenda());
         oculos.setQuantidade(dto.quantidade());
+        oculos.setNomeImagem(dto.nomeImagem());
         Marca marcaEntity = marcaRepository.findById(dto.marca().getId());
         if (marcaEntity == null) {
             throw new RuntimeException("Marca não encontrada com o ID: " + dto.marca().getId());
@@ -132,4 +135,22 @@ public class OculosServiceImpl implements OculosService {
 
         return OculosResponseDTO.valueOf(oculos);
     }
+
+    @Override
+    public List<OculosResponseDTO> findByMarca(String marca) {
+        List<Oculos> oculosList = repository.findByMarca(marca);
+        return oculosList.stream()
+                .map(OculosResponseDTO::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OculosResponseDTO> findByTipoOculos(Integer idTipoOculos) {
+        TipoOculos tipoOculos = TipoOculos.valueOf(idTipoOculos);
+        List<Oculos> oculosList = repository.findByTipOculos(tipoOculos);
+        return oculosList.stream()
+                .map(OculosResponseDTO::valueOf)
+                .collect(Collectors.toList());
+    }
+
 }

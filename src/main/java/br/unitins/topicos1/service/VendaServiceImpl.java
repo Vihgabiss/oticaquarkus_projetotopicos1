@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unitins.topicos1.dto.ItemVendaDTO;
+import br.unitins.topicos1.dto.ItemVendaResponseDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.ItemVenda;
 import br.unitins.topicos1.model.Oculos;
+import br.unitins.topicos1.model.StatusVenda;
 import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.model.Venda;
 import br.unitins.topicos1.repository.OculosRepository;
@@ -39,19 +41,26 @@ public class VendaServiceImpl implements VendaService {
 
         Double total = 0.0;
         for (ItemVendaDTO itemDto : dto.itens()) {
-            total += (itemDto.preco() * itemDto.quantidade());
+            Oculos oculos = oculosRepository.findById(itemDto.idProduto());
+            total += (oculos.getPrecoVenda() * itemDto.quantidade());
         }
+
         venda.setValorTotal(total);
 
         venda.setTipoPagamento(TipoPagamento.valueOf(dto.idTipoPagamento()));
 
+        venda.setStatusVenda(StatusVenda.valueOf(dto.idStatusVenda()));
+
         venda.setItens(new ArrayList<ItemVenda>());
+
         for (ItemVendaDTO itemDto : dto.itens()) {
             ItemVenda item = new ItemVenda();
             item.setPreco(itemDto.preco());
             item.setQuantidade(itemDto.quantidade());
             item.setVenda(venda);
+
             Oculos oculos = oculosRepository.findById(itemDto.idProduto());
+
             item.setOculos(oculos);
 
             oculos.setQuantidade(oculos.getQuantidade() - item.getQuantidade());
@@ -61,7 +70,21 @@ public class VendaServiceImpl implements VendaService {
 
         venda.setUsuario(usuarioRepository.findByEmail(email));
 
+        vendaRepository.persist(venda);
+
         return VendaResponseDTO.valueOf(venda);
+    }
+
+    public List<VendaResponseDTO> findByAll() {
+        return vendaRepository.listAll().stream()
+                .map(e -> VendaResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public List<VendaResponseDTO> findByAll(String email) {
+        return vendaRepository.findAll(email).stream()
+                .map(e -> VendaResponseDTO.valueOf(e))
+                .toList();
     }
 
     @Override
@@ -70,14 +93,18 @@ public class VendaServiceImpl implements VendaService {
     }
 
     @Override
-    public List<VendaResponseDTO> findByAll() {
-        return vendaRepository.listAll().stream()
-                .map(e -> VendaResponseDTO.valueOf(e)).toList();
+    public VendaResponseDTO findItemVendaById(Long id) {
+        Venda venda = vendaRepository.findById(id);
+        
+        if (venda != null) {
+            VendaResponseDTO vendaResponseDTO = VendaResponseDTO.valueOf(venda);
+            
+            vendaResponseDTO.itens(ItemVendaResponseDTO.valueOf(venda.getItens()));
+            
+            return vendaResponseDTO;
+        } else {
+            return null;
+        }
     }
 
-    @Override
-    public List<VendaResponseDTO> findByAll(String login) {
-        return vendaRepository.listAll().stream()
-                .map(e -> VendaResponseDTO.valueOf(e)).toList();
-    }
 }

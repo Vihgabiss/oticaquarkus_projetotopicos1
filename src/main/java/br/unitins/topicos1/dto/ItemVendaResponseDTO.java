@@ -12,7 +12,7 @@ public record ItemVendaResponseDTO(
     public static ItemVendaResponseDTO valueOf(ItemVenda item) {
         return new ItemVendaResponseDTO(
                 item.getQuantidade(),
-                item.getPreco(),
+                item.getOculos().getPrecoVenda(),
                 item.getOculos().getId(),
                 item.getOculos().getReferencia());
     }

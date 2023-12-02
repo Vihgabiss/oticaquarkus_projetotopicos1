@@ -3,6 +3,7 @@ package br.unitins.hello;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,12 @@ import br.unitins.topicos1.dto.FornecedorDTO;
 import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.dto.MarcaResponseDTO;
+import br.unitins.topicos1.dto.UsuarioDTO;
+import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.service.FornecedorService;
+import br.unitins.topicos1.service.JwtService;
 import br.unitins.topicos1.service.MarcaService;
+import br.unitins.topicos1.service.UsuarioService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
@@ -18,229 +24,228 @@ import jakarta.inject.Inject;
 @QuarkusTest
 public class MarcaResourceTest {
 
-    @Inject
-    MarcaService marcaService;
+        @Inject
+        MarcaService marcaService;
 
-    @Test
-    public void testInsert() {
-        FornecedorDTO fornecedorDTO = new FornecedorDTO(
-                "Anitta Glasses",
-                "(63) 98000-0000",
-                "Rua X Bairro Y",
-                "anittag@ag.com",
-                "12.757.753/2352-68");
+        @Inject
+        FornecedorService fornecedorService;
 
-        FornecedorResponseDTO fornecedorResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(fornecedorDTO)
-                .when().post("/fornecedor")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Anitta Glasses"),
-                        "cnpj", is("12.757.753/2352-68"))
-                .extract().as(FornecedorResponseDTO.class);
+        @Inject
+        UsuarioService usuarioService;
 
-        MarcaDTO dto = new MarcaDTO(
-                "Nike",
-                fornecedorResponseDTO);
+        @Inject
+        JwtService jwtService;
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(dto)
-                .when().post("/marca")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Nike"),
-                        "fornecedor.cnpj", is("12.757.753/2352-68"));
-    }
+        @Test
+        public void testInsert() {
+                UsuarioDTO adm = new UsuarioDTO(
+                                "Maria", "998.122.122-11",
+                                "maria1@gmail.com", "20220",
+                                2, null);
 
-    @Test
-    public void testUpdate() {
-        // Create a new Fornecedor
-        FornecedorDTO fornecedorDTO = new FornecedorDTO(
-                "Anitta",
-                "(63) 98000-0000",
-                "Rua X Bairro Y",
-                "anittag@ag.com",
-                "12.757.753/2352-68");
+                UsuarioResponseDTO usuario = usuarioService.insert(adm);
 
-        FornecedorResponseDTO fornecedorResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(fornecedorDTO)
-                .when().post("/fornecedor")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Anitta"),
-                        "cnpj", is("12.757.753/2352-68"))
-                .extract().as(FornecedorResponseDTO.class);
+                String token = jwtService.generateJwt(usuario);
 
-        MarcaDTO dto = new MarcaDTO(
-                "Nike",
-                fornecedorResponseDTO);
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta Glasses",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
 
-        MarcaResponseDTO marcaResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(dto)
-                .when().post("/marca")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Nike"),
-                        "fornecedor.cnpj", is("12.757.753/2352-68"))
-                .extract().as(MarcaResponseDTO.class);
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
 
-        dto = new MarcaDTO(
-                "Nike Updated",
-                fornecedorResponseDTO);
+                MarcaDTO dto = new MarcaDTO(
+                                "Nike",
+                                idFornecedor);
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(dto)
-                .when().put("/marca/{id}", marcaResponseDTO.id())
-                .then()
-                .statusCode(204);
+                given()
+                                .headers("Authorization", "Bearer " + token)
+                                .contentType(ContentType.JSON)
+                                .body(dto)
+                                .when().post("/marca")
+                                .then().statusCode(201)
+                                .body("id", notNullValue(),
+                                                "nome", is("Nike"));
+        }
 
-        given()
-                .when().get("/marca/{id}", marcaResponseDTO.id())
+        @Test
+        public void testUpdate() {
+                UsuarioDTO adm = new UsuarioDTO(
+                                "Maria", "998.222.122-11",
+                                "maria@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(adm);
+
+                String token = jwtService.generateJwt(usuario);
+
+                FornecedorDTO fornecedor = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
+                FornecedorResponseDTO forn = fornecedorService.insert(fornecedor);
+                Long idFornecedor = forn.id();
+
+                MarcaDTO dto = new MarcaDTO(
+                                "Nike",
+                                idFornecedor);
+
+                MarcaResponseDTO marcaTest = marcaService.insert(dto);
+                Long idMarca = marcaTest.id();
+
+                MarcaDTO upMarcaDTO = new MarcaDTO("Nikel", idFornecedor);
+                given()
+                                .headers("Authorization", "Bearer " + token)
+                                .contentType(ContentType.JSON)
+                                .body(upMarcaDTO)
+                                .when().put("/marca/" + idMarca)
+                                .then().statusCode(204);
+
+        }
+
+        @Test
+        public void testDelete() {
+
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-33",
+                                "joao2@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
+
+                String token = jwtService.generateJwt(usuario);
+
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
+
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
+
+                MarcaDTO dto = new MarcaDTO(
+                                "Nike",
+                                idFornecedor);
+
+                MarcaResponseDTO marcaTest = marcaService.insert(dto);
+                Long idMarca = marcaTest.id();
+
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .delete("/marca/" + idMarca)
+                                .then()
+                                .statusCode(204);
+
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/marca/" + idMarca)
+                                .then()
+                                .statusCode(404);
+        }
+
+        @Test
+        public void testFindById() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-44",
+                                "joao3@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
+
+                String token = jwtService.generateJwt(usuario);
+
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
+
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
+
+                MarcaDTO dto = new MarcaDTO(
+                                "Nike",
+                                idFornecedor);
+
+                MarcaResponseDTO marcaTest = marcaService.insert(dto);
+                Long idMarca = marcaTest.id();
+
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/marca/" + idMarca)
+                                .then()
+                                .statusCode(200)
+                                .body("nome", is("Nike"));
+
+                MarcaResponseDTO marca = marcaService.findById(idMarca);
+                assertThat(marca.nome(), is("Nike"));
+
+        }
+
+        @Test
+        public void testFindByNome() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "132.182.122-44",
+                                "joao3@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
+
+                String token = jwtService.generateJwt(usuario);
+
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
+
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
+
+                MarcaDTO dto = new MarcaDTO(
+                                "Nike",
+                                idFornecedor);
+
+                MarcaResponseDTO marcaTest = marcaService.insert(dto);
+                String marca = marcaTest.nome();
+
+                given()
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get("/marca/search/nome/{nome}", marca)
                 .then()
                 .statusCode(200)
-                .body("nome", is("Nike Updated"),
-                        "fornecedor.cnpj", is("12.757.753/2352-68"));
-    }
+                .body("nome[0]", is("Nike"));
 
-    @Test
-    public void testDelete() {
-        FornecedorDTO fornecedorDTO = new FornecedorDTO(
-                "Anitta",
-                "(63) 98000-0000",
-                "Rua X Bairro Y",
-                "anittag@ag.com",
-                "12.757.753/2352-68");
+        }
 
-        FornecedorResponseDTO fornecedorResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(fornecedorDTO)
-                .when().post("/fornecedor")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Anitta"),
-                        "cnpj", is("12.757.753/2352-68"))
-                .extract().as(FornecedorResponseDTO.class);
+        @Test
+        public void testFindByAll() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.134.122-61",
+                                "joao7@gmail.com", "20220",
+                                2, null);
 
-        MarcaDTO dto = new MarcaDTO(
-                "Nike",
-                fornecedorResponseDTO);
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
 
-        MarcaResponseDTO marcaResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(dto)
-                .when().post("/marca")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Nike"),
-                        "fornecedor.cnpj", is("12.757.753/2352-68"))
-                .extract().as(MarcaResponseDTO.class);
-
-        given()
-                .when().delete("/marca/{id}", marcaResponseDTO.id())
-                .then()
-                .statusCode(204);
-
-        given()
-                .when().get("/marca/" + marcaResponseDTO.id())
-                .then()
-                .statusCode(404);
-    }
-
-    @Test
-    public void testFindById() {
-        FornecedorDTO fornecedorDTO = new FornecedorDTO(
-                "Anitta",
-                "(63) 98000-0000",
-                "Rua X Bairro Y",
-                "anittag@ag.com",
-                "12.757.753/2352-68");
-
-        FornecedorResponseDTO fornecedorResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(fornecedorDTO)
-                .when().post("/fornecedor")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Anitta"),
-                        "cnpj", is("12.757.753/2352-68"))
-                .extract().as(FornecedorResponseDTO.class);
-
-        MarcaDTO dto = new MarcaDTO(
-                "Nike",
-                fornecedorResponseDTO);
-
-        MarcaResponseDTO marcaResponseDTO = given()
-                .contentType(ContentType.JSON)
-                .body(dto)
-                .when().post("/marca")
-                .then().statusCode(201)
-                .body("id", notNullValue(),
-                        "nome", is("Nike"),
-                        "fornecedor.cnpj", is("12.757.753/2352-68"))
-                .extract().as(MarcaResponseDTO.class);
-
-        given()
-                .when().get("/marca/{id}", marcaResponseDTO.id())
-                .then()
-                .statusCode(200)
-                .body("nome", is("Nike"),
-                        "fornecedor.cnpj", is("12.757.753/2352-68"));
-    }
-
-    // @Test
-    // public void testFindByNome() {
-    // FornecedorDTO fornecedorDTO = new FornecedorDTO(
-    // "Anitta",
-    // "(63) 98000-0000",
-    // "Rua X Bairro Y",
-    // "anittag@ag.com",
-    // "12.757.753/2352-68");
-
-    // FornecedorResponseDTO fornecedorResponseDTO = given()
-    // .contentType(ContentType.JSON)
-    // .body(fornecedorDTO)
-    // .when().post("/fornecedor")
-    // .then().statusCode(201)
-    // .body("id", notNullValue(),
-    // "nome", is("Anitta"),
-    // "cnpj", is("12.757.753/2352-68"))
-    // .extract().as(FornecedorResponseDTO.class);
-
-    // MarcaDTO dto = new MarcaDTO(
-    // "Nike",
-    // fornecedorResponseDTO);
-
-    // given()
-    // .contentType(ContentType.JSON)
-    // .body(dto)
-    // .when().post("/marca")
-    // .then().statusCode(201)
-    // .body("id", notNullValue(),
-    // "nome", is("Nike"),
-    // "fornecedor.cnpj", is("12.757.753/2352-68"));
-
-    // String nome = "Nike";
-
-    // given()
-    // .when().get("/marca/search/nome/{nome}", nome)
-    // .then()
-    // .log().all()
-    // .statusCode(404)
-    // .body("size()", greaterThan(0))
-    // .body("[0].nome", is("Nike"));
-
-    // }
-
-    @Test
-    public void testFindByAll() {
-        given()
-                .when().get("/marca")
-                .then()
-                .statusCode(200);
-    }
+                String token = jwtService.generateJwt(usuario);
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/marca")
+                                .then()
+                                .statusCode(200);
+        }
 }

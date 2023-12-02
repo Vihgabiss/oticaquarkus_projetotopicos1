@@ -1,161 +1,246 @@
-// // package br.unitins.hello;
+package br.unitins.hello;
 
-// // import static io.restassured.RestAssured.given;
-// import static io.restassured.RestAssured.given;
-// import static org.hamcrest.CoreMatchers.is;
-// import static org.hamcrest.CoreMatchers.notNullValue;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
-// // import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 
-// // import br.unitins.topicos1.service.FornecedorService;
-// // import io.quarkus.test.junit.QuarkusTest;
-// // import jakarta.inject.Inject;
+import br.unitins.topicos1.dto.FornecedorDTO;
+import br.unitins.topicos1.dto.FornecedorResponseDTO;
+import br.unitins.topicos1.dto.UsuarioDTO;
+import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.service.FornecedorService;
+import br.unitins.topicos1.service.JwtService;
+import br.unitins.topicos1.service.UsuarioService;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 
-// // @QuarkusTest
-// // public class FornecedorResourceTest {
-// //     @Inject
-// //     FornecedorService fornecedorService;
+@QuarkusTest
+public class FornecedorResourceTest {
 
-// //     @Test
-// //     public void testFindByAll() {
-// //         given()
-// //                 .when().get("/fornecedor")
-// //                 .then()
-// //                 .statusCode(200);
-// //     }
+        @Inject
+        FornecedorService fornecedorService;
 
-// // }
-// import br.unitins.topicos1.dto.FornecedorDTO;
-// import br.unitins.topicos1.dto.FornecedorResponseDTO;
-// import br.unitins.topicos1.service.FornecedorService;
-// import io.quarkus.test.junit.QuarkusTest;
-// import io.restassured.http.ContentType;
-// import jakarta.inject.Inject;
+        @Inject
+        JwtService jwtService;
 
-// @QuarkusTest
-// public class FornecedorResourceTest {
+        @Inject
+        UsuarioService usuarioService;
 
-//     @Inject
-//     FornecedorService fornecedorService;
+        @Test
+        public void testInsert() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-11",
+                                "joao@gmail.com", "20220",
+                                2, null);
 
-//     @Test
-//     public void testInsert() {
-//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
-//                 "Anitta Glasses",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
-//                 "12.757.753/2352-68");
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
 
-//         fornecedorService.insert(fornecedorDTO);
+                String token = jwtService.generateJwt(usuario);
 
-//         given()
-//                 .contentType(ContentType.JSON)
-//                 .body(fornecedorDTO)
-//                 .when().post("/fornecedor")
-//                 .then().statusCode(201)
-//                 .body("id", notNullValue(),
-//                         "nome", is("Anitta Glasses"),
-//                         "cnpj", is("12.757.753/2352-68"));
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta Glasses",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
 
-//     }
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .contentType("application/json")
+                                .body(fornecedorDTO)
+                                .when()
+                                .post("/fornecedor")
+                                .then()
+                                .statusCode(201)
+                                .body("id", notNullValue(),
+                                                "nome", is("Anitta Glasses"),
+                                                "cnpj", is("12.757.753/2352-68"));
+        }
 
-//     @Test
-//     public void testUpdate() {
-//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
-//                 "Anitta",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
-//                 "12.757.753/2352-68");
+        @Test
+        public void testUpdate() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-22",
+                                "joao1@gmail.com", "20220",
+                                2, null);
 
-//         FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
 
-//         Long idFornecedor = fornecedorResponseDTO.id();
+                String token = jwtService.generateJwt(usuario);
 
-//         FornecedorDTO fornecedorUpdate = new FornecedorDTO(
-//                 "Anitta",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
 
-//                 "12.757.753/2352-68");
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
 
-//         fornecedorService.update(fornecedorUpdate, idFornecedor);
+                FornecedorDTO fornecedorUpdate = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
 
-//         given()
-//                 .when().get("/fornecedor/" + idFornecedor)
-//                 .then()
-//                 .statusCode(200)
-//                 .body("nome", is("Anitta"), "cnpj", is("12.757.753/2352-68"));
-//     }
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .contentType("application/json")
+                                .body(fornecedorUpdate)
+                                .when()
+                                .put("/fornecedor/" + idFornecedor)
+                                .then()
+                                .statusCode(204);
 
-//     @Test
-//     public void testDelete() {
-//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
-//                 "Anitta",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
-//                 "12.757.753/2352-68");
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/fornecedor/" + idFornecedor)
+                                .then()
+                                .statusCode(200)
+                                .body("nome", is("Anitta"), "cnpj", is("12.757.753/2352-68"));
+        }
 
-//         FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+        @Test
+        public void testDelete() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-33",
+                                "joao2@gmail.com", "20220",
+                                2, null);
 
-//         Long idFornecedor = fornecedorResponseDTO.id();
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
 
-//         fornecedorService.delete(idFornecedor);
+                String token = jwtService.generateJwt(usuario);
 
-//         given()
-//                 .when().get("/fornecedor/" + idFornecedor)
-//                 .then()
-//                 .statusCode(404);
-//     }
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
 
-//     @Test
-//     public void testFindById() {
-//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
-//                 "Anitta",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
-//                 "12.757.753/2352-68");
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
 
-//         FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .delete("/fornecedor/" + idFornecedor)
+                                .then()
+                                .statusCode(204);
 
-//         Long idFornecedor = fornecedorResponseDTO.id();
+        }
 
-//         given()
-//                 .when().get("/fornecedor/" + idFornecedor)
-//                 .then()
-//                 .statusCode(200)
-//                 .body("nome", is("Anitta"), "cnpj", is("12.757.753/2352-68"));
-//     }
+        @Test
+        public void testFindById() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-44",
+                                "joao3@gmail.com", "20220",
+                                2, null);
 
-//     @Test
-//     public void testFindByNome() {
-//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
-//                 "Anitta",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
-//                 "12.757.753/2352-68");
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
 
-//         FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                String token = jwtService.generateJwt(usuario);
 
-//         String nome = "Anitta";
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
 
-//         given()
-//                 .when().get("/fornecedor/search/nome/{nome}", nome)
-//                 .then()
-//                 .statusCode(200)
-//                 .body("nome[0]", is("Anitta"));
-//     }
+                FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+                Long idFornecedor = fornecedorResponseDTO.id();
 
-//     @Test
-//     public void testFindByAll() {
-//         given()
-//                 .when().get("/fornecedor")
-//                 .then()
-//                 .statusCode(200);
-//     }
-// }
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/fornecedor/" + idFornecedor)
+                                .then()
+                                .statusCode(200)
+                                .body("nome", is("Anitta"), "cnpj", is("12.757.753/2352-68"));
+        }
+
+        @Test
+        public void testFindByNome() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-55",
+                                "joao5@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
+
+                String token = jwtService.generateJwt(usuario);
+
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
+
+                fornecedorService.insert(fornecedorDTO);
+                String nome = "Anitta";
+
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/fornecedor/search/nome/{nome}", nome)
+                                .then()
+                                .statusCode(200)
+                                .body("nome[0]", is("Anitta"));
+        }
+
+        @Test
+        public void testFindByAll() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-61",
+                                "joao7@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
+
+                String token = jwtService.generateJwt(usuario);
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/fornecedor")
+                                .then()
+                                .statusCode(200);
+        }
+
+        @Test
+        public void testFindByCNPJ() {
+                UsuarioDTO user = new UsuarioDTO(
+                                "Joao", "122.122.122-66",
+                                "joao6@gmail.com", "20220",
+                                2, null);
+
+                UsuarioResponseDTO usuario = usuarioService.insert(user);
+
+                String token = jwtService.generateJwt(usuario);
+
+                FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                                "Anitta",
+                                "(63) 98000-0000",
+                                "Rua X Bairro Y",
+                                "anittag@ag.com",
+                                "12.757.753/2352-68");
+
+                fornecedorService.insert(fornecedorDTO);
+                String cnpj = "12.757.753/2352-68";
+
+                given()
+                                .header("Authorization", "Bearer " + token)
+                                .when()
+                                .get("/fornecedor/cnpj/{cnpj}", cnpj)
+                                .then()
+                                .statusCode(200)
+                                .body("cnpj[0]", is(cnpj));
+        }
+
+}

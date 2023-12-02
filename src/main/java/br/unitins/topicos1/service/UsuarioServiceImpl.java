@@ -2,6 +2,11 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
+import br.unitins.topicos1.dto.EnderecoDTO;
+import br.unitins.topicos1.dto.EnderecoResponseDTO;
+import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
@@ -30,6 +35,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Inject
     HashService hashService;
 
+     @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    UsuarioRepository usuarioRepository;
+
+    @Inject
+    EnderecoService enderecoService;
+
     @Override
     @Transactional
     public UsuarioResponseDTO insert(@Valid UsuarioDTO dto) {
@@ -53,7 +67,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO insertTelefone(@Valid Long idUsuario, TelefoneDTO dto) {
+    public UsuarioResponseDTO insertTelefone(Long idUsuario, @Valid TelefoneDTO dto) {
         Usuario usuario = repository.findById(idUsuario);
 
         Telefone telefone = new Telefone();
@@ -68,7 +82,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO updateTelefone(@Valid Long id, Long idTelefone, TelefoneDTO dto) {
+    public UsuarioResponseDTO updateTelefone(Long id, Long idTelefone, @Valid TelefoneDTO dto) {
         Usuario usuario = repository.findById(id);
 
         for (Telefone tel : usuario.getListaTelefone()) {
@@ -169,10 +183,58 @@ public class UsuarioServiceImpl implements UsuarioService {
         return UsuarioResponseDTO.valueOf(usuario);
     }
 
-    public static void main(String[] args) {
-        HashService service = new HashServiceImpl();
-        System.out.println(service.getHashSenha("222"));
-        System.out.println(service.getHashSenha("222"));
+    public Usuario getUsuarioByEmail(){
+        String email = jwt.getSubject();
+        Usuario usuario = usuarioRepository.findByEmail(email);
 
+        return usuario;
+    }
+
+    @Override
+    @Transactional
+    public void updateSenha(@Valid SenhaDTO dto){
+        Usuario usuario = getUsuarioByEmail();
+        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
+
+        if (usuario.getSenha().equals(senhaAtualHash)){
+                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
+        } 
+
+        else
+            throw new ValidationException("senha", "Senha errada!");
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO updateNomeUsuarioLogado(String nome){
+        Usuario usuario = getUsuarioByEmail();
+
+        if (nome != null && !nome.isEmpty())
+            usuario.setNome(nome);
+        else
+        throw new ValidationException("nome", "Nome não pode ser nulo.");
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto){
+        Usuario usuario = getUsuarioByEmail(); 
+        return insertTelefone(usuario.getId(), dto);   
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto){
+        Usuario usuario = getUsuarioByEmail(); 
+        return updateTelefone(usuario.getId(), idTelefone, dto);  
+    }
+
+    @Override
+    @Transactional
+    public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto){
+        Usuario usuario = getUsuarioByEmail(); 
+        return enderecoService.insert(usuario.getId(), dto);  
     }
 }

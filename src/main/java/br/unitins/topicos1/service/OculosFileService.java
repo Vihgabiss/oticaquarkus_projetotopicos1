@@ -14,11 +14,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class OculosFileService implements FileService {
-            // /Users/janio/quarkus/images/usuario/  
+    // /Users/janio/quarkus/images/usuario/
     private final String PATH_OCULOS = System.getProperty("user.home") +
-  
-            File.separator + "Documents" +
-            File.separator + "Julynha" + File.separator;
+
+            File.separator + "Documents"+
+            File.separator + "Quarkus"+ File.separator;
 
     private static final List<String> SUPPORTED_MIME_TYPES = Arrays.asList("image/jpeg", "image/jpg", "image/png",
             "image/gif");
@@ -68,5 +68,17 @@ public class OculosFileService implements FileService {
         String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
         if (!SUPPORTED_MIME_TYPES.contains(mimeType))
             throw new IOException("Tipo de imagem não suportado.");
+    }
+
+    @Override
+    public void excluir(String nomeArquivo) {
+        File file = new File(PATH_OCULOS + nomeArquivo);
+        if (file.exists() && file.isFile()) {
+            try {
+                Files.deleteIfExists(file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

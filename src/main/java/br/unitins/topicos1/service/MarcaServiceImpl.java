@@ -11,6 +11,7 @@ import br.unitins.topicos1.repository.MarcaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class MarcaServiceImpl implements MarcaService {
@@ -23,24 +24,13 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional
-    public MarcaResponseDTO insert(MarcaDTO dto) {
+    public MarcaResponseDTO insert(@Valid MarcaDTO dto) {
+        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor());
+
         Marca novaMarca = new Marca();
         novaMarca.setNome(dto.nome());
-
-        Fornecedor fornecedorEntity = fornecedorRepository.findById(dto.fornecedor().id());
-        if (fornecedorEntity == null) {
-            Fornecedor novoFornecedor = new Fornecedor();
-            novoFornecedor.setNome(dto.fornecedor().nome());
-            novoFornecedor.setEmail(dto.fornecedor().email());
-            novoFornecedor.setCnpj(dto.fornecedor().cnpj());
-            novoFornecedor.setTelefone(dto.fornecedor().telefone());
-            novoFornecedor.setEndereco(dto.fornecedor().endereco());
-            fornecedorRepository.persist(novoFornecedor);
-
-            novaMarca.setFornecedor(novoFornecedor);
-        } else {
-            novaMarca.setFornecedor(fornecedorEntity);
-        }
+        novaMarca.setFornecedor(fornecedor);
+        
         repository.persist(novaMarca);
 
         return MarcaResponseDTO.valueOf(novaMarca);
@@ -48,27 +38,14 @@ public class MarcaServiceImpl implements MarcaService {
 
     @Override
     @Transactional
-    public MarcaResponseDTO update(MarcaDTO dto, Long id) {
+    public MarcaResponseDTO update(@Valid MarcaDTO dto, Long id) {
+
+        if (id == null) 
+        throw new RuntimeException("Marca não encontrada com o ID: " + id);
+                
         Marca marca = repository.findById(id);
-        if (marca == null) {
-            throw new RuntimeException("Marca não encontrada com o ID: " + id);
-        }
         marca.setNome(dto.nome());
 
-        Fornecedor fornecedorEntity = fornecedorRepository.findById(dto.fornecedor().id());
-        if (fornecedorEntity == null) {
-            Fornecedor novoFornecedor = new Fornecedor();
-            novoFornecedor.setNome(dto.fornecedor().nome());
-            novoFornecedor.setEmail(dto.fornecedor().email());
-            novoFornecedor.setCnpj(dto.fornecedor().cnpj());
-            novoFornecedor.setTelefone(dto.fornecedor().telefone());
-            novoFornecedor.setEndereco(dto.fornecedor().endereco());
-            fornecedorRepository.persist(novoFornecedor);
-
-            marca.setFornecedor(novoFornecedor);
-        } else {
-            marca.setFornecedor(fornecedorEntity);
-        }
         repository.persist(marca);
 
         return MarcaResponseDTO.valueOf(marca);

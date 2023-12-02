@@ -1,156 +1,121 @@
-// package br.unitins.hello;
+package br.unitins.hello;
 
-// import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
-// import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 
-// import br.unitins.topicos1.service.OculosService;
-// import io.quarkus.test.junit.QuarkusTest;
-// import jakarta.inject.Inject;
+import br.unitins.topicos1.dto.FornecedorDTO;
+import br.unitins.topicos1.dto.FornecedorResponseDTO;
+import br.unitins.topicos1.dto.MarcaDTO;
+import br.unitins.topicos1.dto.MarcaResponseDTO;
+import br.unitins.topicos1.dto.OculosDTO;
+import br.unitins.topicos1.dto.UsuarioDTO;
+import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.service.FornecedorService;
+import br.unitins.topicos1.service.JwtService;
+import br.unitins.topicos1.service.MarcaService;
+import br.unitins.topicos1.service.OculosService;
+import br.unitins.topicos1.service.UsuarioService;
+import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
+import jakarta.inject.Inject;
 
-// @QuarkusTest
-// public class OculosResourceTest {
+@QuarkusTest
+public class OculosResourceTest {
 
-//     @Inject
-//     OculosService oculosService;
+    @Inject
+    OculosService oculosService;
 
-//     @Test
-//     public void testFindAllOculos() {
-//         given()
-//                 .when().get("/oculos")
-//                 .then()
-//                 .statusCode(200);
-//     }
+    @Inject
+    MarcaService marcaService;
 
-//     @Inject
-//     FornecedorService fornecedorService;
+    @Inject
+    UsuarioService usuarioService;
 
-//     @Test
-//     public void testInsertOculos() {
+    @Inject
+    JwtService jwtService;
+    @Inject
+    FornecedorService fornecedorService;
 
-//         FornecedorDTO fornecedorDTO = new FornecedorDTO(
-//                 "Anitta Glasses",
-//                 "(63) 98000-0000",
-//                 "Rua X Bairro Y",
-//                 "anittag@ag.com",
-//                 "12.757.753/2352-68");
+    @Test
+    public void testFindByAll() {
+        UsuarioDTO user = new UsuarioDTO(
+                "Chiquita", "111.222.333-44",
+                "jchiquita@gmail.com", "20220",
+                2, null);
 
-//         FornecedorResponseDTO fornecedorResponseDTO = given()
-//                 .contentType(ContentType.JSON)
-//                 .body(fornecedorDTO)
-//                 .when().post("/fornecedor")
-//                 .then().statusCode(201)
-//                 .body("id", notNullValue(),
-//                         "nome", is("Anitta Glasses"),
-//                         "cnpj", is("12.757.753/2352-68"))
-//                 .extract().as(FornecedorResponseDTO.class);
+        UsuarioResponseDTO usuario = usuarioService.insert(user);
 
-//         MarcaDTO marcaDTO = new MarcaDTO(
-//                 "Nike",
-//                 fornecedorResponseDTO);
+        String token = jwtService.generateJwt(usuario);
 
+        given()
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get("/oculos")
+                .then()
+                .statusCode(200);
+    }
 
-                
-//         MarcaResponseDTO marcaResponseDTO  = given()
-//                 .contentType(ContentType.JSON)
-//                 .body(marcaDTO)
-//                 .when().post("/marca")
-//                 .then().statusCode(201)
-//                 .body("id", notNullValue(),
-//                         "nome", is("Nike"),
-//                         "fornecedor.cnpj", is("12.757.753/2352-68"));
+    @Test
+    public void testInsert() {
+        UsuarioDTO adm = new UsuarioDTO(
+                "Maria", "998.122.122-11",
+                "maria1@gmail.com", "20220",
+                2, null);
 
-//         OculosDTO oculosDTO = new OculosDTO(
-//                 "SomeReference",
-//                 "SomeColor",
-//                 "SomeSize",
-//                 100.0,
-//                 150.0,
-//                 10,
-//                 marcaResponseDTO);
+        UsuarioResponseDTO usuario = usuarioService.insert(adm);
 
-//         given()
-//                 .contentType(ContentType.JSON)
-//                 .body(oculosDTO)
-//                 .when().post("/oculos")
-//                 .then()
-//                 .statusCode(201)
-//                 .body("id", notNullValue())
-//                 .body("referencia", is("SomeReference"))
-//                 .body("cor", is("SomeColor"))
-//                 .body("tamanho", is("SomeSize"))
-//                 .body("precoCusto", is(100.0f))
-//                 .body("precoVenda", is(150.0f))
-//                 .body("quantidade", is(10))
-//                 .body("marca", notNullValue());
-//     }
+        String token = jwtService.generateJwt(usuario);
 
-//     @Test
-//     public void testUpdateOculos() {
-//         // Assuming there is an existing oculos with ID 1 in the system
-//         OculosDTO updatedOculosDTO = new OculosDTO(
-//                 "UpdatedReference",
-//                 "UpdatedBrand",
-//                 "UpdatedModel",
-//                 150.0,
-//                 "UpdatedDescription");
+        FornecedorDTO fornecedorDTO = new FornecedorDTO(
+                "Anitta Glasses",
+                "(63) 98000-0000",
+                "Rua X Bairro Y",
+                "anittag@ag.com",
+                "12.757.753/2352-68");
 
-//         given()
-//                 .contentType(ContentType.JSON)
-//                 .body(updatedOculosDTO)
-//                 .when().put("/oculos/1")
-//                 .then()
-//                 .statusCode(200)
-//                 .body("id", notNullValue())
-//                 .body("referencia", is("UpdatedReference"))
-//                 .body("marca", is("UpdatedBrand"))
-//                 .body("modelo", is("UpdatedModel"))
-//                 .body("preco", is(150.0f))
-//                 .body("descricao", is("UpdatedDescription"));
-//     }
+        FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.insert(fornecedorDTO);
+        Long idFornecedor = fornecedorResponseDTO.id();
 
-//     @Test
-//     public void testDeleteOculos() {
-//         given()
-//                 .when().delete("/oculos/1")
-//                 .then()
-//                 .statusCode(204);
-//     }
+        MarcaDTO marcaDTO = new MarcaDTO(
+                "Nike",
+                idFornecedor);
 
-//     @Test
-//     public void testFindByIdOculos() {
-//         given()
-//                 .when().get("/oculos/1")
-//                 .then()
-//                 .statusCode(200)
-//                 .body("id", notNullValue())
-//                 .body("referencia", notNullValue())
-//                 .body("marca", notNullValue())
-//                 .body("modelo", notNullValue())
-//                 .body("preco", notNullValue())
-//                 .body("descricao", notNullValue());
-//     }
+        MarcaResponseDTO marcaResponseDTO = marcaService.insert(marcaDTO);
+        Long idMarca = marcaResponseDTO.id();
 
-//     @Test
-//     public void testFindByReferenciaOculos() {
-//         given()
-//                 .when().get("/oculos/referencia/SomeReference")
-//                 .then()
-//                 .statusCode(200)
-//                 .body("size()", is(1))
-//                 .body("[0].id", notNullValue())
-//                 .body("[0].referencia", is("SomeReference"))
-//                 .body("[0].marca", notNullValue())
-//                 .body("[0].modelo", notNullValue())
-//                 .body("[0].preco", notNullValue())
-//                 .body("[0].descricao", notNullValue());
-//     }
+        OculosDTO oculosDTO = new OculosDTO("ABC123",
+                "#FF5733",
+                "145",
+                100.00,
+                200.00,
+                10,
+                marcaResponseDTO,
+                1,
+                "oculos.jpeg");
 
-//     @Test
-//     public void testFindByAllOculos() {
-//         given()
-//                 .when().get("/oculos")
-//                 .then()
-//                 .statusCode(200);
-//     }
-// }
+        given()
+                .headers("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .body(oculosDTO)
+                .when().post("/oculos")
+                .then()
+                .statusCode(201)
+                .body("referencia", is("ABC123"),
+                        "cor", is("#FF5733"),
+                        "tamanho", is("145"),
+                        "precoCusto", is(100.00F),
+                        "precoVenda", is(200.00F),
+                        "quantidade", is(10));
+    }
+
+    @Test
+    public void testDeleteOculos() {
+        given()
+                .when().delete("/oculos/1")
+                .then()
+                .statusCode(401);
+    }
+
+}

@@ -19,10 +19,10 @@ insert into marca(nome, id_fornecedor) values('Tommy Hilfiger', 1);
 
 
 -- inserção de óculos
-insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 0, 'oculos1.jpg');
-insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2, 1, 'oculos2.jpg');
-insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2, 1, 'oculos3.jpg');
-insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1, 2, 'oculos4.jpg');
+insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 1, 'oculos1.jpg');
+insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2, 2, 'oculos2.jpg');
+insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2, 3, 'oculos3.jpg');
+insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1, 3, 'oculos4.jpg');
 
 insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', 2, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
 insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');
@@ -44,10 +44,22 @@ insert into cidade(nome, id_estado) values('Palmas', 1);
 insert into cidade(nome, id_estado) values('Paraíso', 1);
 insert into cidade(nome, id_estado) values('Salvador', 2);
 
-insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77006-020', '110 Norte', 'alameda 15', '25', 'casa', 1);
-insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77010-000', '106 Norte', 'Av.JK', '10', 'loja 1, Sapataria', 1);
-insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77006-500', '204 Sul', 'alameda 02', '13', 'casa', 2);
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77006-020', '110 Norte', 'alameda 15', 25, 'casa', 1);
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77010-000', '106 Norte', 'Av.JK', 10, 'loja 1, Sapataria', 1);
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade) values('77006-500', '204 Sul', 'alameda 02', 13, 'casa', 2);
 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
+
+-- teste de venda
+
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+
+insert into itemvenda(preco, quantidade, id_oculos, id_venda) values (200.00, 2, 1, 1);
+insert into itemvenda(preco, quantidade, id_oculos, id_venda) values (400.00, 3, 2, 1);
+insert into itemvenda(preco, quantidade, id_oculos, id_venda) values (200.00, 2, 1, 2);
+insert into itemvenda(preco, quantidade, id_oculos, id_venda) values (400.00, 3, 2, 2);
