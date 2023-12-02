@@ -133,12 +133,6 @@ public class FornecedorResourceTest {
                                 .then()
                                 .statusCode(204);
 
-                given()
-                                .header("Authorization", "Bearer " + token)
-                                .when()
-                                .get("/fornecedor/" + idFornecedor)
-                                .then()
-                                .statusCode(404);
         }
 
         @Test

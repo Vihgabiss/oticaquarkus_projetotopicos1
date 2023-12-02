@@ -2,8 +2,6 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 
-import com.arjuna.ats.internal.arjuna.objectstore.jdbc.drivers.edb_driver;
-
 import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.dto.MarcaResponseDTO;
 import br.unitins.topicos1.model.Fornecedor;
