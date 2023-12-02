@@ -44,7 +44,7 @@ public class AuthResource {
         if (result != null)
             LOG.info("Login e senha corretos.");
         else
-            LOG.info("Login e senha incorretos.");
+        LOG.info("Login e senha incorretos.");
        
         String token = jwtService.generateJwt(result);
 
