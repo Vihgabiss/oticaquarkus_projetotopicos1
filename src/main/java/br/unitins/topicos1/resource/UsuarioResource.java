@@ -1,5 +1,7 @@
 package br.unitins.topicos1.resource;
 
+import org.jboss.logging.Logger;
+
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.service.UsuarioService;
@@ -26,9 +28,12 @@ public class UsuarioResource {
     @Inject
     UsuarioService service;
 
+    private static final Logger LOG = Logger.getLogger(UsuarioResource.class);
+
     @POST
     @RolesAllowed({ "User", "Admin"})
     public Response insert(UsuarioDTO dto) throws Exception{
+        LOG.info("Cadastrando um usuario.");
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
@@ -36,7 +41,11 @@ public class UsuarioResource {
     @Path("/insere-telefone/{idUsuario}")
     @RolesAllowed({"Admin"})
     public Response insertTelefone(TelefoneDTO dto, @PathParam("idUsuario") Long idUsuario){
+         
+        LOG.infof("Cadastrando um telefone para o usuario %s", idUsuario);
         service.insertTelefone(idUsuario, dto);
+
+        LOG.info("Finalizando o cadastro de telefone.");
         return Response.noContent().build();
     }
 
@@ -45,7 +54,10 @@ public class UsuarioResource {
     @Path("/atualiza-telefone/{id}/{idTelefone}")
     @RolesAllowed({"Admin"})
     public Response updateTelefone(TelefoneDTO dto, @PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
+        LOG.info("Atualizando telefone.");
         service.updateTelefone(id, idTelefone, dto);
+
+        LOG.info("Finalizando a atualização de telefone.");
         return Response.noContent().build();
     }
 
@@ -54,7 +66,10 @@ public class UsuarioResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response update(UsuarioDTO dto, @PathParam("id") Long id){
+        LOG.infof("Atualizando os dados do usuario %s", id);
         service.update(dto, id);
+
+        LOG.infof("Finalizando a atualização dos dados do usuario %s", id);
         return Response.noContent().build();
     }
 
@@ -62,7 +77,10 @@ public class UsuarioResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id){
+        LOG.infof("Deletando usuario %s", id);
         service.delete(id);
+
+        LOG.infof("Usuario %s deletado", id);
         return Response.noContent().build();
     }
 
@@ -70,7 +88,10 @@ public class UsuarioResource {
     @Path("/deleta-telefone/{id}/{idTelefone}")
     @RolesAllowed({"Admin"})
     public Response deleteTelefone(@PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
+         LOG.infof("Deletando telefone %s", idTelefone);
         service.deleteTelefone(id, idTelefone);
+
+        LOG.infof("Telefone %s deletado", idTelefone);
         return Response.noContent().build();
     }
 
@@ -78,6 +99,7 @@ public class UsuarioResource {
     @GET
     @RolesAllowed({"Admin"})
     public Response findByAll(){
+        LOG.info("Listando todos os usuarios.");
         return Response.ok(service.findByAll()).build();
     }
 
@@ -85,6 +107,7 @@ public class UsuarioResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response findById(@PathParam("id") Long id){
+        LOG.infof("Listando o usuario de id %s", id);
         return Response.ok(service.findById(id)).build();
     }
 
@@ -92,6 +115,7 @@ public class UsuarioResource {
     @Path("/search/nome/{nome}")
     @RolesAllowed({"Admin"})
     public Response findByNome(@PathParam("nome") String nome){
+        LOG.infof("Listando os usuarios com nome %s", nome);
         return Response.ok(service.findByNome(nome)).build();
     }
 
@@ -99,6 +123,7 @@ public class UsuarioResource {
     @Path("/telefone/{id}")
     @RolesAllowed({"Admin"})
     public Response findTelById(@PathParam("id") Long id){
+         LOG.infof("Listando telefone de id %s", id);
         return Response.ok(service.findTelById(id)).build();
     }
 
@@ -106,6 +131,7 @@ public class UsuarioResource {
     @Path("/telefone/{codigoArea}")
     @RolesAllowed({"Admin"})
     public Response findTelByCodigoArea(@PathParam("codigoArea") String codigoArea){
+        LOG.infof("Listando todos os telefones de codigo de area %s", codigoArea);
         return Response.ok(service.findTelByCodigoArea(codigoArea)).build();
     }
 }

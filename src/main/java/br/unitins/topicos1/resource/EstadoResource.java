@@ -1,5 +1,7 @@
 package br.unitins.topicos1.resource;
 
+import org.jboss.logging.Logger;
+
 import br.unitins.topicos1.dto.CidadeDTO;
 import br.unitins.topicos1.dto.EstadoDTO;
 import br.unitins.topicos1.service.EstadoService;
@@ -26,15 +28,19 @@ public class EstadoResource {
     @Inject
     EstadoService service;
 
+    private static final Logger LOG = Logger.getLogger(EstadoResource.class);
+
     @POST
     @RolesAllowed({"Admin"})
     public Response insert(EstadoDTO dto){
+        LOG.info("Inserindo um estado");
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response findAll(){
+        LOG.info("Listando todos os estados");
         return Response.ok(service.findByAll()).build();
     }
 
@@ -42,6 +48,7 @@ public class EstadoResource {
     @RolesAllowed({ "User", "Admin" })
     @Path("/sigla/{sigla}")
     public Response findBySigla(@Valid @PathParam("sigla") String sigla){
+        LOG.infof("Listando o estado com a sigla %s", sigla);
         return Response.ok(service.findBySigla(sigla)).build();
     }
 
@@ -49,7 +56,10 @@ public class EstadoResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response update(EstadoDTO dto, @PathParam("id") Long id){
+        LOG.info("Atualizando estado.");
         service.update(id, dto);
+
+        LOG.info("Finalizando a atualização de estado.");
         return Response.noContent().build();
     }
 
@@ -57,7 +67,10 @@ public class EstadoResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id){
+        LOG.infof("Deletando estado de id %s", id);
         service.delete(id);
+
+        LOG.info("Estado deletado.");
         return Response.noContent().build();
     
     }
@@ -66,6 +79,7 @@ public class EstadoResource {
     @Path("/nome/{nome}")
     @RolesAllowed({ "User", "Admin"})
     public Response findByNome(@PathParam("nome") String nome){
+        LOG.infof("Listando estados com nome %s", nome);
         return Response.ok(service.findByNome(nome)).build();
     }
 
@@ -73,7 +87,10 @@ public class EstadoResource {
     @Path("/insere-cidade/")
     @RolesAllowed({"Admin"})
     public Response insertCidade(CidadeDTO dto){
+        LOG.info("Inserindo cidade.");
         service.insertCidade(dto);
+
+        LOG.info("Finalizando o insert de cidade.");
         return Response.noContent().build();
     }
 
@@ -81,7 +98,10 @@ public class EstadoResource {
     @Path("/atualiza-cidade/{idEstado}/{idCidade}")
     @RolesAllowed({"Admin"})
     public Response updateCidade(CidadeDTO dto, @PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
+        LOG.info("Atualizando cidade.");
         service.updateCidade(idCidade, dto);
+        
+        LOG.info("Finalizando a atualização de cidade.");
         return Response.noContent().build();
     }
 
@@ -89,7 +109,10 @@ public class EstadoResource {
     @Path("/deleta-cidade/{idEstado}/{idCidade}")
     @RolesAllowed({"Admin"})
     public Response deleteCidade(@PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
+        LOG.info("Deletando cidade.");
         service.deleteCidade(idCidade);
+        
+        LOG.info("Cidade deletada.");
         return Response.noContent().build();
     }
 
@@ -97,6 +120,7 @@ public class EstadoResource {
     @Path("/allCities")
     @RolesAllowed({ "User", "Admin"})
     public Response findAllCities(){
+        LOG.info("Listando todas as cidades.");
         return Response.ok(service.findAllCities()).build();
     }
 
