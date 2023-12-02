@@ -52,7 +52,10 @@ public class VendaResource {
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response findAll() {
+<<<<<<< HEAD
         LOG.info("Lista de vendas");
+=======
+>>>>>>> 506a30d20ba0b15226ffcf4e45196ea01694d648
         return Response.ok(service.findByAll()).build();
     }
 

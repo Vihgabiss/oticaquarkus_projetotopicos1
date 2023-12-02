@@ -76,9 +76,7 @@ public class VendaServiceImpl implements VendaService {
     }
 
     public List<VendaResponseDTO> findByAll() {
-
         return vendaRepository.listAll().stream()
-
                 .map(e -> VendaResponseDTO.valueOf(e)).toList();
     }
 
