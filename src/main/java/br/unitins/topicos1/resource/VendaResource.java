@@ -48,7 +48,6 @@ public class VendaResource {
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response findAll() {
-
         return Response.ok(service.findByAll()).build();
     }
 
