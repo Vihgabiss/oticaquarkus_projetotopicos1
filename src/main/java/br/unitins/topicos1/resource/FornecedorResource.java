@@ -37,7 +37,7 @@ public class FornecedorResource {
     @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid FornecedorDTO dto) {
-        LOG.info("Iniciando a inserção de fornecedor");
+        LOG.info("Inserindo fornecedor");
         try {
             FornecedorResponseDTO retorno = service.insert(dto);
             return Response.status(201).entity(retorno).build();
@@ -51,6 +51,7 @@ public class FornecedorResource {
     @Transactional
     @Path("/{id}")
     public Response update(FornecedorDTO dto, @PathParam("id") Long id) {
+        LOG.info("Atualizando fornecedor");
         try {
             service.update(dto, id);
             return Response.status(Status.NO_CONTENT).build();
@@ -64,6 +65,7 @@ public class FornecedorResource {
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
+        LOG.info("Deletando fornecedor");
         try {
             service.delete(id);
             return Response.status(Status.NO_CONTENT).build();
@@ -76,6 +78,7 @@ public class FornecedorResource {
     @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
+        LOG.info("Buscando fornecedor por ID");
         try {
             return Response.ok(service.findById(id)).build();
         } catch (Exception e) {
@@ -87,6 +90,7 @@ public class FornecedorResource {
     @RolesAllowed({ "Admin" })
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
+        LOG.info("Iniciando a inserção do fornecedor");
         try {
             return Response.ok(service.findByNome(nome)).build();
         } catch (Exception e) {
@@ -97,6 +101,7 @@ public class FornecedorResource {
     @GET
     @RolesAllowed({ "Admin" })
     public Response findByAll() {
+        LOG.info("Listando fornecedores");
         List<FornecedorResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }
@@ -105,6 +110,7 @@ public class FornecedorResource {
     @RolesAllowed({ "Admin" })
     @Path("/cnpj/{cnpj}")
     public Response findByCNPJ(@PathParam("cnpj") String cnpj) {
+        LOG.info("Buscando fornecedor por CNPJ");
         List<FornecedorResponseDTO> retorno = service.findByCNPJ(cnpj);
         return Response.ok(retorno).build();
     }

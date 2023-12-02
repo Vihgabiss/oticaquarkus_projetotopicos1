@@ -101,4 +101,5 @@ public class FornecedorServiceImpl implements FornecedorService {
                 .map(FornecedorResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
+
 }

@@ -136,4 +136,21 @@ public class OculosServiceImpl implements OculosService {
         return OculosResponseDTO.valueOf(oculos);
     }
 
+    @Override
+    public List<OculosResponseDTO> findByMarca(String marca) {
+        List<Oculos> oculosList = repository.findByMarca(marca);
+        return oculosList.stream()
+                .map(OculosResponseDTO::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OculosResponseDTO> findByTipoOculos(Integer idTipoOculos) {
+        TipoOculos tipoOculos = TipoOculos.valueOf(idTipoOculos);
+        List<Oculos> oculosList = repository.findByTipOculos(tipoOculos);
+        return oculosList.stream()
+                .map(OculosResponseDTO::valueOf)
+                .collect(Collectors.toList());
+    }
+
 }

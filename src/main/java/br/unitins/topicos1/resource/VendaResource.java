@@ -1,6 +1,7 @@
 package br.unitins.topicos1.resource;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
 
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
@@ -33,9 +34,12 @@ public class VendaResource {
     @Inject
     UsuarioService usuarioService;
 
+    private static final Logger LOG = Logger.getLogger(VendaResource.class);
+
     @POST
     @RolesAllowed({ "User", "Admin" })
     public Response insert(@Valid VendaDTO dto) {
+        LOG.info("Inserindo venda");
         try {
             String email = jwt.getSubject();
             VendaResponseDTO retorno = service.insert(dto, email);
@@ -48,7 +52,7 @@ public class VendaResource {
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response findAll() {
-
+        LOG.info("Lista de vendas");
         return Response.ok(service.findByAll()).build();
     }
 
@@ -56,14 +60,17 @@ public class VendaResource {
     @Path("/{id}")
     @RolesAllowed({ "User", "Admin" })
     public Response findById(@PathParam("id") Long id) {
+        LOG.info("Buscando venda por ID");
         VendaResponseDTO retorno = service.findById(id);
         return Response.ok(retorno).build();
     }
 
     @GET
-    @Path("/vendas/{email}")
+    @Path("/minhas-vendas")
     @RolesAllowed({ "User", "Admin" })
-    public Response findAllByUserEmail(@PathParam("email") String email) {
+    public Response findAllByUserLogged() {
+        LOG.info("Buscando venda pelo usuário logado");
+        String email = jwt.getSubject();
         return Response.ok(service.findByAll(email)).build();
     }
 
@@ -71,6 +78,7 @@ public class VendaResource {
     @Path("/{id}/itens")
     @RolesAllowed({ "User", "Admin" })
     public Response findItensByVendaId(@PathParam("id") Long id) {
+        LOG.info("Buscando itens da venda pelo ID");
         try {
             VendaResponseDTO venda = service.findById(id);
             if (venda != null) {

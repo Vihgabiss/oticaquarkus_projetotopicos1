@@ -97,12 +97,12 @@ public class VendaServiceImpl implements VendaService {
     @Override
     public VendaResponseDTO findItemVendaById(Long id) {
         Venda venda = vendaRepository.findById(id);
-
+        
         if (venda != null) {
             VendaResponseDTO vendaResponseDTO = VendaResponseDTO.valueOf(venda);
-
+            
             vendaResponseDTO.itens(ItemVendaResponseDTO.valueOf(venda.getItens()));
-
+            
             return vendaResponseDTO;
         } else {
             return null;
