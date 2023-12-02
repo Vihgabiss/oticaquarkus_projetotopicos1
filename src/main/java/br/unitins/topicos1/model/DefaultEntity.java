@@ -8,7 +8,7 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass
 public class DefaultEntity {
     
-        @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
