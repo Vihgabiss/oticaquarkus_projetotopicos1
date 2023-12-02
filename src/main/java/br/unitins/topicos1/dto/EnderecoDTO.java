@@ -1,6 +1,7 @@
 package br.unitins.topicos1.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record EnderecoDTO(
@@ -14,12 +15,12 @@ public record EnderecoDTO(
     @NotBlank(message = "Insira a rua/alameda.") 
     String rua, 
 
-    @NotBlank(message = "Insira o numero.") 
+    @NotNull(message = "Insira o numero.") 
     Integer numero,
 
     String complemento,
 
-    @NotBlank(message = "Insira o cidade.") 
+    @NotNull(message = "Insira o cidade.") 
     Long idCidade
 ) {
     
