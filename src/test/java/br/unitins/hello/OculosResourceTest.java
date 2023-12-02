@@ -83,7 +83,6 @@ public class OculosResourceTest {
                 idFornecedor);
 
         MarcaResponseDTO marcaResponseDTO = marcaService.insert(marcaDTO);
-        Long idMarca = marcaResponseDTO.id();
 
         OculosDTO oculosDTO = new OculosDTO("ABC123",
                 "#FF5733",

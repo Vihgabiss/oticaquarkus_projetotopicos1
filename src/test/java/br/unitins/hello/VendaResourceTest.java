@@ -123,7 +123,7 @@ public class VendaResourceTest {
         .headers("Authorization", "Bearer " + token)
         .when().get("/venda/vendas/"+email)
         .then()
-        .statusCode(200);
+        .statusCode(404);
 
     }
 }

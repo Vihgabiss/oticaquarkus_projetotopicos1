@@ -156,7 +156,7 @@ public class MarcaResourceTest {
         public void testFindById() {
                 UsuarioDTO user = new UsuarioDTO(
                                 "Joao", "122.122.122-44",
-                                "joao3@gmail.com", "20220",
+                                "joao10@gmail.com", "20220",
                                 2, null);
 
                 UsuarioResponseDTO usuario = usuarioService.insert(user);
