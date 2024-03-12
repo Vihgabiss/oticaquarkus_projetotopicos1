@@ -38,7 +38,6 @@ public class EstadoResource {
     }
 
     @GET
-    @RolesAllowed({ "User", "Admin" })
     public Response findAll(){
         LOG.info("Listando todos os estados");
         return Response.ok(service.findByAll()).build();
