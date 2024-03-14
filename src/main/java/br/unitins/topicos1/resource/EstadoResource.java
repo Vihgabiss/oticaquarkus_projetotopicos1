@@ -31,7 +31,7 @@ public class EstadoResource {
     private static final Logger LOG = Logger.getLogger(EstadoResource.class);
 
     @POST
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response insert(EstadoDTO dto){
         LOG.info("Inserindo um estado");
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
@@ -44,7 +44,7 @@ public class EstadoResource {
     }
 
     @GET
-    @RolesAllowed({ "User", "Admin" })
+    //@RolesAllowed({ "User", "Admin" })
     @Path("/sigla/{sigla}")
     public Response findBySigla(@Valid @PathParam("sigla") String sigla){
         LOG.infof("Listando o estado com a sigla %s", sigla);
@@ -53,7 +53,7 @@ public class EstadoResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response update(EstadoDTO dto, @PathParam("id") Long id){
         LOG.info("Atualizando estado.");
         service.update(id, dto);
@@ -64,7 +64,7 @@ public class EstadoResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id){
         LOG.infof("Deletando estado de id %s", id);
         service.delete(id);
@@ -76,7 +76,7 @@ public class EstadoResource {
 
     @GET
     @Path("/nome/{nome}")
-    @RolesAllowed({ "User", "Admin"})
+    //@RolesAllowed({ "User", "Admin"})
     public Response findByNome(@PathParam("nome") String nome){
         LOG.infof("Listando estados com nome %s", nome);
         return Response.ok(service.findByNome(nome)).build();
@@ -84,7 +84,7 @@ public class EstadoResource {
 
     @POST
     @Path("/insere-cidade/")
-    @RolesAllowed({"Admin"})
+   //@RolesAllowed({"Admin"})
     public Response insertCidade(CidadeDTO dto){
         LOG.info("Inserindo cidade.");
         service.insertCidade(dto);
@@ -95,7 +95,7 @@ public class EstadoResource {
 
     @PUT
     @Path("/atualiza-cidade/{idEstado}/{idCidade}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response updateCidade(CidadeDTO dto, @PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
         LOG.info("Atualizando cidade.");
         service.updateCidade(idCidade, dto);
@@ -106,7 +106,7 @@ public class EstadoResource {
 
     @DELETE
     @Path("/deleta-cidade/{idEstado}/{idCidade}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response deleteCidade(@PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
         LOG.info("Deletando cidade.");
         service.deleteCidade(idCidade);
@@ -117,7 +117,7 @@ public class EstadoResource {
 
     @GET
     @Path("/allCities")
-    @RolesAllowed({ "User", "Admin"})
+    //@RolesAllowed({ "User", "Admin"})
     public Response findAllCities(){
         LOG.info("Listando todas as cidades.");
         return Response.ok(service.findAllCities()).build();
