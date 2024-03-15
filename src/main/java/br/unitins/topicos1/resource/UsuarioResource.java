@@ -1,7 +1,6 @@
 package br.unitins.topicos1.resource;
 
 import org.jboss.logging.Logger;
-
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.service.UsuarioService;

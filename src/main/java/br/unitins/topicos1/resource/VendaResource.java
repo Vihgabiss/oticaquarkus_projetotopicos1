@@ -39,7 +39,6 @@ public class VendaResource {
     @POST
     @RolesAllowed({ "User", "Admin" })
     public Response insert(@Valid VendaDTO dto) {
-        LOG.info("Inserindo venda");
         try {
             String email = jwt.getSubject();
             VendaResponseDTO retorno = service.insert(dto, email);
@@ -52,10 +51,6 @@ public class VendaResource {
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response findAll() {
-<<<<<<< HEAD
-        LOG.info("Lista de vendas");
-=======
->>>>>>> 506a30d20ba0b15226ffcf4e45196ea01694d648
         return Response.ok(service.findByAll()).build();
     }
 
