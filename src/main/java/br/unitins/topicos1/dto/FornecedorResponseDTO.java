@@ -8,7 +8,8 @@ public record FornecedorResponseDTO(
         String telefone,
         String endereco,
         String email,
-        String cnpj
+        String cnpj,
+        MarcaResponseDTO marca
 
 ) {
     public static FornecedorResponseDTO valueOf(Fornecedor fornecedor) {
@@ -18,6 +19,7 @@ public record FornecedorResponseDTO(
                 fornecedor.getTelefone(),
                 fornecedor.getEndereco(),
                 fornecedor.getEmail(),
-                fornecedor.getCnpj());
+                fornecedor.getCnpj(),
+                MarcaResponseDTO.valueOf(fornecedor.getIdMarca()));
     }
 }
