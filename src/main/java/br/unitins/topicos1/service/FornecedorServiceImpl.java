@@ -8,6 +8,7 @@ import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.model.Fornecedor;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.FornecedorRepository;
+import br.unitins.topicos1.repository.MarcaRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -27,6 +28,9 @@ public class FornecedorServiceImpl implements FornecedorService {
     @Inject
     EnderecoRepository enderecoRepository;
 
+    @Inject
+    MarcaRepository marcaRepository;
+
     @Override
     @Transactional
     public FornecedorResponseDTO insert(@Valid FornecedorDTO dto) {
@@ -36,7 +40,6 @@ public class FornecedorServiceImpl implements FornecedorService {
         novoFornecedor.setCnpj(dto.cnpj());
         novoFornecedor.setEndereco(dto.endereco());
         novoFornecedor.setTelefone(dto.telefone());
-
         repository.persist(novoFornecedor);
         return FornecedorResponseDTO.valueOf(novoFornecedor);
     }
@@ -53,7 +56,6 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setEmail(dto.email());
         fornecedor.setEndereco(dto.endereco());
         fornecedor.setTelefone(dto.telefone());
-
         repository.persist(fornecedor);
         return FornecedorResponseDTO.valueOf(fornecedor);
     }

@@ -12,10 +12,10 @@ insert into fornecedor(nome, telefone, email, endereco, cnpj) values ('Safilo', 
 
 
 --Inserção de Marca
-insert into marca(nome, id_fornecedor) values('Ray-Ban', 1);
-insert into marca(nome, id_fornecedor) values('Ray-Ban', 2);
-insert into marca(nome, id_fornecedor) values('GUESS', 2);
-insert into marca(nome, id_fornecedor) values('Tommy Hilfiger', 1);
+insert into marca(nome) values('Ray-Ban');
+insert into marca(nome) values('Ray-Ban');
+insert into marca(nome) values('GUESS');
+insert into marca(nome) values('Tommy Hilfiger');
 
 
 -- inserção de óculos

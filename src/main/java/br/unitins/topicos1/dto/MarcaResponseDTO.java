@@ -4,13 +4,11 @@ import br.unitins.topicos1.model.Marca;
 
 public record MarcaResponseDTO(
                 Long id,
-                String nome,
-                FornecedorResponseDTO fornecedor) {
+                String nome) {
         public static MarcaResponseDTO valueOf(Marca marca) {
                 return new MarcaResponseDTO(
                                 marca.getId(),
-                                marca.getNome(),
-                                FornecedorResponseDTO.valueOf(marca.getFornecedor()));
+                                marca.getNome());
         }
 
         public Long getId() {
