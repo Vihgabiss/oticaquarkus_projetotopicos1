@@ -4,12 +4,14 @@ import br.unitins.topicos1.model.Cidade;
 
 public record CidadeResponseDTO(
     Long id,
-    String nome
+    String nome,
+    EstadoResponseDTO estado
 ) {
    public static CidadeResponseDTO valueOf(Cidade cidade){
     return new CidadeResponseDTO(
         cidade.getId(),
-        cidade.getNome()
+        cidade.getNome(),
+        EstadoResponseDTO.valueOf(cidade.getIdEstado())
     );
    } 
 }
