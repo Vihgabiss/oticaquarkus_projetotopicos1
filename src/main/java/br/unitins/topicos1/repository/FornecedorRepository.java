@@ -15,5 +15,4 @@ public class FornecedorRepository implements PanacheRepository<Fornecedor> {
     public List<Fornecedor> findByCnpj(String cnpj) {
         return find("UPPER(cnpj) LIKE UPPER(?1)", "%" + cnpj + "%").list();
     }
-
 }

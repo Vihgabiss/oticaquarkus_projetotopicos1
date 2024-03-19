@@ -5,18 +5,14 @@
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
 
+--Inserção de Marca
+insert into marca(nome) values('Ray-Ban');
+insert into marca(nome) values('GUESS');
+insert into marca(nome) values('Tommy Hilfiger');
 
 -- Inserção para Fornecedor
-insert into fornecedor(nome, telefone, email, endereco, cnpj) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00');
-insert into fornecedor(nome, telefone, email, endereco, cnpj) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00');
-
-
---Inserção de Marca
-insert into marca(nome, id_fornecedor) values('Ray-Ban', 1);
-insert into marca(nome, id_fornecedor) values('Ray-Ban', 2);
-insert into marca(nome, id_fornecedor) values('GUESS', 2);
-insert into marca(nome, id_fornecedor) values('Tommy Hilfiger', 1);
-
+insert into fornecedor(nome, telefone, email, endereco, cnpj, id_marca) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00', 1);
+insert into fornecedor(nome, telefone, email, endereco, cnpj, id_marca) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00', 2O);
 
 -- inserção de óculos
 insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 1, 'oculos1.jpg');

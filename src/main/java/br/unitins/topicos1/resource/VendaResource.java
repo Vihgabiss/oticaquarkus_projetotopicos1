@@ -39,7 +39,6 @@ public class VendaResource {
     @POST
     @RolesAllowed({ "User", "Admin" })
     public Response insert(@Valid VendaDTO dto) {
-        LOG.info("Inserindo venda");
         try {
             String email = jwt.getSubject();
             VendaResponseDTO retorno = service.insert(dto, email);

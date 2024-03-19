@@ -2,6 +2,8 @@ package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Fornecedor extends DefaultEntity {
@@ -20,6 +22,10 @@ public class Fornecedor extends DefaultEntity {
 
     @Column(length = 20)
     private String cnpj;
+
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private Marca idMarca;
 
     public String getNome() {
         return nome;
@@ -59,6 +65,14 @@ public class Fornecedor extends DefaultEntity {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
+    }
+
+    public Marca getIdMarca() {
+        return idMarca;
+    }
+
+    public void setIdMarca(Marca idMarca) {
+        this.idMarca = idMarca;
     }
 
 }

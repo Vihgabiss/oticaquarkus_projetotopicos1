@@ -8,6 +8,7 @@ import br.unitins.topicos1.dto.FornecedorResponseDTO;
 import br.unitins.topicos1.model.Fornecedor;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.FornecedorRepository;
+import br.unitins.topicos1.repository.MarcaRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -27,33 +28,36 @@ public class FornecedorServiceImpl implements FornecedorService {
     @Inject
     EnderecoRepository enderecoRepository;
 
+    @Inject
+    MarcaRepository marcaRepository;
+
     @Override
     @Transactional
-    public FornecedorResponseDTO insert(@Valid FornecedorDTO dto) {
-        Fornecedor novoFornecedor = new Fornecedor();
-        novoFornecedor.setNome(dto.nome());
-        novoFornecedor.setEmail(dto.email());
-        novoFornecedor.setCnpj(dto.cnpj());
-        novoFornecedor.setEndereco(dto.endereco());
-        novoFornecedor.setTelefone(dto.telefone());
-
-        repository.persist(novoFornecedor);
-        return FornecedorResponseDTO.valueOf(novoFornecedor);
+    public FornecedorResponseDTO insert(FornecedorDTO dto) {
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setNome(dto.nome());
+        fornecedor.setTelefone(dto.telefone());
+        fornecedor.setEndereco(dto.endereco());
+        fornecedor.setEmail(dto.email());
+        fornecedor.setCnpj(dto.cnpj());
+        fornecedor.setIdMarca(marcaRepository.findById(dto.idMarca()));
+        repository.persist(fornecedor);
+        return FornecedorResponseDTO.valueOf(fornecedor);
     }
 
     @Override
     @Transactional
-    public FornecedorResponseDTO update(@Valid FornecedorDTO dto, Long id) {
+    public FornecedorResponseDTO update(FornecedorDTO dto, Long id) {
         Fornecedor fornecedor = repository.findById(id);
         if (fornecedor == null) {
             throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
         }
         fornecedor.setNome(dto.nome());
-        fornecedor.setCnpj(dto.cnpj());
-        fornecedor.setEmail(dto.email());
-        fornecedor.setEndereco(dto.endereco());
         fornecedor.setTelefone(dto.telefone());
-
+        fornecedor.setEndereco(dto.endereco());
+        fornecedor.setEmail(dto.email());
+        fornecedor.setCnpj(dto.cnpj());
+        fornecedor.setIdMarca(marcaRepository.findById(dto.idMarca()));
         repository.persist(fornecedor);
         return FornecedorResponseDTO.valueOf(fornecedor);
     }
