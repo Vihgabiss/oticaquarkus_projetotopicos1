@@ -104,9 +104,9 @@ public class EstadoResource {
     }
 
     @DELETE
-    @Path("/deleta-cidade/{idEstado}/{idCidade}")
+    @Path("/deleta-cidade/{idCidade}")
     //@RolesAllowed({"Admin"})
-    public Response deleteCidade(@PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
+    public Response deleteCidade(@PathParam("idCidade") Long idCidade){
         LOG.info("Deletando cidade.");
         service.deleteCidade(idCidade);
         

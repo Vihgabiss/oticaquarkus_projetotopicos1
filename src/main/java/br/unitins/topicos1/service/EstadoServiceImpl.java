@@ -2,6 +2,7 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.CidadeDTO;
 import br.unitins.topicos1.dto.CidadeResponseDTO;
@@ -67,9 +68,9 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
-    public List<EstadoResponseDTO> findByAll() {
-        return repository.listAll().stream()
-                .map(e -> EstadoResponseDTO.valueOf(e)).toList();
+    public List<EstadoResponseDTO> findByAll(){ 
+        List<Estado> list = repository.findAllInOrder();
+         return list.stream().map(e -> EstadoResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -143,8 +144,8 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     public List<CidadeResponseDTO> findAllCities() {
-       return cidadeRepository.listAll().stream()
-            .map(c -> CidadeResponseDTO.valueOf(c)).toList();
+       List<Cidade> list = cidadeRepository.findAllInOrder();
+       return list.stream().map(e -> CidadeResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     
