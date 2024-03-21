@@ -11,4 +11,8 @@ public class CidadeRepository implements PanacheRepository<Cidade>{
     public List<Cidade> findByNome(String nome){
         return find("UPPER(nome) LIKE UPPER(?1)", "%"+nome+"%").list();
     }
+
+    public List<Cidade> findAllInOrder(){
+        return find("SELeCT c FROM Cidade c ORDER BY c.nome").list();
+    }
 }
