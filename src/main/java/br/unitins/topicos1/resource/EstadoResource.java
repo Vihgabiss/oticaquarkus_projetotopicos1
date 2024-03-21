@@ -43,6 +43,12 @@ public class EstadoResource {
     }
 
     @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") Long id) {
+        return Response.ok(service.findById(id)).build();
+    }
+
+    @GET
     //@RolesAllowed({ "User", "Admin" })
     @Path("/sigla/{sigla}")
     public Response findBySigla(@Valid @PathParam("sigla") String sigla){
