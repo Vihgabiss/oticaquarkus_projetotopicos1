@@ -30,7 +30,7 @@ public class EnderecoResource {
     private static final Logger LOG = Logger.getLogger(EnderecoResource.class);
 
     @GET
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response findByAll(){
         LOG.info("Listando todos os endereços.");
         return Response.ok(service.findByAll()).build();
@@ -38,7 +38,7 @@ public class EnderecoResource {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response findById(@PathParam("id") Long id){
         LOG.infof("Listando o endereço do id %s", id);
         return Response.ok(service.findById(id)).build();
@@ -46,7 +46,7 @@ public class EnderecoResource {
 
     @GET
     @Path("/cep/{cep}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response findByCep(@PathParam("cep") String cep){
         LOG.infof("Listando o endereço do cep %s", cep);
         return Response.ok(service.findByCep(cep)).build();
@@ -54,7 +54,7 @@ public class EnderecoResource {
 
     @POST
     @Path("/insere-endereco/{idUsuario}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response insert(@PathParam("idUsuario") Long idUsuario, EnderecoDTO dto){
         LOG.info("Inserindo endereço.");
         return Response.status(Status.CREATED).entity(service.insert(idUsuario, dto)).build();
@@ -63,7 +63,7 @@ public class EnderecoResource {
     @PUT
     @Transactional
     @Path("/atualiza-endereco/{id}/{idEndereco}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response update(EnderecoDTO dto, @PathParam("id") Long id,  @PathParam("idEndereco") Long idEndereco){
         LOG.info("Atualizando o endereço.");
         service.update(idEndereco, id, dto);
@@ -75,7 +75,7 @@ public class EnderecoResource {
     @DELETE
     @Transactional
     @Path("/deleta-endereco/{id}/{idEndereco}")
-    @RolesAllowed({"Admin"})
+    //@RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id, @PathParam("idEndereco") Long idEndereco){
         LOG.infof("Deletando endereço %s", idEndereco);
         service.delete(id, idEndereco);
