@@ -12,7 +12,7 @@ insert into marca(nome) values('Tommy Hilfiger');
 
 -- Inserção para Fornecedor
 insert into fornecedor(nome, telefone, email, endereco, cnpj, id_marca) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00', 1);
-insert into fornecedor(nome, telefone, email, endereco, cnpj, id_marca) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00', 2O);
+insert into fornecedor(nome, telefone, email, endereco, cnpj, id_marca) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00', 2);
 
 -- inserção de óculos
 insert into oculos (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_marca, tipooculos, nomeImagem) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 1, 'oculos1.jpg');
