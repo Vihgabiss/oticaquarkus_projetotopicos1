@@ -127,6 +127,7 @@ public class EstadoServiceImpl implements EstadoService{
 
         Cidade cidade = cidadeRepository.findById(idCidade);
                 cidade.setNome(dto.nome());
+                cidade.setIdEstado(repository.findById(dto.idEstado()));
 
                 cidadeRepository.persist(cidade);
         
@@ -146,6 +147,11 @@ public class EstadoServiceImpl implements EstadoService{
     public List<CidadeResponseDTO> findAllCities() {
        List<Cidade> list = cidadeRepository.findAllInOrder();
        return list.stream().map(e -> CidadeResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CidadeResponseDTO findCidadeById(Long id) {
+        return CidadeResponseDTO.valueOf(cidadeRepository.findById(id));
     }
 
     

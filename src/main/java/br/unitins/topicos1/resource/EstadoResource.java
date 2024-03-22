@@ -99,9 +99,9 @@ public class EstadoResource {
     }
 
     @PUT
-    @Path("/atualiza-cidade/{idEstado}/{idCidade}")
+    @Path("/atualiza-cidade/{idCidade}")
     //@RolesAllowed({"Admin"})
-    public Response updateCidade(CidadeDTO dto, @PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
+        public Response updateCidade(CidadeDTO dto, @PathParam("idCidade") Long idCidade){
         LOG.info("Atualizando cidade.");
         service.updateCidade(idCidade, dto);
         
@@ -126,6 +126,12 @@ public class EstadoResource {
     public Response findAllCities(){
         LOG.info("Listando todas as cidades.");
         return Response.ok(service.findAllCities()).build();
+    }
+
+    @GET
+    @Path("/search/cidade/{id}")
+    public Response findCidadeById(@PathParam("id") Long id) {
+        return Response.ok(service.findCidadeById(id)).build();
     }
 
 }
