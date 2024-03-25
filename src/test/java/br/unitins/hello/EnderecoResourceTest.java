@@ -1,4 +1,4 @@
-package br.unitins.hello;
+/package br.unitins.hello;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;

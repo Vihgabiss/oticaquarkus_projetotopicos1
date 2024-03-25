@@ -53,11 +53,11 @@ public class EnderecoResource {
     }
 
     @POST
-    @Path("/insere-endereco/{idUsuario}")
+    @Path("/insere-endereco")
     //@RolesAllowed({"Admin"})
-    public Response insert(@PathParam("idUsuario") Long idUsuario, EnderecoDTO dto){
+    public Response insert(EnderecoDTO dto){
         LOG.info("Inserindo endereço.");
-        return Response.status(Status.CREATED).entity(service.insert(idUsuario, dto)).build();
+        return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
     @PUT

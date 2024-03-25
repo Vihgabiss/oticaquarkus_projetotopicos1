@@ -34,8 +34,8 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     @Transactional
-    public EnderecoResponseDTO insert(Long idUsuario, @Valid EnderecoDTO dto) {
-        Usuario usuario = repositoryUser.findById(idUsuario);
+    public EnderecoResponseDTO insert(@Valid EnderecoDTO dto) {
+        Usuario usuario = repositoryUser.findById(dto.idUsuario());
         Cidade cidade = repositoryCidade.findById(dto.idCidade());
         
 
