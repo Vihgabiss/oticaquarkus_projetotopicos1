@@ -4,7 +4,6 @@ import org.jboss.logging.Logger;
 
 import br.unitins.topicos1.dto.EnderecoDTO;
 import br.unitins.topicos1.service.EnderecoService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -62,11 +61,11 @@ public class EnderecoResource {
 
     @PUT
     @Transactional
-    @Path("/atualiza-endereco/{id}/{idEndereco}")
+    @Path("/atualiza-endereco/{idEndereco}")
     //@RolesAllowed({"Admin"})
-    public Response update(EnderecoDTO dto, @PathParam("id") Long id,  @PathParam("idEndereco") Long idEndereco){
+    public Response update(EnderecoDTO dto, @PathParam("idEndereco") Long idEndereco){
         LOG.info("Atualizando o endereço.");
-        service.update(idEndereco, id, dto);
+        service.update(idEndereco, dto);
 
         LOG.info("Finalizando a atualização do endereço.");
         return Response.noContent().build();

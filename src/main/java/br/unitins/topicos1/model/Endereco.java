@@ -28,7 +28,7 @@ public class Endereco extends DefaultEntity {
     private Cidade idCidade;
 
     @Column(length = 80)
-    private Integer idUsuario;
+    private Long idUsuario;
 
     public String getCep() {
         return cep;
@@ -46,11 +46,11 @@ public class Endereco extends DefaultEntity {
         this.bairro = bairro;
     }
 
-    public Integer getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 

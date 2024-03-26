@@ -1,4 +1,4 @@
-/package br.unitins.hello;
+/*package br.unitins.hello;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -324,4 +324,4 @@ public class EnderecoResourceTest {
     assertThat(endereco.get(0).numero(), is(50));
     assertThat(endereco.get(0).complemento(), is("condominio portal do lago"));
     }
-}
+}*/

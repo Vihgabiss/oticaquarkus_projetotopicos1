@@ -1,6 +1,5 @@
 package br.unitins.topicos1.dto;
 
-import br.unitins.topicos1.model.Cidade;
 import br.unitins.topicos1.model.Endereco;
 
 public record EnderecoResponseDTO(
@@ -10,7 +9,8 @@ public record EnderecoResponseDTO(
     String rua, 
     Integer numero,
     String complemento,
-    Cidade idCidade
+    Long idUsuario,
+    CidadeResponseDTO cidade
 ) {
          public static EnderecoResponseDTO valueOf(Endereco endereco){
         return new EnderecoResponseDTO(
@@ -20,7 +20,9 @@ public record EnderecoResponseDTO(
             endereco.getRua(),
             endereco.getNumero(),
             endereco.getComplemento(),
-            endereco.getIdCidade());
+            endereco.getIdUsuario(),
+            CidadeResponseDTO.valueOf(endereco.getIdCidade())
+            );
   
     }
 }

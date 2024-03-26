@@ -231,10 +231,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         return updateTelefone(usuario.getId(), idTelefone, dto);  
     }
 
-    @Override
+    /*@Override
     @Transactional
     public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto){
         Usuario usuario = getUsuarioByEmail(); 
         return enderecoService.insert(usuario.getId(), dto);  
-    }
+    }*/
 }
