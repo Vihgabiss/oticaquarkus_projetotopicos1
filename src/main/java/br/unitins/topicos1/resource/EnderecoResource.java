@@ -73,11 +73,11 @@ public class EnderecoResource {
 
     @DELETE
     @Transactional
-    @Path("/deleta-endereco/{id}/{idEndereco}")
+    @Path("/deleta-endereco/{idEndereco}")
     //@RolesAllowed({"Admin"})
-    public Response delete(@PathParam("id") Long id, @PathParam("idEndereco") Long idEndereco){
+    public Response delete(@PathParam("idEndereco") Long idEndereco){
         LOG.infof("Deletando endereço %s", idEndereco);
-        service.delete(id, idEndereco);
+        service.delete(idEndereco);
 
         LOG.info("Endereço deletado.");
         return Response.noContent().build();

@@ -12,7 +12,7 @@ public interface EnderecoService {
 
     public EnderecoResponseDTO update(Long idEndereco, @Valid EnderecoDTO dto);
 
-    public void delete(Long idUsuario, Long idEndereco);
+    public void delete(Long idEndereco);
 
     public EnderecoResponseDTO findById(Long id);
 

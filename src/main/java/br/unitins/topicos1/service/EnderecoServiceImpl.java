@@ -82,17 +82,18 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public void delete(Long idUsuario, Long idEndereco) {
-        Usuario usuario = repositoryUser.findById(idUsuario);
-        Endereco endereco = new Endereco();
+    public void delete(Long idEndereco) {
+        Endereco endereco = repositoryEnd.findById(idEndereco);
+        Usuario usuario = repositoryUser.findById(endereco.getIdUsuario());
+        Endereco enderecoDelete = new Endereco();
 
         for (Endereco end : usuario.getListaEndereco()){
             if(end.getId().equals(idEndereco)){
-                endereco = end;
+                enderecoDelete = end;
             }
         }
 
-        usuario.getListaEndereco().remove(endereco);
+        usuario.getListaEndereco().remove(enderecoDelete);
 
         if(!repositoryEnd.deleteById(idEndereco))
             throw new NotFoundException();
