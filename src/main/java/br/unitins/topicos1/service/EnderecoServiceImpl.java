@@ -34,8 +34,8 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     @Transactional
-    public EnderecoResponseDTO insert(Long idUsuario, @Valid EnderecoDTO dto) {
-        Usuario usuario = repositoryUser.findById(idUsuario);
+    public EnderecoResponseDTO insert(@Valid EnderecoDTO dto) {
+        Usuario usuario = repositoryUser.findById(dto.idUsuario());
         Cidade cidade = repositoryCidade.findById(dto.idCidade());
         
 
@@ -45,6 +45,7 @@ public class EnderecoServiceImpl implements EnderecoService {
         endereco.setRua(dto.rua());
         endereco.setNumero(dto.numero());
         endereco.setComplemento(dto.complemento());
+        endereco.setIdUsuario(dto.idUsuario());
         endereco.setIdCidade(cidade);
 
         usuario.getListaEndereco().add(endereco);
@@ -57,8 +58,9 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     @Transactional
-    public EnderecoResponseDTO update(Long idUsuario, Long idEndereco, @Valid EnderecoDTO dto) {
-        Usuario usuario = repositoryUser.findById(idUsuario);
+    public EnderecoResponseDTO update(Long idEndereco, @Valid EnderecoDTO dto) {
+        Usuario usuario = repositoryUser.findById(dto.idUsuario());
+        Cidade cidade = repositoryCidade.findById(dto.idCidade());
         Endereco endereco = new Endereco();
 
         for (Endereco end : usuario.getListaEndereco()) {
@@ -68,6 +70,7 @@ public class EnderecoServiceImpl implements EnderecoService {
                 end.setRua(dto.rua());
                 end.setNumero(dto.numero());
                 end.setComplemento(dto.complemento());
+                end.setIdCidade(cidade);
 
                 endereco = end;
                 repositoryEnd.persist(end);
@@ -79,17 +82,18 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public void delete(Long idUsuario, Long idEndereco) {
-        Usuario usuario = repositoryUser.findById(idUsuario);
-        Endereco endereco = new Endereco();
+    public void delete(Long idEndereco) {
+        Endereco endereco = repositoryEnd.findById(idEndereco);
+        Usuario usuario = repositoryUser.findById(endereco.getIdUsuario());
+        Endereco enderecoDelete = new Endereco();
 
         for (Endereco end : usuario.getListaEndereco()){
             if(end.getId().equals(idEndereco)){
-                endereco = end;
+                enderecoDelete = end;
             }
         }
 
-        usuario.getListaEndereco().remove(endereco);
+        usuario.getListaEndereco().remove(enderecoDelete);
 
         if(!repositoryEnd.deleteById(idEndereco))
             throw new NotFoundException();
@@ -108,7 +112,7 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     public List<EnderecoResponseDTO> findByAll() {
-       return repositoryEnd.listAll().stream()
+       return repositoryEnd.findAllInOrder().stream()
        .map(e -> EnderecoResponseDTO.valueOf(e)).toList();
     }
 

@@ -47,7 +47,7 @@ public interface UsuarioService {
 
     public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto);
 
-    public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto);
+    //public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto);
 
 
 }
