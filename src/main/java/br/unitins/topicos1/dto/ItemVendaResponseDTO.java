@@ -12,9 +12,9 @@ public record ItemVendaResponseDTO(
     public static ItemVendaResponseDTO valueOf(ItemVenda item) {
         return new ItemVendaResponseDTO(
                 item.getQuantidade(),
-                item.getOculos().getPrecoVenda(),
-                item.getOculos().getId(),
-                item.getOculos().getReferencia());
+                item.getArmacao().getPrecoVenda(),
+                item.getArmacao().getId(),
+                item.getArmacao().getReferencia());
     }
 
     public static List<ItemVendaResponseDTO> valueOf(List<ItemVenda> item) {

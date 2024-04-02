@@ -16,7 +16,6 @@ insert into fabricante(nome, telefone, email, endereco, cnpj) values ('Safilo', 
 
 insert into fabricante_marca (id_fabricante, id_marca) values(1, 1);
 insert into fabricante_marca (id_fabricante, id_marca) values(1, 2);
-insert into fabricante_marca (id_fabricante, id_marca) values(2, 2);
 insert into fabricante_marca (id_fabricante, id_marca) values(2, 3);
 
 -- inserção de óculos
