@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
-import br.unitins.topicos1.dto.OculosDTO;
-import br.unitins.topicos1.dto.OculosResponseDTO;
-import br.unitins.topicos1.service.OculosService;
+import br.unitins.topicos1.dto.ArmacaoDTO;
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.service.ArmacaoService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -23,22 +23,22 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("/oculos")
+@Path("/armacao")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class OculosResource {
+public class ArmacaoResource {
 
     @Inject
-    OculosService service;
+    ArmacaoService service;
 
-    private static final Logger LOG = Logger.getLogger(OculosResource.class);
+    private static final Logger LOG = Logger.getLogger(ArmacaoResource.class);
 
     @POST
     @RolesAllowed({ "Admin" })
     @Transactional
-    public Response insert(@Valid OculosDTO dto) {
+    public Response insert(@Valid ArmacaoDTO dto) {
         LOG.info("Inserindo óculos");
-        OculosResponseDTO retorno = service.insert(dto);
+        ArmacaoResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
@@ -46,9 +46,9 @@ public class OculosResource {
     @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
-    public Response update(@Valid OculosDTO dto, @PathParam("id") Long id) {
+    public Response update(@Valid ArmacaoDTO dto, @PathParam("id") Long id) {
         LOG.info("Atualizando óculos");
-        OculosResponseDTO retorno = service.update(dto, id);
+        ArmacaoResponseDTO retorno = service.update(dto, id);
         return Response.status(Status.OK).entity(retorno).build();
     }
 
@@ -67,7 +67,7 @@ public class OculosResource {
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando óculos por ID");
-        OculosResponseDTO retorno = service.findById(id);
+        ArmacaoResponseDTO retorno = service.findById(id);
         return Response.ok(retorno).build();
     }
 
@@ -76,33 +76,24 @@ public class OculosResource {
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
         LOG.info("Buscando óculos por referência");
-        List<OculosResponseDTO> retorno = service.findByReferencia(referencia);
+        List<ArmacaoResponseDTO> retorno = service.findByReferencia(referencia);
         return Response.ok(retorno).build();
     }
 
     @GET
     @RolesAllowed({ "Admin", "User" })
-    @Path("/marca/{marca}")
-    public Response findByMarca(@PathParam("marca") String marca) {
-        LOG.info("Buscando óculos por marca");
-        List<OculosResponseDTO> retorno = service.findByMarca(marca);
+    @Path("/fabricante/{fabricante}")
+    public Response findByFabricante(@PathParam("fabricante") String fabricante) {
+        LOG.info("Buscando óculos por fabricante");
+        List<ArmacaoResponseDTO> retorno = service.findByFabricante(fabricante);
         return Response.ok(retorno).build();
-    }
-
-    @GET
-    @RolesAllowed({ "Admin", "User" })
-    @Path("/tipoOculos/{idTipoOculos}")
-    public Response findByTipoOculos(@PathParam("idTipoOculos") Integer idTipoOculos) {
-        LOG.info("Buscando óculos por tipo de óculos");
-        List<OculosResponseDTO> oculosList = service.findByTipoOculos(idTipoOculos);
-        return Response.ok(oculosList).build();
     }
 
     @GET
     @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos os óculos");
-        List<OculosResponseDTO> retorno = service.findByAll();
+        List<ArmacaoResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }
 }

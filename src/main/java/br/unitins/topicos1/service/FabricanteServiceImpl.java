@@ -3,24 +3,23 @@ package br.unitins.topicos1.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.unitins.topicos1.dto.FornecedorDTO;
-import br.unitins.topicos1.dto.FornecedorResponseDTO;
-import br.unitins.topicos1.model.Fornecedor;
+import br.unitins.topicos1.dto.FabricanteDTO;
+import br.unitins.topicos1.dto.FabricanteResponseDTO;
+import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.repository.EnderecoRepository;
-import br.unitins.topicos1.repository.FornecedorRepository;
+import br.unitins.topicos1.repository.FabricanteRepository;
 import br.unitins.topicos1.repository.MarcaRepository;
 import br.unitins.topicos1.repository.TelefoneRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
-public class FornecedorServiceImpl implements FornecedorService {
+public class FabricanteServiceImpl implements FabricanteService {
 
     @Inject
-    FornecedorRepository repository;
+    FabricanteRepository repository;
 
     @Inject
     TelefoneRepository telefoneRepository;
@@ -33,8 +32,8 @@ public class FornecedorServiceImpl implements FornecedorService {
 
     @Override
     @Transactional
-    public FornecedorResponseDTO insert(FornecedorDTO dto) {
-        Fornecedor fornecedor = new Fornecedor();
+    public FabricanteResponseDTO insert(FabricanteDTO dto) {
+        Fabricante fornecedor = new Fabricante();
         fornecedor.setNome(dto.nome());
         fornecedor.setTelefone(dto.telefone());
         fornecedor.setEndereco(dto.endereco());
@@ -42,13 +41,13 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setCnpj(dto.cnpj());
         fornecedor.setIdMarca(marcaRepository.findById(dto.idMarca()));
         repository.persist(fornecedor);
-        return FornecedorResponseDTO.valueOf(fornecedor);
+        return FabricanteResponseDTO.valueOf(fornecedor);
     }
 
     @Override
     @Transactional
-    public FornecedorResponseDTO update(FornecedorDTO dto, Long id) {
-        Fornecedor fornecedor = repository.findById(id);
+    public FabricanteResponseDTO update(FabricanteDTO dto, Long id) {
+        Fabricante fornecedor = repository.findById(id);
         if (fornecedor == null) {
             throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
         }
@@ -59,13 +58,13 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setCnpj(dto.cnpj());
         fornecedor.setIdMarca(marcaRepository.findById(dto.idMarca()));
         repository.persist(fornecedor);
-        return FornecedorResponseDTO.valueOf(fornecedor);
+        return FabricanteResponseDTO.valueOf(fornecedor);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Fornecedor fornecedor = repository.findById(id);
+        Fabricante fornecedor = repository.findById(id);
         if (fornecedor == null) {
             throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
         }
@@ -73,36 +72,36 @@ public class FornecedorServiceImpl implements FornecedorService {
     }
 
     @Override
-    public FornecedorResponseDTO findById(Long id) {
-        Fornecedor fornecedor = repository.findById(id);
+    public FabricanteResponseDTO findById(Long id) {
+        Fabricante fornecedor = repository.findById(id);
         if (fornecedor == null) {
             throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
         }
-        return FornecedorResponseDTO.valueOf(fornecedor);
+        return FabricanteResponseDTO.valueOf(fornecedor);
     }
 
     @Override
-    public List<FornecedorResponseDTO> findByNome(String nome) {
-        List<Fornecedor> fornecedorList = repository.findByNome(nome);
+    public List<FabricanteResponseDTO> findByNome(String nome) {
+        List<Fabricante> fornecedorList = repository.findByNome(nome);
         return fornecedorList.stream()
-                .map(FornecedorResponseDTO::valueOf)
+                .map(FabricanteResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<FornecedorResponseDTO> findByAll() {
+    public List<FabricanteResponseDTO> findByAll() {
         return repository.listAll().stream()
-                .map(e -> FornecedorResponseDTO.valueOf(e)).toList();
+                .map(e -> FabricanteResponseDTO.valueOf(e)).toList();
     }
 
     @Override
-    public List<FornecedorResponseDTO> findByCNPJ(String cnpj) {
-        List<Fornecedor> fornecedorList = repository.findByCnpj(cnpj);
+    public List<FabricanteResponseDTO> findByCNPJ(String cnpj) {
+        List<Fabricante> fornecedorList = repository.findByCnpj(cnpj);
         if (fornecedorList.isEmpty()) {
             throw new NotFoundException("Nenhum fornecedor encontrado com o CNPJ: " + cnpj);
         }
         return fornecedorList.stream()
-                .map(FornecedorResponseDTO::valueOf)
+                .map(FabricanteResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
 

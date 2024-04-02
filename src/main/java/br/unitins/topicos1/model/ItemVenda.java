@@ -13,7 +13,7 @@ public class ItemVenda extends DefaultEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_oculos")
-    private Oculos oculos;
+    private Armacao oculos;
 
     @ManyToOne
     @JoinColumn(name = "id_venda")
@@ -35,11 +35,11 @@ public class ItemVenda extends DefaultEntity {
         this.preco = preco;
     }
 
-    public Oculos getOculos() {
+    public Armacao getOculos() {
         return oculos;
     }
 
-    public void setOculos(Oculos oculos) {
+    public void setOculos(Armacao oculos) {
         this.oculos = oculos;
     }
 
@@ -49,6 +49,11 @@ public class ItemVenda extends DefaultEntity {
 
     public void setVenda(Venda venda) {
         this.venda = venda;
+    }
+
+    public void setArmacao(Armacao armacao) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setArmacao'");
     }
 
     

@@ -6,7 +6,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Oculos extends DefaultEntity {
+public class Armacao extends DefaultEntity {
 
     @Column(length = 15)
     private String referencia;
@@ -23,16 +23,14 @@ public class Oculos extends DefaultEntity {
     @Column
     private Double precoVenda;
 
-    //@Column(columnDefinition = "INT CHECK (estoque >= 0)")
+    // @Column(columnDefinition = "INT CHECK (estoque >= 0)")
     private Integer quantidade;
-
-    private TipoOculos tipoOculos;
 
     private String nomeImagem;
 
     @ManyToOne
-    @JoinColumn(name = "id_marca")
-    private Marca marca;
+    @JoinColumn(name = "id_fabricante")
+    private Fabricante fabricante;
 
     public String getReferencia() {
         return referencia;
@@ -82,22 +80,6 @@ public class Oculos extends DefaultEntity {
         this.quantidade = quantidade;
     }
 
-    public Marca getMarca() {
-        return marca;
-    }
-
-    public void setMarca(Marca marca) {
-        this.marca = marca;
-    }
-
-    public TipoOculos getTipoOculos() {
-        return tipoOculos;
-    }
-
-    public void setTipoOculos(TipoOculos tipoOculos) {
-        this.tipoOculos = tipoOculos;
-    }
-
     public String getNomeImagem() {
         return nomeImagem;
     }
@@ -106,4 +88,11 @@ public class Oculos extends DefaultEntity {
         this.nomeImagem = nomeImagem;
     }
 
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
+    }
 }

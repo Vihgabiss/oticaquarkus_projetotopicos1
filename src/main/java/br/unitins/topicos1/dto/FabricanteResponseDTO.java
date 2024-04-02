@@ -1,8 +1,8 @@
 package br.unitins.topicos1.dto;
 
-import br.unitins.topicos1.model.Fornecedor;
+import br.unitins.topicos1.model.Fabricante;
 
-public record FornecedorResponseDTO(
+public record FabricanteResponseDTO(
         Long id,
         String nome,
         String telefone,
@@ -12,8 +12,8 @@ public record FornecedorResponseDTO(
         MarcaResponseDTO marca
 
 ) {
-    public static FornecedorResponseDTO valueOf(Fornecedor fornecedor) {
-        return new FornecedorResponseDTO(
+    public static FabricanteResponseDTO valueOf(Fabricante fornecedor) {
+        return new FabricanteResponseDTO(
                 fornecedor.getId(),
                 fornecedor.getNome(),
                 fornecedor.getTelefone(),
