@@ -8,12 +8,12 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.application.Error;
 import br.unitins.topicos1.dto.EnderecoDTO;
-import br.unitins.topicos1.dto.OculosResponseDTO;
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
-import br.unitins.topicos1.form.OculosImageForm;
-import br.unitins.topicos1.service.OculosFileService;
-import br.unitins.topicos1.service.OculosService;
+import br.unitins.topicos1.form.ArmacaoImageForm;
+import br.unitins.topicos1.service.ArmacaoFileService;
+import br.unitins.topicos1.service.ArmacaoService;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -40,10 +40,10 @@ public class UsuarioLogadoResource {
     UsuarioService usuarioService;
 
     @Inject
-    OculosFileService fileService;
+    ArmacaoFileService fileService;
 
     @Inject
-    OculosService oculosService;
+    ArmacaoService armacaoService;
 
     private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
 
@@ -114,19 +114,19 @@ public class UsuarioLogadoResource {
     }*/
 
     @PATCH
-    @Path("/upload/imagem/{oculosId}")
+    @Path("/upload/imagem/{armacaoId}")
     @RolesAllowed({ "User", "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
+    public Response uploadImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
         try {
             LOG.info("Salvando a imagem.");
             String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
             
             LOG.info("Atualizando a nova imagem.");
-            OculosResponseDTO oculosDTO = oculosService.updateNomeImagem(oculosId, nomeImagem);
+            ArmacaoResponseDTO armacaoDTO = armacaoService.updateNomeImagem(armacaoId, nomeImagem);
             
             LOG.info("Retornando a imagem.");
-            return Response.ok(oculosDTO).build();
+            return Response.ok(armacaoDTO).build();
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -137,13 +137,13 @@ public class UsuarioLogadoResource {
     }
 
     @PATCH
-    @Path("/upload/novaImagem/{oculosId}")
+    @Path("/upload/novaImagem/{armacaoId}")
     @RolesAllowed({ "User", "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadNovaImagemOculos(@MultipartForm OculosImageForm form, @PathParam("oculosId") Long oculosId) {
+    public Response uploadNovaImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
         try {
             LOG.info("Deletando a imagem atual.");
-            String nomeImagemAtual = oculosService.findById(oculosId).nomeImagem();
+            String nomeImagemAtual = armacaoService.findById(armacaoId).nomeImagem();
             if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
                 fileService.excluir(nomeImagemAtual);
             }
@@ -152,11 +152,11 @@ public class UsuarioLogadoResource {
             String nomeImagemNovo = fileService.salvar(form.getNomeImagem(), form.getImagem());
     
             LOG.info("Atualizando a nova imagem.");
-            oculosService.updateNomeImagem(oculosId, nomeImagemNovo);
+            armacaoService.updateNomeImagem(armacaoId, nomeImagemNovo);
     
             LOG.info("Retornando a imagem atualizada.");
-            OculosResponseDTO oculosDTO = oculosService.findById(oculosId);
-            return Response.ok(oculosDTO).build();
+            ArmacaoResponseDTO armacaoDTO = armacaoService.findById(armacaoId);
+            return Response.ok(armacaoDTO).build();
         } catch (IOException e) {
             e.printStackTrace();
             Error error = new Error("500", "Erro ao processar a imagem.");

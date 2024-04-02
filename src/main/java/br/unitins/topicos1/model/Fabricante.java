@@ -1,12 +1,16 @@
 package br.unitins.topicos1.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 
 @Entity
-public class Fornecedor extends DefaultEntity {
+public class Fabricante extends DefaultEntity {
 
     @Column(length = 200)
     private String nome;
@@ -23,9 +27,9 @@ public class Fornecedor extends DefaultEntity {
     @Column(length = 20)
     private String cnpj;
 
-    @ManyToOne
-    @JoinColumn(name = "id_marca")
-    private Marca idMarca;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "fabricante_marca", joinColumns = @JoinColumn(name = "id_fabricante"), inverseJoinColumns = @JoinColumn(name = "id_marca"))
+    private List<Marca> listaMarca;
 
     public String getNome() {
         return nome;
@@ -67,12 +71,12 @@ public class Fornecedor extends DefaultEntity {
         this.cnpj = cnpj;
     }
 
-    public Marca getIdMarca() {
-        return idMarca;
+    public List<Marca> getListaMarca() {
+        return listaMarca;
     }
 
-    public void setIdMarca(Marca idMarca) {
-        this.idMarca = idMarca;
+    public void setListaMarca(List<Marca> listaMarca) {
+        this.listaMarca = listaMarca;
     }
 
 }

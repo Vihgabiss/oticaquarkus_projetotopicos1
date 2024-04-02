@@ -13,9 +13,9 @@ import java.util.UUID;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class OculosFileService implements FileService {
+public class ArmacaoFileService implements FileService {
     // /Users/janio/quarkus/images/usuario/
-    private final String PATH_OCULOS = System.getProperty("user.home") +
+    private final String PATH_ARMACAO = System.getProperty("user.home") +
 
             File.separator + "Documents"+
             File.separator + "Quarkus"+ File.separator;
@@ -31,7 +31,7 @@ public class OculosFileService implements FileService {
         verificarTipoImagem(nomeArquivo);
 
         // criar diretório caso não exista
-        Path diretorio = Paths.get(PATH_OCULOS);
+        Path diretorio = Paths.get(PATH_ARMACAO);
         Files.createDirectories(diretorio);
 
         // criando o nome do arquivo randomico
@@ -55,7 +55,7 @@ public class OculosFileService implements FileService {
 
     @Override
     public File obter(String nomeArquivo) {
-        File file = new File(PATH_OCULOS + nomeArquivo);
+        File file = new File(PATH_ARMACAO + nomeArquivo);
         return file;
     }
 
@@ -72,7 +72,7 @@ public class OculosFileService implements FileService {
 
     @Override
     public void excluir(String nomeArquivo) {
-        File file = new File(PATH_OCULOS + nomeArquivo);
+        File file = new File(PATH_ARMACAO + nomeArquivo);
         if (file.exists() && file.isFile()) {
             try {
                 Files.deleteIfExists(file.toPath());

@@ -8,12 +8,12 @@ import br.unitins.topicos1.dto.ItemVendaDTO;
 import br.unitins.topicos1.dto.ItemVendaResponseDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
+import br.unitins.topicos1.model.Armacao;
 import br.unitins.topicos1.model.ItemVenda;
-import br.unitins.topicos1.model.Oculos;
 import br.unitins.topicos1.model.StatusVenda;
 import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.model.Venda;
-import br.unitins.topicos1.repository.OculosRepository;
+import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import br.unitins.topicos1.repository.VendaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -24,7 +24,7 @@ import jakarta.transaction.Transactional;
 public class VendaServiceImpl implements VendaService {
 
     @Inject
-    OculosRepository oculosRepository;
+    ArmacaoRepository armacaoRepository;
 
     @Inject
     UsuarioRepository usuarioRepository;
@@ -41,8 +41,8 @@ public class VendaServiceImpl implements VendaService {
 
         Double total = 0.0;
         for (ItemVendaDTO itemDto : dto.itens()) {
-            Oculos oculos = oculosRepository.findById(itemDto.idProduto());
-            total += (oculos.getPrecoVenda() * itemDto.quantidade());
+            Armacao armacao = armacaoRepository.findById(itemDto.idProduto());
+            total += (armacao.getPrecoVenda() * itemDto.quantidade());
         }
 
         venda.setValorTotal(total);
@@ -59,11 +59,11 @@ public class VendaServiceImpl implements VendaService {
             item.setQuantidade(itemDto.quantidade());
             item.setVenda(venda);
 
-            Oculos oculos = oculosRepository.findById(itemDto.idProduto());
+            Armacao armacao = armacaoRepository.findById(itemDto.idProduto());
 
-            item.setOculos(oculos);
+            item.setArmacao(armacao);
 
-            oculos.setQuantidade(oculos.getQuantidade() - item.getQuantidade());
+            armacao.setQuantidade(armacao.getQuantidade() - item.getQuantidade());
 
             venda.getItens().add(item);
         }
@@ -95,12 +95,12 @@ public class VendaServiceImpl implements VendaService {
     @Override
     public VendaResponseDTO findItemVendaById(Long id) {
         Venda venda = vendaRepository.findById(id);
-        
+
         if (venda != null) {
             VendaResponseDTO vendaResponseDTO = VendaResponseDTO.valueOf(venda);
-            
+
             vendaResponseDTO.itens(ItemVendaResponseDTO.valueOf(venda.getItens()));
-            
+
             return vendaResponseDTO;
         } else {
             return null;
