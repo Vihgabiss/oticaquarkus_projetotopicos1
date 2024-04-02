@@ -7,7 +7,6 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.dto.MarcaResponseDTO;
 import br.unitins.topicos1.service.MarcaService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -31,10 +30,10 @@ public class MarcaResource {
     @Inject
     MarcaService service;
 
-private static final Logger LOG = Logger.getLogger(MarcaResource.class);
+    private static final Logger LOG = Logger.getLogger(MarcaResource.class);
 
     @POST
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid MarcaDTO dto) {
         LOG.info("Inserindo marca");
@@ -47,7 +46,7 @@ private static final Logger LOG = Logger.getLogger(MarcaResource.class);
     }
 
     @PUT
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(MarcaDTO dto, @PathParam("id") Long id) {
@@ -61,7 +60,7 @@ private static final Logger LOG = Logger.getLogger(MarcaResource.class);
     }
 
     @DELETE
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -75,7 +74,7 @@ private static final Logger LOG = Logger.getLogger(MarcaResource.class);
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando marca pelo ID");
@@ -89,7 +88,7 @@ private static final Logger LOG = Logger.getLogger(MarcaResource.class);
 
     @GET
     @Path("/search/nome/{nome}")
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Response findByNome(@PathParam("nome") String nome) {
         LOG.info("Buscando marca pelo nome");
         try {
@@ -101,7 +100,7 @@ private static final Logger LOG = Logger.getLogger(MarcaResource.class);
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todas as marcas");
         try {

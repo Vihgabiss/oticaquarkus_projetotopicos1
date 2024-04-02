@@ -38,6 +38,12 @@ public class Armacao extends DefaultEntity {
     @JoinColumn(name = "id_fabricante")
     private Fabricante fabricante;
 
+    @Column(name = "material_armacao")
+    private MaterialArmacao materialArmacao;
+
+    @Column(name = "tipo_aro_armacao")
+    private TipoAroArmacao tipoAroArmacao;
+
     public String getReferencia() {
         return referencia;
     }
@@ -101,4 +107,21 @@ public class Armacao extends DefaultEntity {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public MaterialArmacao getMaterialArmacao() {
+        return materialArmacao;
+    }
+
+    public void setMaterialArmacao(MaterialArmacao materialArmacao) {
+        this.materialArmacao = materialArmacao;
+    }
+
+    public TipoAroArmacao getTipoAroArmacao() {
+        return tipoAroArmacao;
+    }
+
+    public void setTipoAroArmacao(TipoAroArmacao tipoAroArmacao) {
+        this.tipoAroArmacao = tipoAroArmacao;
+    }
+
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("SOLAR")
-public class ArmacaoSolar extends Armacao{
+public class ArmacaoSolar extends Armacao {
     private Long id;
 
     public Long getId() {
@@ -16,5 +16,4 @@ public class ArmacaoSolar extends Armacao{
         this.id = id;
     }
 
-    
 }

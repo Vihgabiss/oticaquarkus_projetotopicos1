@@ -7,7 +7,6 @@ import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.service.UsuarioService;
 import br.unitins.topicos1.service.VendaService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -37,7 +36,7 @@ public class VendaResource {
     private static final Logger LOG = Logger.getLogger(VendaResource.class);
 
     @POST
-    @RolesAllowed({ "User", "Admin" })
+    // @RolesAllowed({ "User", "Admin" })
     public Response insert(@Valid VendaDTO dto) {
         try {
             String email = jwt.getSubject();
@@ -49,7 +48,7 @@ public class VendaResource {
     }
 
     @GET
-    @RolesAllowed({ "User", "Admin" })
+    // @RolesAllowed({ "User", "Admin" })
     public Response findAll() {
         LOG.info("Lista de vendas");
         return Response.ok(service.findByAll()).build();
@@ -57,7 +56,7 @@ public class VendaResource {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed({ "User", "Admin" })
+    // @RolesAllowed({ "User", "Admin" })
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando venda por ID");
         VendaResponseDTO retorno = service.findById(id);
@@ -66,7 +65,7 @@ public class VendaResource {
 
     @GET
     @Path("/minhas-vendas")
-    @RolesAllowed({ "User", "Admin" })
+    // @RolesAllowed({ "User", "Admin" })
     public Response findAllByUserLogged() {
         LOG.info("Buscando venda pelo usuário logado");
         String email = jwt.getSubject();
@@ -75,7 +74,7 @@ public class VendaResource {
 
     @GET
     @Path("/{id}/itens")
-    @RolesAllowed({ "User", "Admin" })
+    // @RolesAllowed({ "User", "Admin" })
     public Response findItensByVendaId(@PathParam("id") Long id) {
         LOG.info("Buscando itens da venda pelo ID");
         try {

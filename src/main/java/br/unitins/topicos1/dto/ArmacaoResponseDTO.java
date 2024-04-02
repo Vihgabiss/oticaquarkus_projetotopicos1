@@ -11,7 +11,8 @@ public record ArmacaoResponseDTO(
         Double precoVenda,
         Integer quantidade,
         String nome_fabricante,
-
+        String tipo_aro_armacao,
+        String material_armacao,
         String nomeImagem) {
 
     public static ArmacaoResponseDTO valueOf(Armacao armacao) {
@@ -24,6 +25,8 @@ public record ArmacaoResponseDTO(
                 armacao.getPrecoVenda(),
                 armacao.getQuantidade(),
                 armacao.getFabricante().getNome(),
+                armacao.getMaterialArmacao().getLabel(),
+                armacao.getTipoAroArmacao().getLabel(),
                 armacao.getNomeImagem());
     }
 }

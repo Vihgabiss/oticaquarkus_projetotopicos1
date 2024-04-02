@@ -7,7 +7,6 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.dto.ArmacaoDTO;
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.service.ArmacaoService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -34,7 +33,7 @@ public class ArmacaoResource {
     private static final Logger LOG = Logger.getLogger(ArmacaoResource.class);
 
     @POST
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid ArmacaoDTO dto) {
         LOG.info("Inserindo óculos");
@@ -43,7 +42,7 @@ public class ArmacaoResource {
     }
 
     @PUT
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(@Valid ArmacaoDTO dto, @PathParam("id") Long id) {
@@ -53,7 +52,7 @@ public class ArmacaoResource {
     }
 
     @DELETE
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -63,7 +62,7 @@ public class ArmacaoResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando óculos por ID");
@@ -72,7 +71,7 @@ public class ArmacaoResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
         LOG.info("Buscando óculos por referência");
@@ -81,7 +80,7 @@ public class ArmacaoResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin", "User" })
+    // @RolesAllowed({ "Admin", "User" })
     @Path("/fabricante/{fabricante}")
     public Response findByFabricante(@PathParam("fabricante") String fabricante) {
         LOG.info("Buscando óculos por fabricante");
@@ -90,7 +89,7 @@ public class ArmacaoResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos os óculos");
         List<ArmacaoResponseDTO> retorno = service.findByAll();
