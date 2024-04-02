@@ -27,6 +27,9 @@ public class Endereco extends DefaultEntity {
     @JoinColumn(name = "id_cidade")
     private Cidade idCidade;
 
+    @Column(length = 80)
+    private Long idUsuario;
+
     public String getCep() {
         return cep;
     }
@@ -41,6 +44,14 @@ public class Endereco extends DefaultEntity {
 
     public void setBairro(String bairro) {
         this.bairro = bairro;
+    }
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getRua() {

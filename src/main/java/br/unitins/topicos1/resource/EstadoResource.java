@@ -43,6 +43,12 @@ public class EstadoResource {
     }
 
     @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") Long id) {
+        return Response.ok(service.findById(id)).build();
+    }
+
+    @GET
     //@RolesAllowed({ "User", "Admin" })
     @Path("/sigla/{sigla}")
     public Response findBySigla(@Valid @PathParam("sigla") String sigla){
@@ -93,9 +99,9 @@ public class EstadoResource {
     }
 
     @PUT
-    @Path("/atualiza-cidade/{idEstado}/{idCidade}")
+    @Path("/atualiza-cidade/{idCidade}")
     //@RolesAllowed({"Admin"})
-    public Response updateCidade(CidadeDTO dto, @PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
+        public Response updateCidade(CidadeDTO dto, @PathParam("idCidade") Long idCidade){
         LOG.info("Atualizando cidade.");
         service.updateCidade(idCidade, dto);
         
@@ -104,9 +110,9 @@ public class EstadoResource {
     }
 
     @DELETE
-    @Path("/deleta-cidade/{idEstado}/{idCidade}")
+    @Path("/deleta-cidade/{idCidade}")
     //@RolesAllowed({"Admin"})
-    public Response deleteCidade(@PathParam("idEstado") Long idEstado, @PathParam("idCidade") Long idCidade){
+    public Response deleteCidade(@PathParam("idCidade") Long idCidade){
         LOG.info("Deletando cidade.");
         service.deleteCidade(idCidade);
         
@@ -120,6 +126,12 @@ public class EstadoResource {
     public Response findAllCities(){
         LOG.info("Listando todas as cidades.");
         return Response.ok(service.findAllCities()).build();
+    }
+
+    @GET
+    @Path("/search/cidade/{id}")
+    public Response findCidadeById(@PathParam("id") Long id) {
+        return Response.ok(service.findCidadeById(id)).build();
     }
 
 }

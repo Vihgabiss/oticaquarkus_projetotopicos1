@@ -1,6 +1,8 @@
 package br.unitins.topicos1.service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.CidadeDTO;
 import br.unitins.topicos1.dto.CidadeResponseDTO;
@@ -13,7 +15,10 @@ import br.unitins.topicos1.repository.EstadoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.Validator;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
@@ -24,6 +29,9 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Inject
     CidadeRepository cidadeRepository;
+
+    @Inject
+    Validator validator;
 
     @Override
     @Transactional
@@ -60,9 +68,9 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
-    public List<EstadoResponseDTO> findByAll() {
-        return repository.listAll().stream()
-                .map(e -> EstadoResponseDTO.valueOf(e)).toList();
+    public List<EstadoResponseDTO> findByAll(){ 
+        List<Estado> list = repository.findAllInOrder();
+         return list.stream().map(e -> EstadoResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -82,18 +90,33 @@ public class EstadoServiceImpl implements EstadoService{
                
     }
 
+    private void validar(CidadeDTO dto) throws ConstraintViolationException{
+        Set<ConstraintViolation<CidadeDTO>> violations = validator.validate(dto);
+        if(!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
+    }
+
     @Override
     @Transactional
     public CidadeResponseDTO insertCidade(@Valid CidadeDTO dto) {
-        Estado estado = repository.findById(dto.idEstado());
+        // Estado estado = repository.findById(dto.idEstado());
 
-        Cidade cidade = new Cidade();
-        cidade.setNome(dto.nome());
-        cidade.setIdEstado(estado);
+        // Cidade cidade = new Cidade();
+        // cidade.setNome(dto.nome());
+        // cidade.setIdEstado(estado);
 
-        cidadeRepository.persist(cidade);
+        // cidadeRepository.persist(cidade);
 
-        return CidadeResponseDTO.valueOf(cidade);
+        // return CidadeResponseDTO.valueOf(cidade);
+
+        validar(dto);
+
+        Cidade entity = new Cidade();
+        entity.setNome(dto.nome());
+        entity.setIdEstado(repository.findById(dto.idEstado()));
+
+        cidadeRepository.persist(entity);
+        return CidadeResponseDTO.valueOf(entity);
     }
 
     @Override
@@ -104,6 +127,7 @@ public class EstadoServiceImpl implements EstadoService{
 
         Cidade cidade = cidadeRepository.findById(idCidade);
                 cidade.setNome(dto.nome());
+                cidade.setIdEstado(repository.findById(dto.idEstado()));
 
                 cidadeRepository.persist(cidade);
         
@@ -121,8 +145,13 @@ public class EstadoServiceImpl implements EstadoService{
 
     @Override
     public List<CidadeResponseDTO> findAllCities() {
-       return cidadeRepository.listAll().stream()
-            .map(c -> CidadeResponseDTO.valueOf(c)).toList();
+       List<Cidade> list = cidadeRepository.findAllInOrder();
+       return list.stream().map(e -> CidadeResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CidadeResponseDTO findCidadeById(Long id) {
+        return CidadeResponseDTO.valueOf(cidadeRepository.findById(id));
     }
 
     

@@ -102,7 +102,7 @@ public class UsuarioLogadoResource {
         return Response.noContent().build();
     }
 
-    @PATCH
+    /*@PATCH
     @Path("/insere/endereco")
     @RolesAllowed({"User", "Admin"})
     public Response insertEnderecoUsuario(EnderecoDTO dto){
@@ -111,7 +111,7 @@ public class UsuarioLogadoResource {
 
          LOG.info("Finalizando o insert de endereço.");
         return Response.noContent().build();
-    }
+    }*/
 
     @PATCH
     @Path("/upload/imagem/{armacaoId}")

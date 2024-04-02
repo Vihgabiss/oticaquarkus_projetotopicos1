@@ -21,7 +21,10 @@ public record EnderecoDTO(
     String complemento,
 
     @NotNull(message = "Insira o cidade.") 
-    Long idCidade
+    Long idCidade,
+
+    @NotNull(message = "Insira o usuario.") 
+    Long idUsuario
 ) {
     
 }

@@ -30,4 +30,6 @@ public interface EstadoService {
     public void deleteCidade(Long idCidade);
 
     public List<CidadeResponseDTO> findAllCities();
+
+    public CidadeResponseDTO findCidadeById(Long id);
 }
