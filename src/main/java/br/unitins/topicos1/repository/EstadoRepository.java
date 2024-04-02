@@ -23,4 +23,8 @@ public class EstadoRepository implements PanacheRepository<Estado>{
             }
            
     }
+
+        public List<Estado> findAllInOrder(){
+        return find("SELECT c FROM Estado c ORDER BY c.nome").list();
+    }
 }

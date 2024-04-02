@@ -12,4 +12,8 @@ public class EnderecoRepository implements PanacheRepository<Endereco> {
         return find("cep", cep).list();
     }
 
+        public List<Endereco> findAllInOrder(){
+        return find("SELeCT e FROM Endereco e ORDER BY e.cep").list();
+    }
+
 }
