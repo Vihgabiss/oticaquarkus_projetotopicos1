@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import br.unitins.topicos1.dto.FabricanteDTO;
 import br.unitins.topicos1.dto.FabricanteResponseDTO;
 import br.unitins.topicos1.model.Fabricante;
+import br.unitins.topicos1.model.Marca;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.FabricanteRepository;
 import br.unitins.topicos1.repository.MarcaRepository;
@@ -33,57 +34,60 @@ public class FabricanteServiceImpl implements FabricanteService {
     @Override
     @Transactional
     public FabricanteResponseDTO insert(FabricanteDTO dto) {
-        Fabricante fornecedor = new Fabricante();
-        fornecedor.setNome(dto.nome());
-        fornecedor.setTelefone(dto.telefone());
-        fornecedor.setEndereco(dto.endereco());
-        fornecedor.setEmail(dto.email());
-        fornecedor.setCnpj(dto.cnpj());
-        fornecedor.setIdMarca(marcaRepository.findById(dto.idMarca()));
-        repository.persist(fornecedor);
-        return FabricanteResponseDTO.valueOf(fornecedor);
+        Fabricante fabricante = new Fabricante();
+        Marca marca = new Marca();
+        fabricante.setNome(dto.nome());
+        fabricante.setTelefone(dto.telefone());
+        fabricante.setEndereco(dto.endereco());
+        fabricante.setEmail(dto.email());
+        fabricante.setCnpj(dto.cnpj());
+        fabricante.getListaMarca().add(marca);
+        repository.persist(fabricante);
+        return FabricanteResponseDTO.valueOf(fabricante);
     }
 
     @Override
     @Transactional
     public FabricanteResponseDTO update(FabricanteDTO dto, Long id) {
-        Fabricante fornecedor = repository.findById(id);
-        if (fornecedor == null) {
-            throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
+        Fabricante novoFabricante = repository.findById(id);
+        Marca marca = new Marca();
+
+        if (novoFabricante == null) {
+            throw new RuntimeException("Fabricante não encontrado com o ID: " + id);
         }
-        fornecedor.setNome(dto.nome());
-        fornecedor.setTelefone(dto.telefone());
-        fornecedor.setEndereco(dto.endereco());
-        fornecedor.setEmail(dto.email());
-        fornecedor.setCnpj(dto.cnpj());
-        fornecedor.setIdMarca(marcaRepository.findById(dto.idMarca()));
-        repository.persist(fornecedor);
-        return FabricanteResponseDTO.valueOf(fornecedor);
+        novoFabricante.setNome(dto.nome());
+        novoFabricante.setTelefone(dto.telefone());
+        novoFabricante.setEndereco(dto.endereco());
+        novoFabricante.setEmail(dto.email());
+        novoFabricante.setCnpj(dto.cnpj());
+        novoFabricante.getListaMarca().add(marca);
+        repository.persist(novoFabricante);
+        return FabricanteResponseDTO.valueOf(novoFabricante);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Fabricante fornecedor = repository.findById(id);
-        if (fornecedor == null) {
-            throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
+        Fabricante fabricante = repository.findById(id);
+        if (fabricante == null) {
+            throw new RuntimeException("Fabricante não encontrado com o ID: " + id);
         }
-        repository.delete(fornecedor);
+        repository.delete(fabricante);
     }
 
     @Override
     public FabricanteResponseDTO findById(Long id) {
-        Fabricante fornecedor = repository.findById(id);
-        if (fornecedor == null) {
-            throw new RuntimeException("Fornecedor não encontrado com o ID: " + id);
+        Fabricante fabricante = repository.findById(id);
+        if (fabricante == null) {
+            throw new RuntimeException("Fabricante não encontrado com o ID: " + id);
         }
-        return FabricanteResponseDTO.valueOf(fornecedor);
+        return FabricanteResponseDTO.valueOf(fabricante);
     }
 
     @Override
     public List<FabricanteResponseDTO> findByNome(String nome) {
-        List<Fabricante> fornecedorList = repository.findByNome(nome);
-        return fornecedorList.stream()
+        List<Fabricante> fabricanteList = repository.findByNome(nome);
+        return fabricanteList.stream()
                 .map(FabricanteResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
@@ -96,11 +100,11 @@ public class FabricanteServiceImpl implements FabricanteService {
 
     @Override
     public List<FabricanteResponseDTO> findByCNPJ(String cnpj) {
-        List<Fabricante> fornecedorList = repository.findByCnpj(cnpj);
-        if (fornecedorList.isEmpty()) {
-            throw new NotFoundException("Nenhum fornecedor encontrado com o CNPJ: " + cnpj);
+        List<Fabricante> fabricanteList = repository.findByCnpj(cnpj);
+        if (fabricanteList.isEmpty()) {
+            throw new NotFoundException("Nenhum fabricante encontrado com o CNPJ: " + cnpj);
         }
-        return fornecedorList.stream()
+        return fabricanteList.stream()
                 .map(FabricanteResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }

@@ -11,14 +11,19 @@ insert into marca(nome) values('GUESS');
 insert into marca(nome) values('Tommy Hilfiger');
 
 -- Inserção para Fabricante
-insert into fabricante(nome, telefone, email, endereco, cnpj, id_marca) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00', 1);
-insert into fabricante(nome, telefone, email, endereco, cnpj, id_marca) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00', 2);
+insert into fabricante(nome, telefone, email, endereco, cnpj) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00');
+insert into fabricante(nome, telefone, email, endereco, cnpj) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00');
+
+insert into fabricante_marca (id_fabricante, id_marca) values(1, 1);
+insert into fabricante_marca (id_fabricante, id_marca) values(1, 2);
+insert into fabricante_marca (id_fabricante, id_marca) values(2, 2);
+insert into fabricante_marca (id_fabricante, id_marca) values(2, 3);
 
 -- inserção de óculos
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante, nomeImagem) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 'armacao1.jpg');
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante, nomeImagem) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2, 'armacao2.jpg');
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante, nomeImagem) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2, 'armacao3.jpg');
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante, nomeImagem) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1, 'armacao4.jpg');
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_armacao, nomeImagem) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1, 'GRAU', 'armacao1.jpg');
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_armacao, nomeImagem) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2,  'GRAU','armacao2.jpg');
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_armacao, nomeImagem) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2,  'SOLAR','armacao3.jpg');
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_armacao, nomeImagem) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1, 'SOLAR', 'armacao4.jpg');
 
 insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', 2, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
 insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');

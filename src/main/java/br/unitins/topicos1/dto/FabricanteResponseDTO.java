@@ -1,5 +1,7 @@
 package br.unitins.topicos1.dto;
 
+import java.util.List;
+
 import br.unitins.topicos1.model.Fabricante;
 
 public record FabricanteResponseDTO(
@@ -9,17 +11,17 @@ public record FabricanteResponseDTO(
         String endereco,
         String email,
         String cnpj,
-        MarcaResponseDTO marca
+        List<MarcaResponseDTO> listaMarca
 
 ) {
-    public static FabricanteResponseDTO valueOf(Fabricante fornecedor) {
+    public static FabricanteResponseDTO valueOf(Fabricante fabricante) {
         return new FabricanteResponseDTO(
-                fornecedor.getId(),
-                fornecedor.getNome(),
-                fornecedor.getTelefone(),
-                fornecedor.getEndereco(),
-                fornecedor.getEmail(),
-                fornecedor.getCnpj(),
-                MarcaResponseDTO.valueOf(fornecedor.getIdMarca()));
+                fabricante.getId(),
+                fabricante.getNome(),
+                fabricante.getTelefone(),
+                fabricante.getEndereco(),
+                fabricante.getEmail(),
+                fabricante.getCnpj(),
+                fabricante.getListaMarca().stream().map(t -> MarcaResponseDTO.valueOf(t)).toList());
     }
 }
