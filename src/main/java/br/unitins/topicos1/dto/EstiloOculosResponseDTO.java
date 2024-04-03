@@ -10,7 +10,7 @@ public record EstiloOculosResponseDTO(
             public static EstiloOculosResponseDTO valueOf(EstiloOculos estiloOculos){
                 return new EstiloOculosResponseDTO(
                     estiloOculos.getId(),
-                     estiloOculos.getNome(), 
-                     estiloOculos.getDescricao());
+                    estiloOculos.getNome(), 
+                    estiloOculos.getDescricao());
             }
 }
