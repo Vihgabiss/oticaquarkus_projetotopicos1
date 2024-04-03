@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
-import br.unitins.topicos1.dto.ArmacaoDTO;
-import br.unitins.topicos1.dto.ArmacaoResponseDTO;
-import br.unitins.topicos1.service.ArmacaoService;
+import br.unitins.topicos1.dto.EventoDTO;
+import br.unitins.topicos1.dto.EventoResponseDTO;
+import br.unitins.topicos1.service.EventoService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -22,22 +22,22 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("/armacao")
+@Path("/evento")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ArmacaoResource {
+public class EventoResource {
 
     @Inject
-    ArmacaoService service;
+    EventoService service;
 
-    private static final Logger LOG = Logger.getLogger(ArmacaoResource.class);
+    private static final Logger LOG = Logger.getLogger(EventoResource.class);
 
     @POST
     // @RolesAllowed({ "Admin" })
     @Transactional
-    public Response insert(@Valid ArmacaoDTO dto) {
+    public Response insert(@Valid EventoDTO dto) {
         LOG.info("Inserindo evento");
-        ArmacaoResponseDTO retorno = service.insert(dto);
+        EventoResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
@@ -45,9 +45,9 @@ public class ArmacaoResource {
     // @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
-    public Response update(@Valid ArmacaoDTO dto, @PathParam("id") Long id) {
+    public Response update(@Valid EventoDTO dto, @PathParam("id") Long id) {
         LOG.info("Atualizando evento");
-        ArmacaoResponseDTO retorno = service.update(dto, id);
+        EventoResponseDTO retorno = service.update(dto, id);
         return Response.status(Status.OK).entity(retorno).build();
     }
 
@@ -66,25 +66,25 @@ public class ArmacaoResource {
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando evento por ID");
-        ArmacaoResponseDTO retorno = service.findById(id);
+        EventoResponseDTO retorno = service.findById(id);
         return Response.ok(retorno).build();
     }
 
     @GET
     // @RolesAllowed({ "Admin" })
-    @Path("/referencia/{referencia}")
-    public Response findByReferencia(@PathParam("referencia") String referencia) {
-        LOG.info("Buscando evento por referência");
-        List<ArmacaoResponseDTO> retorno = service.findByReferencia(referencia);
+    @Path("/descricao/{descricao}")
+    public Response findByDescricao(@PathParam("descricao") String descricao) {
+        LOG.info("Buscando evento por descricao");
+        List<EventoResponseDTO> retorno = service.findByDescricao(descricao);
         return Response.ok(retorno).build();
     }
 
     @GET
     // @RolesAllowed({ "Admin", "User" })
-    @Path("/fabricante/{fabricante}")
-    public Response findByFabricante(@PathParam("fabricante") String fabricante) {
-        LOG.info("Buscando evento por fabricante");
-        List<ArmacaoResponseDTO> retorno = service.findByFabricante(fabricante);
+    @Path("/nome/{nome}")
+    public Response findByNome(@PathParam("nome") String nome) {
+        LOG.info("Buscando evento por nome");
+        List<EventoResponseDTO> retorno = service.findByNome(nome);
         return Response.ok(retorno).build();
     }
 
@@ -92,7 +92,7 @@ public class ArmacaoResource {
     // @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos os evento");
-        List<ArmacaoResponseDTO> retorno = service.findByAll();
+        List<EventoResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }
 }
