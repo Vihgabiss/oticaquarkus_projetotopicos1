@@ -1,11 +1,11 @@
 package br.unitins.topicos1.model;
 
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@DiscriminatorValue("GRAU")
-public class ArmacaoGrau extends Armacao{
+@PrimaryKeyJoinColumn(name = "id")
+public class ArmacaoGrau extends Armacao {
     private Long id;
 
     public Long getId() {
@@ -16,5 +16,4 @@ public class ArmacaoGrau extends Armacao{
         this.id = id;
     }
 
-    
 }

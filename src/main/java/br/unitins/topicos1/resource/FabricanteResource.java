@@ -33,7 +33,8 @@ public class FabricanteResource {
     private static final Logger LOG = Logger.getLogger(FabricanteResource.class);
 
     @POST
-    // //@RolesAllowed({ "Admin" })
+    @Path("/inserir_fabricante")
+    ////@RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid FabricanteDTO dto) {
         LOG.info("Inserindo fabricante");
@@ -48,7 +49,7 @@ public class FabricanteResource {
     @PUT
     // @RolesAllowed({ "Admin" })
     @Transactional
-    @Path("/{id}")
+    @Path("/atualizar_fabricante/{id}")
     public Response update(FabricanteDTO dto, @PathParam("id") Long id) {
         LOG.info("Atualizando fabricante");
         try {
@@ -62,7 +63,7 @@ public class FabricanteResource {
     @DELETE
     // @RolesAllowed({ "Admin" })
     @Transactional
-    @Path("/{id}")
+    @Path("/deletar_fabricante/{id}")
     public Response delete(@PathParam("id") Long id) {
         LOG.info("Deletando fabricante");
         try {
@@ -75,7 +76,7 @@ public class FabricanteResource {
 
     @GET
     // @RolesAllowed({ "Admin" })
-    @Path("/{id}")
+    @Path("/buscar_pelo_id/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando fabricante por ID");
         try {

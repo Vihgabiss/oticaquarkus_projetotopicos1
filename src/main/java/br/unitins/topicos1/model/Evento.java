@@ -1,5 +1,8 @@
 package br.unitins.topicos1.model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Evento extends DefaultEntity {
     private String descricao;
     private String nome;

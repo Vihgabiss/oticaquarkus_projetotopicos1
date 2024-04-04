@@ -1,8 +1,6 @@
 package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -10,8 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_armacao", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Armacao extends DefaultEntity {
 
     @Column(length = 15)
@@ -37,6 +34,16 @@ public class Armacao extends DefaultEntity {
     @ManyToOne
     @JoinColumn(name = "id_fabricante")
     private Fabricante fabricante;
+
+    @Column(name = "material_armacao")
+    private MaterialArmacao materialArmacao;
+
+    @Column(name = "tipo_aro_armacao")
+    private TipoAroArmacao tipoAroArmacao;
+
+    @ManyToOne
+    @JoinColumn(name = "id_estiloOculos")
+    private EstiloOculos estiloOculos;
 
     public String getReferencia() {
         return referencia;
@@ -101,4 +108,29 @@ public class Armacao extends DefaultEntity {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public MaterialArmacao getMaterialArmacao() {
+        return materialArmacao;
+    }
+
+    public void setMaterialArmacao(MaterialArmacao materialArmacao) {
+        this.materialArmacao = materialArmacao;
+    }
+
+    public TipoAroArmacao getTipoAroArmacao() {
+        return tipoAroArmacao;
+    }
+
+    public void setTipoAroArmacao(TipoAroArmacao tipoAroArmacao) {
+        this.tipoAroArmacao = tipoAroArmacao;
+    }
+
+    public EstiloOculos getEstiloOculos() {
+        return estiloOculos;
+    }
+
+    public void setEstiloOculos(EstiloOculos estiloOculos) {
+        this.estiloOculos = estiloOculos;
+    }
+
 }

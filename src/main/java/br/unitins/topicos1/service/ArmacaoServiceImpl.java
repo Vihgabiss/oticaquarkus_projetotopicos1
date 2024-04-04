@@ -6,8 +6,12 @@ import java.util.stream.Collectors;
 import br.unitins.topicos1.dto.ArmacaoDTO;
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.model.EstiloOculos;
 import br.unitins.topicos1.model.Fabricante;
+import br.unitins.topicos1.model.MaterialArmacao;
+import br.unitins.topicos1.model.TipoAroArmacao;
 import br.unitins.topicos1.repository.ArmacaoRepository;
+import br.unitins.topicos1.repository.EstiloOculosRepository;
 import br.unitins.topicos1.repository.FabricanteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,27 +27,38 @@ public class ArmacaoServiceImpl implements ArmacaoService {
     @Inject
     FabricanteRepository fabricanteRepository;
 
+    @Inject
+    EstiloOculosRepository estiloOculosRepository;
+
     @Override
     @Transactional
     public ArmacaoResponseDTO insert(@Valid ArmacaoDTO dto) {
-        Armacao novoArmacao = new Armacao();
-        novoArmacao.setReferencia(dto.referencia());
-        novoArmacao.setCor(dto.cor());
-        novoArmacao.setTamanho(dto.tamanho());
-        novoArmacao.setPrecoCusto(dto.precoCusto());
-        novoArmacao.setPrecoVenda(dto.precoVenda());
-        novoArmacao.setQuantidade(dto.quantidade());
-        novoArmacao.setNomeImagem(dto.nomeImagem());
+        Armacao novaArmacao = new Armacao();
+        novaArmacao.setReferencia(dto.referencia());
+        novaArmacao.setCor(dto.cor());
+        novaArmacao.setTamanho(dto.tamanho());
+        novaArmacao.setPrecoCusto(dto.precoCusto());
+        novaArmacao.setPrecoVenda(dto.precoVenda());
+        novaArmacao.setQuantidade(dto.quantidade());
+        novaArmacao.setNomeImagem(dto.nomeImagem());
+        novaArmacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
+        novaArmacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
 
         Fabricante fabricanteEntity = fabricanteRepository.findById(dto.fabricante().id());
         if (fabricanteEntity == null) {
             throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.fabricante().id());
         }
-        novoArmacao.setFabricante(fabricanteEntity);
+        novaArmacao.setFabricante(fabricanteEntity);
 
-        repository.persist(novoArmacao);
+        EstiloOculos estiloOculosEntity = estiloOculosRepository.findById(dto.estiloOculos().id());
+        if (estiloOculosEntity == null) {
+            throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.estiloOculos().id());
+        }
+        novaArmacao.setEstiloOculos(estiloOculosEntity);
 
-        return ArmacaoResponseDTO.valueOf(novoArmacao);
+        repository.persist(novaArmacao);
+
+        return ArmacaoResponseDTO.valueOf(novaArmacao);
     }
 
     @Override
@@ -60,12 +75,19 @@ public class ArmacaoServiceImpl implements ArmacaoService {
         armacao.setPrecoVenda(dto.precoVenda());
         armacao.setQuantidade(dto.quantidade());
         armacao.setNomeImagem(dto.nomeImagem());
+        armacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
+        armacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
         Fabricante fabricanteEntity = fabricanteRepository.findById(dto.fabricante().id());
         if (fabricanteEntity == null) {
             throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.fabricante().id());
         }
         armacao.setFabricante(fabricanteEntity);
 
+        EstiloOculos estiloOculosEntity = estiloOculosRepository.findById(dto.estiloOculos().id());
+        if (estiloOculosEntity == null) {
+            throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.estiloOculos().id());
+        }
+        armacao.setEstiloOculos(estiloOculosEntity);
         repository.persist(armacao);
 
         return ArmacaoResponseDTO.valueOf(armacao);
