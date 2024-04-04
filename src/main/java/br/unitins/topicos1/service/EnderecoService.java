@@ -18,6 +18,8 @@ public interface EnderecoService {
 
     public List<EnderecoResponseDTO> findByCep(String cep);
 
-    public List<EnderecoResponseDTO> findByAll();
+    public List<EnderecoResponseDTO> findByAll(int page, int pageSize);
+
+    long count();
 
 }

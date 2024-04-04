@@ -1,6 +1,7 @@
 package br.unitins.topicos1.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.EnderecoDTO;
 import br.unitins.topicos1.dto.EnderecoResponseDTO;
@@ -111,9 +112,15 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public List<EnderecoResponseDTO> findByAll() {
-       return repositoryEnd.findAllInOrder().stream()
-       .map(e -> EnderecoResponseDTO.valueOf(e)).toList();
+    public List<EnderecoResponseDTO> findByAll(int page, int pageSize) {
+        List<Endereco> list = repositoryEnd.findAll().page(page, pageSize).list();
+
+       return list.stream().map(e -> EnderecoResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public long count() {
+       return repositoryEnd.count();
     }
 
 }
