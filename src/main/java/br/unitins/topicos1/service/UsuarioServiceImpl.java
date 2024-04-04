@@ -1,5 +1,6 @@
 package br.unitins.topicos1.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -56,6 +57,19 @@ public class UsuarioServiceImpl implements UsuarioService {
         novoUsuario.setEmail(dto.email());
         novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
         novoUsuario.setPerfil(Perfil.valueOf(dto.idPerfil()));
+
+    // Adiciona telefones ao novo usuário, se fornecidos
+    if (dto.listaTelefone() != null && !dto.listaTelefone().isEmpty()) {
+        novoUsuario.setListaTelefone(new ArrayList<Telefone>());
+        
+        for (TelefoneDTO tel : dto.listaTelefone()) {
+            Telefone telefone = new Telefone();
+            telefone.setCodigoArea(tel.codigoArea());
+            telefone.setNumero(tel.numero());
+
+            novoUsuario.getListaTelefone().add(telefone);
+        }
+    }
 
         repository.persist(novoUsuario);
 
