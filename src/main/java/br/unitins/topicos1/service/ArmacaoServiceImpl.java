@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 import br.unitins.topicos1.dto.ArmacaoDTO;
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.model.EstiloOculos;
 import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.model.MaterialArmacao;
 import br.unitins.topicos1.model.TipoAroArmacao;
 import br.unitins.topicos1.repository.ArmacaoRepository;
+import br.unitins.topicos1.repository.EstiloOculosRepository;
 import br.unitins.topicos1.repository.FabricanteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -24,6 +26,9 @@ public class ArmacaoServiceImpl implements ArmacaoService {
 
     @Inject
     FabricanteRepository fabricanteRepository;
+
+    @Inject
+    EstiloOculosRepository estiloOculosRepository;
 
     @Override
     @Transactional
@@ -44,6 +49,12 @@ public class ArmacaoServiceImpl implements ArmacaoService {
             throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.fabricante().id());
         }
         novaArmacao.setFabricante(fabricanteEntity);
+
+        EstiloOculos estiloOculosEntity = estiloOculosRepository.findById(dto.estiloOculos().id());
+        if (estiloOculosEntity == null) {
+            throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.estiloOculos().id());
+        }
+        novaArmacao.setEstiloOculos(estiloOculosEntity);
 
         repository.persist(novaArmacao);
 
@@ -72,6 +83,11 @@ public class ArmacaoServiceImpl implements ArmacaoService {
         }
         armacao.setFabricante(fabricanteEntity);
 
+        EstiloOculos estiloOculosEntity = estiloOculosRepository.findById(dto.estiloOculos().id());
+        if (estiloOculosEntity == null) {
+            throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.estiloOculos().id());
+        }
+        armacao.setEstiloOculos(estiloOculosEntity);
         repository.persist(armacao);
 
         return ArmacaoResponseDTO.valueOf(armacao);

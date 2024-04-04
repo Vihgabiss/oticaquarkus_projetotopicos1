@@ -35,5 +35,7 @@ public record ArmacaoDTO(
 
                 @NotNull(message = "O id do material da armação não pode ser nulo.") Integer idTipoMaterialArmacao,
 
-                @NotNull(message = "O nome da imagem não pode ser nulo.") String nomeImagem) {
+                @NotNull(message = "O nome da imagem não pode ser nulo.") String nomeImagem,
+                
+                EstadoResponseDTO estiloOculos) {
 }

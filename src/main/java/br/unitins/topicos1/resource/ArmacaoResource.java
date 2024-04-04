@@ -36,7 +36,7 @@ public class ArmacaoResource {
     // @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid ArmacaoDTO dto) {
-        LOG.info("Inserindo evento");
+        LOG.info("Inserindo armacao");
         ArmacaoResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
@@ -46,7 +46,7 @@ public class ArmacaoResource {
     @Transactional
     @Path("/{id}")
     public Response update(@Valid ArmacaoDTO dto, @PathParam("id") Long id) {
-        LOG.info("Atualizando evento");
+        LOG.info("Atualizando armacao");
         ArmacaoResponseDTO retorno = service.update(dto, id);
         return Response.status(Status.OK).entity(retorno).build();
     }
@@ -56,7 +56,7 @@ public class ArmacaoResource {
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
-        LOG.info("Deletando evento");
+        LOG.info("Deletando armacao");
         service.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -65,7 +65,7 @@ public class ArmacaoResource {
     // @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        LOG.info("Buscando evento por ID");
+        LOG.info("Buscando armacao por ID");
         ArmacaoResponseDTO retorno = service.findById(id);
         return Response.ok(retorno).build();
     }
@@ -74,7 +74,7 @@ public class ArmacaoResource {
     // @RolesAllowed({ "Admin" })
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
-        LOG.info("Buscando evento por referência");
+        LOG.info("Buscando armacao por referência");
         List<ArmacaoResponseDTO> retorno = service.findByReferencia(referencia);
         return Response.ok(retorno).build();
     }
@@ -83,7 +83,7 @@ public class ArmacaoResource {
     // @RolesAllowed({ "Admin", "User" })
     @Path("/fabricante/{fabricante}")
     public Response findByFabricante(@PathParam("fabricante") String fabricante) {
-        LOG.info("Buscando evento por fabricante");
+        LOG.info("Buscando armacao por fabricante");
         List<ArmacaoResponseDTO> retorno = service.findByFabricante(fabricante);
         return Response.ok(retorno).build();
     }
@@ -91,7 +91,7 @@ public class ArmacaoResource {
     @GET
     // @RolesAllowed({ "Admin" })
     public Response findByAll() {
-        LOG.info("Listando todos os evento");
+        LOG.info("Listando todos as armacoes");
         List<ArmacaoResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }

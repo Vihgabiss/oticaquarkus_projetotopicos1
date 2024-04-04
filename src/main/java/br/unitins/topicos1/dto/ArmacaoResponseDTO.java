@@ -13,7 +13,8 @@ public record ArmacaoResponseDTO(
         String nome_fabricante,
         String tipo_aro_armacao,
         String material_armacao,       
-        String nomeImagem) {
+        String nomeImagem, 
+        String estiloOculos) {
 
     public static ArmacaoResponseDTO valueOf(Armacao armacao) {
         return new ArmacaoResponseDTO(
@@ -27,6 +28,7 @@ public record ArmacaoResponseDTO(
                 armacao.getFabricante().getNome(),
                 armacao.getTipoAroArmacao().getLabel(),
                 armacao.getMaterialArmacao().getLabel(),
-                armacao.getNomeImagem());
+                armacao.getNomeImagem(),
+                armacao.getEstiloOculos().getNome());
     }
 }

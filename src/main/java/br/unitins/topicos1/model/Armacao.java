@@ -41,6 +41,10 @@ public class Armacao extends DefaultEntity {
     @Column(name = "tipo_aro_armacao")
     private TipoAroArmacao tipoAroArmacao;
 
+    @ManyToOne
+    @JoinColumn(name = "id_estiloOculos")
+    private EstiloOculos estiloOculos;
+
     public String getReferencia() {
         return referencia;
     }
@@ -119,6 +123,14 @@ public class Armacao extends DefaultEntity {
 
     public void setTipoAroArmacao(TipoAroArmacao tipoAroArmacao) {
         this.tipoAroArmacao = tipoAroArmacao;
+    }
+
+    public EstiloOculos getEstiloOculos() {
+        return estiloOculos;
+    }
+
+    public void setEstiloOculos(EstiloOculos estiloOculos) {
+        this.estiloOculos = estiloOculos;
     }
 
 }
