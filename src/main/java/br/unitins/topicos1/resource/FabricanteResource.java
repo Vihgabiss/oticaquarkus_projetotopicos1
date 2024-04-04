@@ -33,7 +33,6 @@ public class FabricanteResource {
     private static final Logger LOG = Logger.getLogger(FabricanteResource.class);
 
     @POST
-    @Path("/inserir_fabricante")
     ////@RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid FabricanteDTO dto) {
@@ -49,7 +48,7 @@ public class FabricanteResource {
     @PUT
     // @RolesAllowed({ "Admin" })
     @Transactional
-    @Path("/atualizar_fabricante/{id}")
+    @Path("/{id}")
     public Response update(FabricanteDTO dto, @PathParam("id") Long id) {
         LOG.info("Atualizando fabricante");
         try {
@@ -61,9 +60,8 @@ public class FabricanteResource {
     }
 
     @DELETE
-    // @RolesAllowed({ "Admin" })
     @Transactional
-    @Path("/deletar_fabricante/{id}")
+    @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         LOG.info("Deletando fabricante");
         try {
@@ -73,10 +71,11 @@ public class FabricanteResource {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
+    
 
     @GET
     // @RolesAllowed({ "Admin" })
-    @Path("/buscar_pelo_id/{id}")
+    @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando fabricante por ID");
         try {
@@ -101,7 +100,7 @@ public class FabricanteResource {
     @GET
     // @RolesAllowed({ "Admin" })
     public Response findByAll() {
-        LOG.info("Listando fabricantees");
+        LOG.info("Listando fabricantes");
         List<FabricanteResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }
