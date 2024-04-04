@@ -25,7 +25,7 @@ public record UsuarioDTO(
     String senha,
 
     Integer idPerfil,
-    List<TelefoneResponseDTO> listaTelefone
+    List<TelefoneDTO> listaTelefone
 
 ) {
     
