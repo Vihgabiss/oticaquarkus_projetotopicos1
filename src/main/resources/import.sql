@@ -80,3 +80,5 @@ insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3
 insert into evento(descricao, nome) values ('Comemoração do mês da mulher', 'Mês da Mulher - MARÇO');
 insert into evento(descricao, nome) values ('Feliz Natal', 'Natal - Dezembro');
 
+insert into cupom (nome, descricao, dataLancamento, id_evento) values ('Cupom do Mês da Mulher', 'Este cupom oferece 20% de desconto em todos os produtos', '2024-04-04', 1);
+insert into cupom (nome, descricao, dataLancamento, id_evento) values ('Cupom de Natal', 'Use este cupom para obter frete grátis no Natal!', '2024-03-30', 2);
