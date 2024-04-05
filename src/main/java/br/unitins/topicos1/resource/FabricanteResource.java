@@ -6,6 +6,7 @@ import org.jboss.logging.Logger;
 
 import br.unitins.topicos1.dto.FabricanteDTO;
 import br.unitins.topicos1.dto.FabricanteResponseDTO;
+import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.service.FabricanteService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -33,8 +35,7 @@ public class FabricanteResource {
     private static final Logger LOG = Logger.getLogger(FabricanteResource.class);
 
     @POST
-    @Path("/inserir_fabricante")
-    ////@RolesAllowed({ "Admin" })
+    //// @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid FabricanteDTO dto) {
         LOG.info("Inserindo fabricante");
@@ -46,10 +47,44 @@ public class FabricanteResource {
         }
     }
 
+    @PATCH
+    @Path("/insere-marca/{idFabricante}")
+    // @RolesAllowed({"Admin"})
+    public Response insertMarca(MarcaDTO dto, @PathParam("idFabricante") Long idFabricante) {
+
+        LOG.infof("Cadastrando um marca para o usuario %s", idFabricante);
+        service.insertMarca(idFabricante, dto);
+
+        LOG.info("Finalizando o cadastro de marca.");
+        return Response.noContent().build();
+    }
+
+    @PATCH
+    @Path("/atualiza-marca/{id}/{idMarca}")
+    // @RolesAllowed({"Admin"})
+    public Response updateMarca(MarcaDTO dto, @PathParam("id") Long id, @PathParam("idMarca") Long idMarca) {
+        LOG.info("Atualizando marca.");
+        service.updateMarca(id, idMarca, dto);
+
+        LOG.info("Finalizando a atualização de marca.");
+        return Response.noContent().build();
+    }
+
+    @DELETE
+    @Path("/deleta-marca/{id}/{idMarca}")
+    // @RolesAllowed({"Admin"})
+    public Response deleteMarca(@PathParam("id") Long id, @PathParam("idMarca") Long idMarca) {
+        LOG.infof("Deletando marca %s", idMarca);
+        service.deleteMarca(id, idMarca);
+
+        LOG.infof("Marca %s deletado", idMarca);
+        return Response.noContent().build();
+    }
+
     @PUT
     // @RolesAllowed({ "Admin" })
     @Transactional
-    @Path("/atualizar_fabricante/{id}")
+    @Path("/{id}")
     public Response update(FabricanteDTO dto, @PathParam("id") Long id) {
         LOG.info("Atualizando fabricante");
         try {
@@ -61,9 +96,8 @@ public class FabricanteResource {
     }
 
     @DELETE
-    // @RolesAllowed({ "Admin" })
     @Transactional
-    @Path("/deletar_fabricante/{id}")
+    @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
         LOG.info("Deletando fabricante");
         try {
@@ -76,7 +110,7 @@ public class FabricanteResource {
 
     @GET
     // @RolesAllowed({ "Admin" })
-    @Path("/buscar_pelo_id/{id}")
+    @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando fabricante por ID");
         try {
@@ -101,7 +135,7 @@ public class FabricanteResource {
     @GET
     // @RolesAllowed({ "Admin" })
     public Response findByAll() {
-        LOG.info("Listando fabricantees");
+        LOG.info("Listando fabricantes");
         List<FabricanteResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }

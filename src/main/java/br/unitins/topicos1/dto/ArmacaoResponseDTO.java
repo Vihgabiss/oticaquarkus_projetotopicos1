@@ -11,24 +11,29 @@ public record ArmacaoResponseDTO(
         Double precoVenda,
         Integer quantidade,
         String nome_fabricante,
+        String nome_colecao,
         String tipo_aro_armacao,
+        String tipoarmacao,
         String material_armacao,       
         String nomeImagem, 
         String estiloOculos) {
 
-    public static ArmacaoResponseDTO valueOf(Armacao armacao) {
-        return new ArmacaoResponseDTO(
-                armacao.getId(),
-                armacao.getReferencia(),
-                armacao.getCor(),
-                armacao.getTamanho(),
-                armacao.getPrecoCusto(),
-                armacao.getPrecoVenda(),
-                armacao.getQuantidade(),
-                armacao.getFabricante().getNome(),
-                armacao.getTipoAroArmacao().getLabel(),
-                armacao.getMaterialArmacao().getLabel(),
-                armacao.getNomeImagem(),
-                armacao.getEstiloOculos().getNome());
-    }
+            public static ArmacaoResponseDTO valueOf(Armacao armacao) {
+                return new ArmacaoResponseDTO(
+                    armacao.getId(),
+                    armacao.getReferencia(),
+                    armacao.getCor(),
+                    armacao.getTamanho(),
+                    armacao.getPrecoCusto(),
+                    armacao.getPrecoVenda(),
+                    armacao.getQuantidade(),
+                    armacao.getFabricante().getNome(),
+                    armacao.getColecao().getNome(),
+                    armacao.getTipoAroArmacao().getLabel(), 
+                    armacao.getTipoArmacao().getLabel(),
+                    armacao.getMaterialArmacao().getLabel(),
+                    armacao.getNomeImagem(),
+                    armacao.getEstiloOculos().getNome()
+                );
+            }
 }

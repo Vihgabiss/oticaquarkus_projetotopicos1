@@ -2,13 +2,10 @@ package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Armacao extends DefaultEntity {
 
     @Column(length = 15)
@@ -35,11 +32,18 @@ public class Armacao extends DefaultEntity {
     @JoinColumn(name = "id_fabricante")
     private Fabricante fabricante;
 
+    @ManyToOne
+    @JoinColumn(name = "id_colecao")
+    private Colecao colecao;
+
     @Column(name = "material_armacao")
     private MaterialArmacao materialArmacao;
 
     @Column(name = "tipo_aro_armacao")
     private TipoAroArmacao tipoAroArmacao;
+
+    @Column(name = "tipo_armacao")
+    private TipoArmacao tipoArmacao;
 
     @ManyToOne
     @JoinColumn(name = "id_estiloOculos")
@@ -131,6 +135,22 @@ public class Armacao extends DefaultEntity {
 
     public void setEstiloOculos(EstiloOculos estiloOculos) {
         this.estiloOculos = estiloOculos;
+    }
+
+    public Colecao getColecao() {
+        return colecao;
+    }
+
+    public void setColecao(Colecao colecao) {
+        this.colecao = colecao;
+    }
+
+    public TipoArmacao getTipoArmacao() {
+        return tipoArmacao;
+    }
+
+    public void setTipoArmacao(TipoArmacao tipoArmacao) {
+        this.tipoArmacao = tipoArmacao;
     }
 
 }

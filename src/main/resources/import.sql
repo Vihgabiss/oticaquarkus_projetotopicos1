@@ -14,6 +14,8 @@ insert into marca(nome) values('Tommy Hilfiger');
 insert into fabricante(nome, telefone, email, endereco, cnpj) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00');
 insert into fabricante(nome, telefone, email, endereco, cnpj) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00');
 
+insert into colecao(nome, descricao, dataLancamento) values('Coleção Verão 2023', 'Nova coleção de óculos de sol para o verão', '2023-06-21');
+insert into colecao (nome, descricao, dataLancamento) values('Coleção Inverno 2023', 'Nova coleção de óculos de sol para o inverno', '2023-12-21');
 
 insert into estilooculos(nome, descricao) values('Aviador', 'Caracterizados por uma forma de gota invertida, lentes grandes e uma ponte dupla sobre o nariz. Popularizados na década de 1930, são conhecidos por seu estilo clássico e elegante.');
 insert into estilooculos(nome, descricao) values('Retrô/Vintage', 'Inspirados por estilos de décadas passadas, os óculos retrô ou vintage capturam a nostalgia da moda do passado. Podem apresentar uma variedade de formas e detalhes, incluindo armações redondas, lentes coloridas e detalhes decorativos.');
@@ -23,13 +25,10 @@ insert into fabricante_marca (id_fabricante, id_marca) values(1, 2);
 insert into fabricante_marca (id_fabricante, id_marca) values(2, 3);
 
 -- inserção de óculos
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1,1,1, 'armacao1.jpg', 1);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2,2,3,'armacao3.jpg', 2);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1,1,2, 'armacao4.jpg', 1);
-
--- inserção do tipo de óculos
-insert into armacaosolar (id, tipolentesolar) values (1, 1);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1,1,1, 'armacao1.jpg', 1,1,1);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2, 2, 2);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2,2,3,'armacao3.jpg', 2, 1, 3);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1,1,2, 'armacao4.jpg', 1, 2,  1);
 
 insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', 2, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
 insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');
