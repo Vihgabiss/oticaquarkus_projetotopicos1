@@ -6,11 +6,14 @@ import java.util.stream.Collectors;
 import br.unitins.topicos1.dto.ArmacaoDTO;
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.model.Colecao;
 import br.unitins.topicos1.model.EstiloOculos;
 import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.model.MaterialArmacao;
+import br.unitins.topicos1.model.TipoArmacao;
 import br.unitins.topicos1.model.TipoAroArmacao;
 import br.unitins.topicos1.repository.ArmacaoRepository;
+import br.unitins.topicos1.repository.ColecaoRepository;
 import br.unitins.topicos1.repository.EstiloOculosRepository;
 import br.unitins.topicos1.repository.FabricanteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,6 +29,9 @@ public class ArmacaoServiceImpl implements ArmacaoService {
 
     @Inject
     FabricanteRepository fabricanteRepository;
+
+    @Inject
+    ColecaoRepository colecaoRepository;
 
     @Inject
     EstiloOculosRepository estiloOculosRepository;
@@ -44,15 +50,20 @@ public class ArmacaoServiceImpl implements ArmacaoService {
         novaArmacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         novaArmacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
 
+        novaArmacao.setTipoArmacao(TipoArmacao.valueOf(dto.idTipoArmacao()));
+
         Fabricante fabricanteEntity = fabricanteRepository.findById(dto.fabricante().id());
         if (fabricanteEntity == null) {
             throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.fabricante().id());
         }
         novaArmacao.setFabricante(fabricanteEntity);
 
+        Colecao colecaoEntity = colecaoRepository.findById(dto.colecao().id());
+        novaArmacao.setColecao(colecaoEntity);
+
         EstiloOculos estiloOculosEntity = estiloOculosRepository.findById(dto.estiloOculos().id());
         if (estiloOculosEntity == null) {
-            throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.estiloOculos().id());
+            throw new RuntimeException("Estilo de Óculos não encontrado com o ID: " + dto.estiloOculos().id());
         }
         novaArmacao.setEstiloOculos(estiloOculosEntity);
 
@@ -77,15 +88,19 @@ public class ArmacaoServiceImpl implements ArmacaoService {
         armacao.setNomeImagem(dto.nomeImagem());
         armacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         armacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
+        armacao.setTipoArmacao(TipoArmacao.valueOf(dto.idTipoArmacao()));
         Fabricante fabricanteEntity = fabricanteRepository.findById(dto.fabricante().id());
         if (fabricanteEntity == null) {
             throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.fabricante().id());
         }
         armacao.setFabricante(fabricanteEntity);
 
+        Colecao colecaoEntity = colecaoRepository.findById(dto.colecao().id());
+        armacao.setColecao(colecaoEntity);
+
         EstiloOculos estiloOculosEntity = estiloOculosRepository.findById(dto.estiloOculos().id());
         if (estiloOculosEntity == null) {
-            throw new RuntimeException("Fabricante não encontrada com o ID: " + dto.estiloOculos().id());
+            throw new RuntimeException("Estilo de Óculos não encontrado com o ID: " + dto.estiloOculos().id());
         }
         armacao.setEstiloOculos(estiloOculosEntity);
         repository.persist(armacao);
