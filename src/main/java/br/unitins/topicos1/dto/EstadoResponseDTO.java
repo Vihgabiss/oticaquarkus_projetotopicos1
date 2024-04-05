@@ -2,16 +2,17 @@ package br.unitins.topicos1.dto;
 
 
 import br.unitins.topicos1.model.Estado;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 public record EstadoResponseDTO(
         Long id,
         String nome,
         String sigla) {
 
-    public static EstadoResponseDTO valueOf(Estado estado) {
+    public static EstadoResponseDTO valueOf(Estado e) {
         return new EstadoResponseDTO(
-                estado.getId(),
-                estado.getNome(),
-                estado.getSigla());
+                e.getId(),
+                e.getNome(),
+                e.getSigla());
     }
 }

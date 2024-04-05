@@ -1,6 +1,7 @@
 package br.unitins.topicos1.resource;
 
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import br.unitins.topicos1.dto.CidadeDTO;
 import br.unitins.topicos1.dto.EstadoDTO;
@@ -9,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -37,9 +39,17 @@ public class EstadoResource {
     }
 
     @GET
-    public Response findAll(){
+    public Response findAll(        
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize){
         LOG.info("Listando todos os estados");
-        return Response.ok(service.findByAll()).build();
+        return Response.ok(service.findByAll(page, pageSize)).build();
+    }
+
+    @GET
+    @Path("/count")
+    public long count(){
+        return service.count();
     }
 
     @GET
@@ -123,9 +133,18 @@ public class EstadoResource {
     @GET
     @Path("/allCities")
     //@RolesAllowed({ "User", "Admin"})
-    public Response findAllCities(){
+    public Response findAllCities(
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize
+    ){
         LOG.info("Listando todas as cidades.");
-        return Response.ok(service.findAllCities()).build();
+        return Response.ok(service.findAllCities(page, pageSize)).build();
+    }
+
+    @GET
+    @Path("/countCidade")
+    public long countCidade(){
+        return service.countCidade();
     }
 
     @GET
