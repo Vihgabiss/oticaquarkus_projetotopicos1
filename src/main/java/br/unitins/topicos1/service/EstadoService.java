@@ -15,7 +15,7 @@ public interface EstadoService {
 
     public void delete(Long id);
 
-    public List<EstadoResponseDTO> findByAll();
+    public List<EstadoResponseDTO> findByAll(int page, int pageSize);
 
     public EstadoResponseDTO findById(Long id);
 
@@ -29,7 +29,11 @@ public interface EstadoService {
 
     public void deleteCidade(Long idCidade);
 
-    public List<CidadeResponseDTO> findAllCities();
+    public List<CidadeResponseDTO> findAllCities(int page, int pageSize);
 
     public CidadeResponseDTO findCidadeById(Long id);
+
+    long count();
+
+    long countCidade();
 }

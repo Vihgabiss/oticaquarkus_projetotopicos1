@@ -68,9 +68,10 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
-    public List<EstadoResponseDTO> findByAll(){ 
-        List<Estado> list = repository.findAllInOrder();
-         return list.stream().map(e -> EstadoResponseDTO.valueOf(e)).collect(Collectors.toList());
+    public List<EstadoResponseDTO> findByAll(int page, int pageSize){ 
+        List<Estado> list = repository.findAll().page(page, pageSize).list();
+
+       return list.stream().map(e -> EstadoResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -99,15 +100,6 @@ public class EstadoServiceImpl implements EstadoService{
     @Override
     @Transactional
     public CidadeResponseDTO insertCidade(@Valid CidadeDTO dto) {
-        // Estado estado = repository.findById(dto.idEstado());
-
-        // Cidade cidade = new Cidade();
-        // cidade.setNome(dto.nome());
-        // cidade.setIdEstado(estado);
-
-        // cidadeRepository.persist(cidade);
-
-        // return CidadeResponseDTO.valueOf(cidade);
 
         validar(dto);
 
@@ -144,8 +136,9 @@ public class EstadoServiceImpl implements EstadoService{
     }
 
     @Override
-    public List<CidadeResponseDTO> findAllCities() {
-       List<Cidade> list = cidadeRepository.findAllInOrder();
+    public List<CidadeResponseDTO> findAllCities(int page, int pageSize) {
+        List<Cidade> list = cidadeRepository.findAll().page(page, pageSize).list();
+
        return list.stream().map(e -> CidadeResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
@@ -154,5 +147,14 @@ public class EstadoServiceImpl implements EstadoService{
         return CidadeResponseDTO.valueOf(cidadeRepository.findById(id));
     }
 
+    @Override
+    public long count() {
+       return repository.count();
+    }
+
+    @Override
+    public long countCidade() {
+       return cidadeRepository.count();
+    }
     
 }

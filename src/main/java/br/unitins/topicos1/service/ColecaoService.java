@@ -16,5 +16,7 @@ public interface ColecaoService {
 
     public ColecaoResponseDTO findById(Long idColecao);
 
-    public List<ColecaoResponseDTO> findByAll();
+    public List<ColecaoResponseDTO> findByAll(int page, int pageSize);
+
+    long count();
 }
