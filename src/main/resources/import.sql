@@ -14,9 +14,6 @@ insert into marca(nome) values('Tommy Hilfiger');
 insert into fabricante(nome, telefone, email, endereco, cnpj) values ('LuxOtica',  '6848464511', 'luxotica@gmail.com','110 norte', '11.111.111/0001-00');
 insert into fabricante(nome, telefone, email, endereco, cnpj) values ('Safilo',  '6848464511', 'safilo@gmail.com', '110 norte', '22.222.222/0001-00');
 
-insert into colecao(nome, descricao, dataLancamento) values('Coleção Verão 2023', 'Nova coleção de óculos de sol para o verão', '2023-06-21');
-insert into colecao (nome, descricao, dataLancamento) values('Coleção Inverno 2023', 'Nova coleção de óculos de sol para o inverno', '2023-12-21');
-
 insert into estilooculos(nome, descricao) values('Aviador', 'Caracterizados por uma forma de gota invertida, lentes grandes e uma ponte dupla sobre o nariz. Popularizados na década de 1930, são conhecidos por seu estilo clássico e elegante.');
 insert into estilooculos(nome, descricao) values('Retrô/Vintage', 'Inspirados por estilos de décadas passadas, os óculos retrô ou vintage capturam a nostalgia da moda do passado. Podem apresentar uma variedade de formas e detalhes, incluindo armações redondas, lentes coloridas e detalhes decorativos.');
 
