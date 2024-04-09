@@ -5,9 +5,7 @@ import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.ColecaoDTO;
 import br.unitins.topicos1.dto.ColecaoResponseDTO;
-import br.unitins.topicos1.dto.EstadoResponseDTO;
 import br.unitins.topicos1.model.Colecao;
-import br.unitins.topicos1.model.Estado;
 import br.unitins.topicos1.repository.ColecaoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

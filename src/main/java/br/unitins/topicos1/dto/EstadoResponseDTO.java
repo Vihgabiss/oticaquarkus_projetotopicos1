@@ -2,7 +2,6 @@ package br.unitins.topicos1.dto;
 
 
 import br.unitins.topicos1.model.Estado;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 public record EstadoResponseDTO(
         Long id,

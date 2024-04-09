@@ -21,6 +21,9 @@ insert into fabricante_marca (id_fabricante, id_marca) values(1, 1);
 insert into fabricante_marca (id_fabricante, id_marca) values(1, 2);
 insert into fabricante_marca (id_fabricante, id_marca) values(2, 3);
 
+insert into colecao(nome, descricao, dataLancamento) values('Coleção Verão 2023', 'Nova coleção de óculos de sol para o verão', '2023-06-21');
+insert into colecao (nome, descricao, dataLancamento) values('Coleção Inverno 2023', 'Nova coleção de óculos de sol para o inverno', '2023-12-21');
+
 -- inserção de óculos
 insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1,1,1, 'armacao1.jpg', 1,1,1);
 insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2, 2, 2);
@@ -46,10 +49,6 @@ insert into estado(nome, sigla) values('Bahia', 'BA');
 insert into cidade(nome, id_estado) values('Palmas', 1);
 insert into cidade(nome, id_estado) values('Paraíso', 1);
 insert into cidade(nome, id_estado) values('Salvador', 2);
-
-
-insert into colecao(nome, descricao, dataLancamento) values('Coleção Verão 2023', 'Nova coleção de óculos de sol para o verão', '2023-06-21');
-insert into colecao (nome, descricao, dataLancamento) values('Coleção Inverno 2023', 'Nova coleção de óculos de sol para o inverno', '2023-12-21');
 
 insert into endereco(cep, bairro, rua, numero, complemento, id_cidade, idUsuario) values('77006-020', '110 Norte', 'alameda 15', 25, 'casa', 1, 1);
 insert into endereco(cep, bairro, rua, numero, complemento, id_cidade, idUsuario) values('77010-000', '106 Norte', 'Av.JK', 10, 'loja 1, Sapataria', 1, 1);
