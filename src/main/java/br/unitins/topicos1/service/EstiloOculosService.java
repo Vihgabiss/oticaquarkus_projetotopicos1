@@ -18,4 +18,8 @@ public interface EstiloOculosService {
 
     public List<EstiloOculosResponseDTO> findByAll();
 
+    public List<EstiloOculosResponseDTO> findByNome(String nome);
+
+    public List<EstiloOculosResponseDTO> findByDescricao(String descricao);
+
 }

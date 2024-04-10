@@ -29,6 +29,7 @@ public class EstiloOculosResource {
     private static final Logger LOG = Logger.getLogger(EstiloOculosResource.class);
 
     @POST
+    @Transactional
     @Path("/insere-estilo_oculos")
     public Response insert(EstiloOculosDTO dto){
         LOG.info("Inserindo Estilo Óculos.");
@@ -68,5 +69,19 @@ public class EstiloOculosResource {
     public Response findById(@PathParam("id") Long id){
         LOG.infof("Listando o estilo óculos do id %s", id);
         return Response.ok(service.findById(id)).build();
+    }
+
+    @GET
+    @Path("/nome/{nome}")
+    public Response findByNome(@PathParam("nome") String nome){
+        LOG.infof("Listando o estilo óculos do nome %s", nome);
+        return Response.ok(service.findByNome(nome)).build();
+    }
+
+    @GET
+    @Path("/descricao/{descricao}")
+    public Response findByDescricao(@PathParam("descricao") String descricao){
+        LOG.infof("Listando o estilo óculos com a descrição %s", descricao);
+        return Response.ok(service.findByDescricao(descricao)).build();
     }
 }
