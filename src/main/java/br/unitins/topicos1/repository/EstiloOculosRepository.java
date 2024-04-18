@@ -20,4 +20,14 @@ public class EstiloOculosRepository implements PanacheRepository<EstiloOculos> {
     public PanacheQuery<EstiloOculos> findByDescricao(String descricao) {
         return find("UPPER(descricao) LIKE UPPER(?1)", "%" + descricao + "%");
     }
+
+    public PanacheQuery<EstiloOculos> findInAllFields(String searchTerm){
+        try {
+            Long searchLong = Long.parseLong(searchTerm);
+            return find("id = ?1 or lower(nome) like ?2 or lower(descricao) like ?2", searchLong, "%"+searchTerm.toLowerCase()+"%");
+        } catch (NumberFormatException e) {
+            return find("lower(nome) like ?1 or lower(descricao) like ?1", "%"+searchTerm.toLowerCase()+"%");
+        }
+    }
+    
 }

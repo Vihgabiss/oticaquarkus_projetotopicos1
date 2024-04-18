@@ -84,4 +84,11 @@ public class EstiloOculosResource {
         LOG.infof("Listando o estilo óculos com a descrição %s", descricao);
         return Response.ok(service.findByDescricao(descricao)).build();
     }
+
+    @GET
+    @Path("/search/all_fields/{termo}")
+    public Response findInAllFields(@PathParam("termo") String termo){
+        LOG.infof("Listando o(s) estilo óculos com o termo %s", termo);
+        return Response.ok(service.findInAllFields(termo)).build();
+    }
 }

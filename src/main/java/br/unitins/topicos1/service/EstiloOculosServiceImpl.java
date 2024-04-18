@@ -70,5 +70,11 @@ public class EstiloOculosServiceImpl implements EstiloOculosService{
         return repositoryEstiloOculos.findByDescricao(descricao).stream()
         .map(e -> EstiloOculosResponseDTO.valueOf(e)).toList();
     }
+
+    @Override
+    public List<EstiloOculosResponseDTO> findInAllFields(String termo) {
+        return repositoryEstiloOculos.findInAllFields(termo).stream()
+        .map(e -> EstiloOculosResponseDTO.valueOf(e)).toList();
+    }
     
 }

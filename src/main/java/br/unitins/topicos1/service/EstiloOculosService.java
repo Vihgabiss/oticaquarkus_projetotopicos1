@@ -22,4 +22,6 @@ public interface EstiloOculosService {
 
     public List<EstiloOculosResponseDTO> findByDescricao(String descricao);
 
+    public List<EstiloOculosResponseDTO> findInAllFields(String termo);
+
 }
