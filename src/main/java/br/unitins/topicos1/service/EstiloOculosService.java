@@ -16,6 +16,8 @@ public interface EstiloOculosService {
 
     public EstiloOculosResponseDTO findById(Long idEstiloOculos);
 
+    public List<EstiloOculosResponseDTO> findByIdList(Long idEstiloOculos);
+
     public List<EstiloOculosResponseDTO> findByAll();
 
     public List<EstiloOculosResponseDTO> findByNome(String nome);

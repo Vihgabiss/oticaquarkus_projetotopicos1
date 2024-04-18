@@ -7,12 +7,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class EnderecoRepository implements PanacheRepository<Endereco> {
-    public  PanacheQuery<Endereco> findByCep(String cep) {
-        return find("cep", cep);
-    }
-
-        public PanacheQuery<Endereco> findAllInOrder(){
+    
+    public PanacheQuery<Endereco> findAllInOrder(){
         return find("SELeCT e FROM Endereco e ORDER BY e.cep");
     }
+
+    public  PanacheQuery<Endereco> findByCep(String cep) {
+        return find("lower(cep) like ?1", "%"+cep.toLowerCase()+"%");
+    }
+
 
 }

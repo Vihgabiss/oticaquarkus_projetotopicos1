@@ -72,6 +72,13 @@ public class EstiloOculosResource {
     }
 
     @GET
+    @Path("/list_id/{id}")
+    public Response findByIdList(@PathParam("id") Long id){
+        LOG.infof("Listando o estilo óculos do id %s", id);
+        return Response.ok(service.findByIdList(id)).build();
+    }
+
+    @GET
     @Path("/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
         LOG.infof("Listando o estilo óculos do nome %s", nome);

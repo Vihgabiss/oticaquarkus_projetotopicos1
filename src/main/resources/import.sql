@@ -16,6 +16,18 @@ insert into fabricante(nome, telefone, email, endereco, cnpj) values ('Safilo', 
 
 insert into estilooculos(nome, descricao) values('Aviador', 'Caracterizados por uma forma de gota invertida, lentes grandes e uma ponte dupla sobre o nariz. Popularizados na década de 1930, são conhecidos por seu estilo clássico e elegante.');
 insert into estilooculos(nome, descricao) values('Retrô/Vintage', 'Inspirados por estilos de décadas passadas, os óculos retrô ou vintage capturam a nostalgia da moda do passado. Podem apresentar uma variedade de formas e detalhes, incluindo armações redondas, lentes coloridas e detalhes decorativos.');
+insert into estilooculos(nome, descricao) values('sla3', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla4', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla5', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla6', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla7', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla8', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla9', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla10', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla11', 'sdfsdfs');
+insert into estilooculos(nome, descricao) values('sla12', 'sdfsdfs');
+
+
 
 insert into fabricante_marca (id_fabricante, id_marca) values(1, 1);
 insert into fabricante_marca (id_fabricante, id_marca) values(1, 2);

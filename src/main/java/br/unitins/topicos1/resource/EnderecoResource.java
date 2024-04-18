@@ -53,6 +53,7 @@ public class EnderecoResource {
         LOG.infof("Listando o endereço do id %s", id);
         return Response.ok(service.findById(id)).build();
     }
+    
 
     @GET
     @Path("/cep/{cep}")
