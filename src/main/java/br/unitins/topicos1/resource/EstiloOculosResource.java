@@ -2,18 +2,21 @@ package br.unitins.topicos1.resource;
 
 import org.jboss.logging.Logger;
 
+
 import br.unitins.topicos1.dto.EstiloOculosDTO;
 import br.unitins.topicos1.service.EstiloOculosService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -59,9 +62,25 @@ public class EstiloOculosResource {
     }
 
     @GET
-    public Response findByAll(){
+    public Response findByAll(
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize){
+
         LOG.info("Listando todos os estilos de óculos.");
-        return Response.ok(service.findByAll()).build();
+        return Response.ok(service.findByAll(page, pageSize)).build();
+    }
+
+    
+    @GET
+    @Path("/count")
+    public long count(){
+        return service.count();
+    }
+
+    @GET
+    @Path("/countById/{id}")
+    public long countById(@PathParam("id") Long id){
+        return service.countById(id);
     }
 
     @GET
@@ -73,9 +92,12 @@ public class EstiloOculosResource {
 
     @GET
     @Path("/list_id/{id}")
-    public Response findByIdList(@PathParam("id") Long id){
+    public Response findByIdList(
+        @PathParam("id") Long id,
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize){
         LOG.infof("Listando o estilo óculos do id %s", id);
-        return Response.ok(service.findByIdList(id)).build();
+        return Response.ok(service.findByIdList(id, page, pageSize)).build();
     }
 
     @GET

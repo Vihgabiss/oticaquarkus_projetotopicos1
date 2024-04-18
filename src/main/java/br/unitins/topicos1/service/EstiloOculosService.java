@@ -16,14 +16,18 @@ public interface EstiloOculosService {
 
     public EstiloOculosResponseDTO findById(Long idEstiloOculos);
 
-    public List<EstiloOculosResponseDTO> findByIdList(Long idEstiloOculos);
+    public List<EstiloOculosResponseDTO> findByIdList(Long idEstiloOculos, int page, int pageSize);
 
-    public List<EstiloOculosResponseDTO> findByAll();
+    public List<EstiloOculosResponseDTO> findByAll(int page, int pageSize);
 
     public List<EstiloOculosResponseDTO> findByNome(String nome);
 
     public List<EstiloOculosResponseDTO> findByDescricao(String descricao);
 
     public List<EstiloOculosResponseDTO> findInAllFields(String termo);
+
+    long count();
+
+    public long countById(Long id);
 
 }
