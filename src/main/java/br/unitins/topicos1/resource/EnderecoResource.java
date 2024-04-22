@@ -63,6 +63,14 @@ public class EnderecoResource {
         return Response.ok(service.findByCep(cep)).build();
     }
 
+    @GET
+    @Path("/idUsuario/{idUsuario}")
+    //@RolesAllowed({"Admin"})
+    public Response findByIdUsuario(@PathParam("idUsuario") Long idUsuario){
+        LOG.infof("Listando o endereço do usuario %s", idUsuario);
+        return Response.ok(service.findByIdUsuario(idUsuario)).build();
+    }
+
     @POST
     @Path("/insere-endereco")
     //@RolesAllowed({"Admin"})

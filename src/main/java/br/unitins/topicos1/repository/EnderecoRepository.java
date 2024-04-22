@@ -17,4 +17,8 @@ public class EnderecoRepository implements PanacheRepository<Endereco> {
     }
 
 
+    public  PanacheQuery<Endereco> findByIdUsuario(Long idUsuario) {
+        return find("idUsuario", idUsuario);
+    }
+
 }
