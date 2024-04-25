@@ -133,4 +133,13 @@ public class UsuarioResource {
         LOG.infof("Listando todos os telefones de codigo de area %s", codigoArea);
         return Response.ok(service.findTelByCodigoArea(codigoArea)).build();
     }
+
+    @GET
+    @Path("/{idUsuario}/telefones")
+    //@RolesAllowed({"Admin"})
+    public Response findByIdUsuario(@PathParam("idUsuario") Long idUsuario){
+        LOG.infof("Listando os telefones do usuario %s", idUsuario);
+        return Response.ok(service.findByIdUsuario(idUsuario)).build();
+    }
+
 }

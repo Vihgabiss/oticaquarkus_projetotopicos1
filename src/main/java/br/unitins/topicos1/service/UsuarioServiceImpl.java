@@ -2,6 +2,7 @@ package br.unitins.topicos1.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
@@ -241,6 +242,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto){
         Usuario usuario = getUsuarioByEmail(); 
         return updateTelefone(usuario.getId(), idTelefone, dto);  
+    }
+
+    @Override
+    public List<TelefoneResponseDTO> findByIdUsuario(Long idUsuario) {
+        Usuario usuario = repository.findById(idUsuario);
+        List<Telefone> telefones = usuario.getListaTelefone();
+ 
+        return telefones.stream().map(TelefoneResponseDTO::valueOf).collect(Collectors.toList());
     }
 
     /*@Override
