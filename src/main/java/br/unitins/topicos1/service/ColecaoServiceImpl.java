@@ -1,10 +1,13 @@
 package br.unitins.topicos1.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.ColecaoDTO;
 import br.unitins.topicos1.dto.ColecaoResponseDTO;
+import br.unitins.topicos1.dto.EstadoResponseDTO;
 import br.unitins.topicos1.model.Colecao;
+import br.unitins.topicos1.model.Estado;
 import br.unitins.topicos1.repository.ColecaoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -56,9 +59,15 @@ public class ColecaoServiceImpl implements ColecaoService {
     }
 
     @Override
-    public List<ColecaoResponseDTO> findByAll() {
-        return repositoryColecao.findAllInOrder().stream()
-        .map(e -> ColecaoResponseDTO.valueOf(e)).toList();
+    public List<ColecaoResponseDTO> findByAll(int page, int pageSize) {
+          List<Colecao> list = repositoryColecao.findAll().page(page, pageSize).list();
+
+       return list.stream().map(e -> ColecaoResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public long count() {
+       return repositoryColecao.count();
     }
     
 }

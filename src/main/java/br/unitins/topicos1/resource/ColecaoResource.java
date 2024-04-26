@@ -1,6 +1,7 @@
 package br.unitins.topicos1.resource;
 
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import br.unitins.topicos1.dto.ColecaoDTO;
 import br.unitins.topicos1.service.ColecaoService;
@@ -8,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -59,9 +61,18 @@ public class ColecaoResource {
     }
 
     @GET
-    public Response findByAll(){
+    public Response findByAll(
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize
+    ){
         LOG.info("Listando todos as coleções.");
-        return Response.ok(service.findByAll()).build();
+        return Response.ok(service.findByAll(page, pageSize)).build();
+    }
+
+    @GET
+    @Path("/count")
+    public long count(){
+        return service.count();
     }
 
     @GET
