@@ -252,6 +252,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return telefones.stream().map(TelefoneResponseDTO::valueOf).collect(Collectors.toList());
     }
 
+
     /*@Override
     @Transactional
     public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto){
