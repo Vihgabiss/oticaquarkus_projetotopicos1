@@ -5,9 +5,7 @@ import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.ColecaoDTO;
 import br.unitins.topicos1.dto.ColecaoResponseDTO;
-import br.unitins.topicos1.dto.EstadoResponseDTO;
 import br.unitins.topicos1.model.Colecao;
-import br.unitins.topicos1.model.Estado;
 import br.unitins.topicos1.repository.ColecaoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -22,7 +20,7 @@ public class ColecaoServiceImpl implements ColecaoService {
 
     @Override
     public ColecaoResponseDTO insert(@Valid ColecaoDTO colecaoDto) {
-        
+
         Colecao colecao = new Colecao();
         colecao.setNome(colecaoDto.nome());
         colecao.setDescricao(colecaoDto.descricao());
@@ -48,8 +46,8 @@ public class ColecaoServiceImpl implements ColecaoService {
 
     @Override
     public void delete(Long idColecao) {
-        
-        if(!repositoryColecao.deleteById(idColecao))
+
+        if (!repositoryColecao.deleteById(idColecao))
             throw new NotFoundException();
     }
 
@@ -60,14 +58,14 @@ public class ColecaoServiceImpl implements ColecaoService {
 
     @Override
     public List<ColecaoResponseDTO> findByAll(int page, int pageSize) {
-          List<Colecao> list = repositoryColecao.findAll().page(page, pageSize).list();
+        List<Colecao> list = repositoryColecao.findAll().page(page, pageSize).list();
 
-       return list.stream().map(e -> ColecaoResponseDTO.valueOf(e)).collect(Collectors.toList());
+        return list.stream().map(e -> ColecaoResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
     public long count() {
-       return repositoryColecao.count();
+        return repositoryColecao.count();
     }
-    
+
 }

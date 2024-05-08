@@ -1,13 +1,13 @@
 package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 
-@Entity
+@MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Armacao extends DefaultEntity {
 
@@ -37,7 +37,7 @@ public class Armacao extends DefaultEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_colecao")
-    private Colecao colecao;
+    public Colecao colecao;
 
     @Column(name = "material_armacao")
     private MaterialArmacao materialArmacao;
