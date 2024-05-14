@@ -10,14 +10,14 @@ public record ArmacaoCliponResponseDTO(
         Double precoCusto,
         Double precoVenda,
         Integer quantidade,
-        String nome_fabricante,
-        String nome_colecao,
-        String tipo_aro_armacao,
-        String tipoarmacao,
-        String material_armacao,
+        String nomeFabricante,
+        String nomeColecao,
+        String tipoAroArmacao,
+        String tipoArmacao,
+        String materialArmacao,
         String nomeImagem,
         String estiloOculos,
-        String lenteSolar) {
+        String tipoLenteSolar) {
 
     public static ArmacaoCliponResponseDTO valueOf(ArmacaoClipon armacaoClipon) {
         return new ArmacaoCliponResponseDTO(

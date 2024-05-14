@@ -5,6 +5,7 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.service.UsuarioService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -23,24 +24,24 @@ import jakarta.ws.rs.core.Response.Status;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
-    
+
     @Inject
     UsuarioService service;
 
     private static final Logger LOG = Logger.getLogger(UsuarioResource.class);
 
     @POST
-    //@RolesAllowed({ "User", "Admin"})
-    public Response insert(UsuarioDTO dto) throws Exception{
+    // @RolesAllowed({ "User", "Admin"})
+    public Response insert(UsuarioDTO dto) throws Exception {
         LOG.info("Cadastrando um usuario.");
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
     @PATCH
     @Path("/insere-telefone/{idUsuario}")
-    //@RolesAllowed({"Admin"})
-    public Response insertTelefone(TelefoneDTO dto, @PathParam("idUsuario") Long idUsuario){
-         
+    @RolesAllowed({ "Admin" })
+    public Response insertTelefone(TelefoneDTO dto, @PathParam("idUsuario") Long idUsuario) {
+
         LOG.infof("Cadastrando um telefone para o usuario %s", idUsuario);
         service.insertTelefone(idUsuario, dto);
 
@@ -48,11 +49,11 @@ public class UsuarioResource {
         return Response.noContent().build();
     }
 
-
     @PATCH
     @Path("/atualiza-telefone/{id}/{idTelefone}")
-    //@RolesAllowed({"Admin"})
-    public Response updateTelefone(TelefoneDTO dto, @PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
+    @RolesAllowed({ "Admin" })
+    public Response updateTelefone(TelefoneDTO dto, @PathParam("id") Long id,
+            @PathParam("idTelefone") Long idTelefone) {
         LOG.info("Atualizando telefone.");
         service.updateTelefone(id, idTelefone, dto);
 
@@ -60,11 +61,10 @@ public class UsuarioResource {
         return Response.noContent().build();
     }
 
-
     @PUT
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
-    public Response update(UsuarioDTO dto, @PathParam("id") Long id){
+    @RolesAllowed({ "Admin" })
+    public Response update(UsuarioDTO dto, @PathParam("id") Long id) {
         LOG.infof("Atualizando os dados do usuario %s", id);
         service.update(dto, id);
 
@@ -74,8 +74,8 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
-    public Response delete(@PathParam("id") Long id){
+    @RolesAllowed({ "Admin" })
+    public Response delete(@PathParam("id") Long id) {
         LOG.infof("Deletando usuario %s", id);
         service.delete(id);
 
@@ -85,51 +85,50 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/deleta-telefone/{id}/{idTelefone}")
-    //@RolesAllowed({"Admin"})
-    public Response deleteTelefone(@PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone){
-         LOG.infof("Deletando telefone %s", idTelefone);
+    @RolesAllowed({ "Admin" })
+    public Response deleteTelefone(@PathParam("id") Long id, @PathParam("idTelefone") Long idTelefone) {
+        LOG.infof("Deletando telefone %s", idTelefone);
         service.deleteTelefone(id, idTelefone);
 
         LOG.infof("Telefone %s deletado", idTelefone);
         return Response.noContent().build();
     }
 
-
     @GET
-    //@RolesAllowed({"Admin"})
-    public Response findByAll(){
+    @RolesAllowed({ "Admin" })
+    public Response findByAll() {
         LOG.info("Listando todos os usuarios.");
         return Response.ok(service.findByAll()).build();
     }
 
     @GET
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
-    public Response findById(@PathParam("id") Long id){
+    @RolesAllowed({ "Admin" })
+    public Response findById(@PathParam("id") Long id) {
         LOG.infof("Listando o usuario de id %s", id);
         return Response.ok(service.findById(id)).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
-    //@RolesAllowed({"Admin"})
-    public Response findByNome(@PathParam("nome") String nome){
+    @RolesAllowed({ "Admin" })
+    public Response findByNome(@PathParam("nome") String nome) {
         LOG.infof("Listando os usuarios com nome %s", nome);
         return Response.ok(service.findByNome(nome)).build();
     }
 
     @GET
     @Path("/telefone/{id}")
-    //@RolesAllowed({"Admin"})
-    public Response findTelById(@PathParam("id") Long id){
-         LOG.infof("Listando telefone de id %s", id);
+    @RolesAllowed({ "Admin" })
+    public Response findTelById(@PathParam("id") Long id) {
+        LOG.infof("Listando telefone de id %s", id);
         return Response.ok(service.findTelById(id)).build();
     }
 
     @GET
     @Path("/telefone/{codigoArea}")
-    //@RolesAllowed({"Admin"})
-    public Response findTelByCodigoArea(@PathParam("codigoArea") String codigoArea){
+    @RolesAllowed({ "Admin" })
+    public Response findTelByCodigoArea(@PathParam("codigoArea") String codigoArea) {
         LOG.infof("Listando todos os telefones de codigo de area %s", codigoArea);
         return Response.ok(service.findTelByCodigoArea(codigoArea)).build();
     }

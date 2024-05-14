@@ -65,7 +65,7 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
             throw new RuntimeException("Coleção não encontrado com o ID: " + idColecao);
         }
         novaArmacao.setColecao(colecao);
-       
+
         Long idEstiloOculos = dto.idEstiloOculos().longValue();
         EstiloOculos estiloOculos = estiloOculosRepository.findById(idEstiloOculos);
         if (estiloOculos == null) {
@@ -110,7 +110,7 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
             throw new RuntimeException("Coleção não encontrado com o ID: " + idColecao);
         }
         armacao.setColecao(colecao);
-       
+
         Long idEstiloOculos = dto.idEstiloOculos().longValue();
         EstiloOculos estiloOculos = estiloOculosRepository.findById(idEstiloOculos);
         if (estiloOculos == null) {

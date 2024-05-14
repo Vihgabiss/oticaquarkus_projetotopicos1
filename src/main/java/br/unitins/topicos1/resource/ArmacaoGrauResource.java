@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.dto.ArmacaoGrauDTO;
 import br.unitins.topicos1.dto.ArmacaoGrauResponseDTO;
 import br.unitins.topicos1.service.ArmacaoGrauService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class ArmacaoGrauResource {
     private static final Logger LOG = Logger.getLogger(ArmacaoGrauResource.class);
 
     @POST
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid ArmacaoGrauDTO dto) {
         LOG.info("Inserindo Armação de Grau");
@@ -42,7 +43,7 @@ public class ArmacaoGrauResource {
     }
 
     @PUT
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(@Valid ArmacaoGrauDTO dto, @PathParam("id") Long id) {
@@ -52,7 +53,7 @@ public class ArmacaoGrauResource {
     }
 
     @DELETE
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -62,7 +63,7 @@ public class ArmacaoGrauResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando Armação de Grau por ID");
@@ -71,7 +72,7 @@ public class ArmacaoGrauResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
         LOG.info("Buscando Armação de Grau por referência");
@@ -89,7 +90,7 @@ public class ArmacaoGrauResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos as armações de Grau");
         List<ArmacaoGrauResponseDTO> retorno = service.findByAll();

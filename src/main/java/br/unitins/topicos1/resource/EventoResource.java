@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.dto.EventoDTO;
 import br.unitins.topicos1.dto.EventoResponseDTO;
 import br.unitins.topicos1.service.EventoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class EventoResource {
     private static final Logger LOG = Logger.getLogger(EventoResource.class);
 
     @POST
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid EventoDTO dto) {
         LOG.info("Inserindo evento");
@@ -42,7 +43,7 @@ public class EventoResource {
     }
 
     @PUT
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(@Valid EventoDTO dto, @PathParam("id") Long id) {
@@ -52,7 +53,7 @@ public class EventoResource {
     }
 
     @DELETE
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -62,7 +63,7 @@ public class EventoResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando evento por ID");
@@ -71,7 +72,7 @@ public class EventoResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/descricao/{descricao}")
     public Response findByDescricao(@PathParam("descricao") String descricao) {
         LOG.info("Buscando evento por descricao");
@@ -89,7 +90,7 @@ public class EventoResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos os evento");
         List<EventoResponseDTO> retorno = service.findByAll();
