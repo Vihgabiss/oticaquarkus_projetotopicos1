@@ -20,22 +20,23 @@ public record ArmacaoCliponResponseDTO(
         String tipoLenteSolar) {
 
     public static ArmacaoCliponResponseDTO valueOf(ArmacaoClipon armacaoClipon) {
+        // Ajuste para acessar os atributos herdados de ArmacaoClipon e Armacao
         return new ArmacaoCliponResponseDTO(
                 armacaoClipon.getId(),
-                armacaoClipon.getReferencia(),
-                armacaoClipon.getCor(),
-                armacaoClipon.getTamanho(),
-                armacaoClipon.getPrecoCusto(),
-                armacaoClipon.getPrecoVenda(),
-                armacaoClipon.getQuantidade(),
-                armacaoClipon.getFabricante().getNome(),
-                armacaoClipon.getColecao().getNome(),
-                armacaoClipon.getTipoAroArmacao().getLabel(),
-                armacaoClipon.getTipoArmacao().getLabel(),
-                armacaoClipon.getMaterialArmacao().getLabel(),
-                armacaoClipon.getNomeImagem(),
-                armacaoClipon.getEstiloOculos().getNome(),
-                armacaoClipon.getTipoLenteSolar().getLabel());
+                armacaoClipon.getReferencia(), // Herdado de Armacao
+                armacaoClipon.getCor(), // Herdado de Armacao
+                armacaoClipon.getTamanho(), // Herdado de Armacao
+                armacaoClipon.getPrecoCusto(), // Herdado de Armacao
+                armacaoClipon.getPrecoVenda(), // Herdado de Armacao
+                armacaoClipon.getQuantidade(), // Herdado de Armacao
+                armacaoClipon.getFabricante().getNome(), // Herdado de Armacao
+                armacaoClipon.getColecao().getNome(), // Herdado de Armacao
+                armacaoClipon.getTipoAroArmacao().getLabel(), // Herdado de Armacao
+                armacaoClipon.getTipoArmacao().getLabel(), // Herdado de Armacao
+                armacaoClipon.getMaterialArmacao().getLabel(), // Herdado de Armacao
+                armacaoClipon.getNomeImagem(), // Herdado de Armacao
+                armacaoClipon.getEstiloOculos().getNome(), // Herdado de Armacao
+                armacaoClipon.getTipoLenteSolar().getLabel()); // Novo atributo em ArmacaoClipon
     }
 
 }
