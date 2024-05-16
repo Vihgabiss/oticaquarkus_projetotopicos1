@@ -19,9 +19,9 @@ public record ArmacaoCliponDTO(
 
         @NotNull(message = "Quantidade não pode ser nula") @Min(value = 1, message = "Quantidade deve ser maior ou igual a um") Integer quantidade,
 
-        @NotNull(message = "O id do fabricante não pode ser nulo.") Integer idFabricante,
+        @NotNull(message = "O id do fabricante não pode ser nulo.") Long idFabricante,  // Alterado para Long
 
-        @NotNull(message = "O id da coleção não pode ser nulo.") Integer idColecao,
+        @NotNull(message = "O id da coleção não pode ser nulo.") Long idColecao,  // Alterado para Long
 
         @NotNull(message = "O id do tipo do aro da armação não pode ser nulo.") Integer idTipoAroArmacao,
 

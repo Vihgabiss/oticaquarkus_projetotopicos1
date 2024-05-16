@@ -37,4 +37,5 @@ public record ArmacaoCliponResponseDTO(
                 armacaoClipon.getEstiloOculos().getNome(),
                 armacaoClipon.getTipoLenteSolar().getLabel());
     }
+
 }

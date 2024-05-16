@@ -16,5 +16,4 @@ public class ArmacaoClipon extends Armacao {
         this.tipoLenteSolar = tipoLenteSolar;
     }
 
-    
 }

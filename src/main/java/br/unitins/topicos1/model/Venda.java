@@ -1,78 +1,78 @@
-// package br.unitins.topicos1.model;
+//  package br.unitins.topicos1.model;
 
-// import java.time.LocalDateTime;
-// import java.util.List;
+//  import java.time.LocalDateTime;
+//  import java.util.List;
 
-// import jakarta.persistence.CascadeType;
-// import jakarta.persistence.Entity;
-// import jakarta.persistence.JoinColumn;
-// import jakarta.persistence.ManyToOne;
-// import jakarta.persistence.OneToMany;
+//  import jakarta.persistence.CascadeType;
+//  import jakarta.persistence.Entity;
+//  import jakarta.persistence.JoinColumn;
+//  import jakarta.persistence.ManyToOne;
+//  import jakarta.persistence.OneToMany;
 
-// @Entity
-// public class Venda extends DefaultEntity {
+//  @Entity
+//  public class Venda extends DefaultEntity {
 
-//     private LocalDateTime dataHora;
+//      private LocalDateTime dataHora;
 
-//     @ManyToOne
-//     @JoinColumn(name = "id_usuario")
-//     private Usuario usuario;
+//      @ManyToOne
+//      @JoinColumn(name = "id_usuario")
+//      private Usuario usuario;
 
-//     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda")
-//     private List<ItemVenda> itens;
+//      @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda")
+//      private List<ItemVenda> itens;
 
-//     private TipoPagamento tipoPagamento;
+//      private TipoPagamento tipoPagamento;
 
-//     private Double valorTotal;
+//      private Double valorTotal;
 
-//     private StatusVenda statusVenda;
+//      private StatusVenda statusVenda;
 
-//     public LocalDateTime getDataHora() {
-//         return dataHora;
-//     }
+//      public LocalDateTime getDataHora() {
+//          return dataHora;
+//      }
 
-//     public void setDataHora(LocalDateTime dataHora) {
-//         this.dataHora = dataHora;
-//     }
+//      public void setDataHora(LocalDateTime dataHora) {
+//          this.dataHora = dataHora;
+//      }
 
-//     public Usuario getUsuario() {
-//         return usuario;
-//     }
+//      public Usuario getUsuario() {
+//          return usuario;
+//      }
 
-//     public void setUsuario(Usuario usuario) {
-//         this.usuario = usuario;
-//     }
+//      public void setUsuario(Usuario usuario) {
+//          this.usuario = usuario;
+//      }
 
-//     public List<ItemVenda> getItens() {
-//         return itens;
-//     }
+//      public List<ItemVenda> getItens() {
+//          return itens;
+//      }
 
-//     public void setItens(List<ItemVenda> itens) {
-//         this.itens = itens;
-//     }
+//      public void setItens(List<ItemVenda> itens) {
+//          this.itens = itens;
+//      }
 
-//     public TipoPagamento getTipoPagamento() {
-//         return tipoPagamento;
-//     }
+//      public TipoPagamento getTipoPagamento() {
+//          return tipoPagamento;
+//      }
 
-//     public void setTipoPagamento(TipoPagamento tipoPagamento) {
-//         this.tipoPagamento = tipoPagamento;
-//     }
+//      public void setTipoPagamento(TipoPagamento tipoPagamento) {
+//          this.tipoPagamento = tipoPagamento;
+//      }
 
-//     public Double getValorTotal() {
-//         return valorTotal;
-//     }
+//      public Double getValorTotal() {
+//          return valorTotal;
+//      }
 
-//     public void setValorTotal(Double valorTotal) {
-//         this.valorTotal = valorTotal;
-//     }
+//      public void setValorTotal(Double valorTotal) {
+//          this.valorTotal = valorTotal;
+//      }
 
-//     public StatusVenda getStatusVenda() {
-//         return statusVenda;
-//     }
+//      public StatusVenda getStatusVenda() {
+//          return statusVenda;
+//      }
 
-//     public void setStatusVenda(StatusVenda statusVenda) {
-//         this.statusVenda = statusVenda;
-//     }
+//      public void setStatusVenda(StatusVenda statusVenda) {
+//          this.statusVenda = statusVenda;
+//      }
 
-// }
+//  }
