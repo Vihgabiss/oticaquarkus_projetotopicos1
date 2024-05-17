@@ -34,7 +34,7 @@ public class ArmacaoSolarResource {
     private static final Logger LOG = Logger.getLogger(ArmacaoSolarResource.class);
 
     @POST
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid ArmacaoSolarDTO dto) {
         LOG.info("Inserindo Armação Solar");
@@ -43,7 +43,7 @@ public class ArmacaoSolarResource {
     }
 
     @PUT
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(@Valid ArmacaoSolarDTO dto, @PathParam("id") Long id) {
@@ -53,7 +53,7 @@ public class ArmacaoSolarResource {
     }
 
     @DELETE
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -63,7 +63,7 @@ public class ArmacaoSolarResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando Armação Solar por ID");
@@ -72,7 +72,7 @@ public class ArmacaoSolarResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
         LOG.info("Buscando Armação Solar por referência");
@@ -81,7 +81,7 @@ public class ArmacaoSolarResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin", "User" })
+    @RolesAllowed({ "Admin", "User" })
     @Path("/fabricante/{fabricante}")
     public Response findByFabricante(@PathParam("fabricante") String fabricante) {
         LOG.info("Buscando Armação Solar por fabricante");
@@ -90,7 +90,7 @@ public class ArmacaoSolarResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos as armações solar");
         List<ArmacaoSolarResponseDTO> retorno = service.findByAll();

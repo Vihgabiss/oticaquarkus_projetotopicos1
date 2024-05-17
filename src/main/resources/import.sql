@@ -36,6 +36,7 @@ insert into armacaoclipon(id, tipo_lente_solar) values (4, 3);
 
 insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '111.111.111-11', 'musk@gmail.com', 2, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
 insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','222.222.222-22', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');
+insert into usuario(nome, cpf, email, perfil, senha) values('Funcionário Teste','333.333.333-33', 'funci@gmail.com', 2, '111');-- 111
 
 insert into telefone (codigoArea, numero) values('63', '9999-9999');
 insert into telefone (codigoArea, numero) values('62', '8888-8888');
@@ -68,15 +69,15 @@ insert into usuario_endereco (id_usuario, id_endereco) values(2, 3);
 
 -- teste de venda
 
--- insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
--- insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
--- insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
--- insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
 
--- insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (200.00, 2, 1, 1);
--- insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3, 2, 1);
--- insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (200.00, 2, 3, 2);
--- insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3, 4, 2);
+insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (200.00, 2, 1, 1);
+insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3, 2, 1);
+insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (200.00, 2, 3, 2);
+insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3, 4, 2);
  
 -- inserção de evento
 

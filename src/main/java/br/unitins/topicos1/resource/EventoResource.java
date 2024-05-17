@@ -81,7 +81,7 @@ public class EventoResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin", "User" })
+    @RolesAllowed({ "Admin", "User" })
     @Path("/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
         LOG.info("Buscando evento por nome");

@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 import br.unitins.topicos1.dto.ArmacaoCliponDTO;
 import br.unitins.topicos1.dto.ArmacaoCliponResponseDTO;
 import br.unitins.topicos1.service.ArmacaoCliponService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class ArmacaoCliponResource {
     private static final Logger LOG = Logger.getLogger(ArmacaoCliponResource.class);
 
     @POST
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid ArmacaoCliponDTO dto) {
         LOG.info("Inserindo Armação Clipon");
@@ -42,7 +43,7 @@ public class ArmacaoCliponResource {
     }
 
     @PUT
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(@Valid ArmacaoCliponDTO dto, @PathParam("id") Long id) {
@@ -52,7 +53,7 @@ public class ArmacaoCliponResource {
     }
 
     @DELETE
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
@@ -62,7 +63,7 @@ public class ArmacaoCliponResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando Armação Clipon por ID");
@@ -71,7 +72,7 @@ public class ArmacaoCliponResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/referencia/{referencia}")
     public Response findByReferencia(@PathParam("referencia") String referencia) {
         LOG.info("Buscando Armação Clipon por referência");
@@ -80,7 +81,7 @@ public class ArmacaoCliponResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin", "User" })
+    @RolesAllowed({ "Admin", "User" })
     @Path("/fabricante/{fabricante}")
     public Response findByFabricante(@PathParam("fabricante") String fabricante) {
         LOG.info("Buscando Armação Clipon por fabricante");
@@ -89,7 +90,7 @@ public class ArmacaoCliponResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos as armações clipon");
         List<ArmacaoCliponResponseDTO> retorno = service.findByAll();

@@ -1,4 +1,4 @@
-package br.unitins.topicos1.resource;//@RolesAllowed({ "Admin" })
+package br.unitins.topicos1.resource;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class FabricanteResource {
     }
 
     @PUT
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(FabricanteDTO dto, @PathParam("id") Long id) {
@@ -110,7 +110,7 @@ public class FabricanteResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando fabricante por ID");
