@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
-import br.unitins.topicos1.dto.EventoDTO;
-import br.unitins.topicos1.dto.EventoResponseDTO;
-import br.unitins.topicos1.service.EventoService;
+import br.unitins.topicos1.dto.ArmacaoCliponDTO;
+import br.unitins.topicos1.dto.ArmacaoCliponResponseDTO;
+import br.unitins.topicos1.service.ArmacaoCliponService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -23,22 +23,22 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("/evento")
+@Path("/ArmacaoClipon")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class EventoResource {
+public class ArmacaoCliponResource {
 
     @Inject
-    EventoService service;
+    ArmacaoCliponService service;
 
-    private static final Logger LOG = Logger.getLogger(EventoResource.class);
+    private static final Logger LOG = Logger.getLogger(ArmacaoCliponResource.class);
 
     @POST
     @RolesAllowed({ "Admin" })
     @Transactional
-    public Response insert(@Valid EventoDTO dto) {
-        LOG.info("Inserindo evento");
-        EventoResponseDTO retorno = service.insert(dto);
+    public Response insert(@Valid ArmacaoCliponDTO dto) {
+        LOG.info("Inserindo Armação Clipon");
+        ArmacaoCliponResponseDTO retorno = service.insert(dto);
         return Response.status(Status.CREATED).entity(retorno).build();
     }
 
@@ -46,9 +46,9 @@ public class EventoResource {
     @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
-    public Response update(@Valid EventoDTO dto, @PathParam("id") Long id) {
-        LOG.info("Atualizando evento");
-        EventoResponseDTO retorno = service.update(dto, id);
+    public Response update(@Valid ArmacaoCliponDTO dto, @PathParam("id") Long id) {
+        LOG.info("Atualizando Armação Clipon");
+        ArmacaoCliponResponseDTO retorno = service.update(dto, id);
         return Response.status(Status.OK).entity(retorno).build();
     }
 
@@ -57,7 +57,7 @@ public class EventoResource {
     @Transactional
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
-        LOG.info("Deletando evento");
+        LOG.info("Deletando Armação Clipon");
         service.delete(id);
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -66,34 +66,34 @@ public class EventoResource {
     @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        LOG.info("Buscando evento por ID");
-        EventoResponseDTO retorno = service.findById(id);
+        LOG.info("Buscando Armação Clipon por ID");
+        ArmacaoCliponResponseDTO retorno = service.findById(id);
         return Response.ok(retorno).build();
     }
 
     @GET
     @RolesAllowed({ "Admin" })
-    @Path("/descricao/{descricao}")
-    public Response findByDescricao(@PathParam("descricao") String descricao) {
-        LOG.info("Buscando evento por descricao");
-        List<EventoResponseDTO> retorno = service.findByDescricao(descricao);
+    @Path("/referencia/{referencia}")
+    public Response findByReferencia(@PathParam("referencia") String referencia) {
+        LOG.info("Buscando Armação Clipon por referência");
+        List<ArmacaoCliponResponseDTO> retorno = service.findByReferencia(referencia);
         return Response.ok(retorno).build();
     }
 
     @GET
     @RolesAllowed({ "Admin", "User" })
-    @Path("/nome/{nome}")
-    public Response findByNome(@PathParam("nome") String nome) {
-        LOG.info("Buscando evento por nome");
-        List<EventoResponseDTO> retorno = service.findByNome(nome);
+    @Path("/fabricante/{fabricante}")
+    public Response findByFabricante(@PathParam("fabricante") String fabricante) {
+        LOG.info("Buscando Armação Clipon por fabricante");
+        List<ArmacaoCliponResponseDTO> retorno = service.findByFabricante(fabricante);
         return Response.ok(retorno).build();
     }
 
     @GET
     @RolesAllowed({ "Admin" })
     public Response findByAll() {
-        LOG.info("Listando todos os evento");
-        List<EventoResponseDTO> retorno = service.findByAll();
+        LOG.info("Listando todos as armações clipon");
+        List<ArmacaoCliponResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
     }
 }

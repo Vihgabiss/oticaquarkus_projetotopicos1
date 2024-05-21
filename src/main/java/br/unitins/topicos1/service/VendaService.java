@@ -15,5 +15,5 @@ public interface VendaService {
 
     public List<VendaResponseDTO> findByAll(String email);
 
-    public VendaResponseDTO findItemVendaById (Long id);
+    public VendaResponseDTO findItemVendaById(Long id);
 }

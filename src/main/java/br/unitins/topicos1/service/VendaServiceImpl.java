@@ -13,7 +13,7 @@ import br.unitins.topicos1.model.ItemVenda;
 import br.unitins.topicos1.model.StatusVenda;
 import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.model.Venda;
-import br.unitins.topicos1.repository.ArmacaoRepository;
+import br.unitins.topicos1.repository.ArmacaoSolarRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import br.unitins.topicos1.repository.VendaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -24,7 +24,7 @@ import jakarta.transaction.Transactional;
 public class VendaServiceImpl implements VendaService {
 
     @Inject
-    ArmacaoRepository armacaoRepository;
+    ArmacaoSolarRepository armacaoRepository;
 
     @Inject
     UsuarioRepository usuarioRepository;
