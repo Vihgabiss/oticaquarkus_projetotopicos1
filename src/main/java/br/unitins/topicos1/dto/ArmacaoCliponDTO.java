@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Positive;
 public record ArmacaoCliponDTO(
         @NotBlank(message = "O campo referência não pode ser nulo.") String referencia,
 
-        @NotBlank(message = "O campo nome não pode ser nulo.") @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "Cor inválida.") String cor,
+        @NotBlank(message = "O campo cor não pode ser nulo.") @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "Cor inválida.") String cor,
 
         @NotNull(message = "O tamanho não pode ser nulo.") String tamanho,
 
