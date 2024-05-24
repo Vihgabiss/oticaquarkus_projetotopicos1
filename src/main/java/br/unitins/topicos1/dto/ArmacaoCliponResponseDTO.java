@@ -13,7 +13,6 @@ public record ArmacaoCliponResponseDTO(
         String nomeFabricante,
         String nomeColecao,
         String tipoAroArmacao,
-        String tipoArmacao,
         String materialArmacao,
         String nomeImagem,
         String estiloOculos,
@@ -32,7 +31,6 @@ public record ArmacaoCliponResponseDTO(
                 armacaoClipon.getFabricante().getNome(), // Herdado de Armacao
                 armacaoClipon.getColecao().getNome(), // Herdado de Armacao
                 armacaoClipon.getTipoAroArmacao().getLabel(), // Herdado de Armacao
-                armacaoClipon.getTipoArmacao().getLabel(), // Herdado de Armacao
                 armacaoClipon.getMaterialArmacao().getLabel(), // Herdado de Armacao
                 armacaoClipon.getNomeImagem(), // Herdado de Armacao
                 armacaoClipon.getEstiloOculos().getNome(), // Herdado de Armacao

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
-public record ArmacaoGrauDTO(
+public record ArmacaoDTO(
         @NotBlank(message = "O campo referência não pode ser nulo.") String referencia,
 
         @NotBlank(message = "O campo nome não pode ser nulo.") @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", message = "Cor inválida.") String cor,
@@ -26,8 +26,6 @@ public record ArmacaoGrauDTO(
         @NotNull(message = "O id do tipo do aro da armação não pode ser nulo.") Integer idTipoAroArmacao,
 
         @NotNull(message = "O id do material da armação não pode ser nulo.") Integer idTipoMaterialArmacao,
-
-        @NotNull(message = "O nome da imagem não pode ser nulo.") String nomeImagem,
 
         @NotNull(message = "O id do estilo da armação não pode ser nulo.") Integer idEstiloOculos) {
 }

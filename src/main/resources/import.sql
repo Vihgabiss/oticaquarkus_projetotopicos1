@@ -25,10 +25,10 @@ insert into fabricante_marca (id_fabricante, id_marca) values(1, 2);
 insert into fabricante_marca (id_fabricante, id_marca) values(2, 3);
 
 -- inserção de óculos
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1,1,1, 'armacao1.jpg', 1,1,1);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2, 2, 2);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2,2,3,'armacao3.jpg', 2, 1, 3);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao,tipo_armacao) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1,1,2, 'armacao4.jpg', 1,2,1);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('C12A3', 'A2', '145', 85.00, 120.00, 10, 1,1,1, 'armacao1.jpg', 1,1);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('B2023', 'C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2, 2);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('B2023', 'C5', '140', 99.90, 135.80, 2, 2,2,3,'armacao3.jpg', 2, 1);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('A62G3', 'B2', '50', 100.00, 110.00, 12, 1,1,2, 'armacao4.jpg', 1,2);
 insert into armacaograu(id) values (1);
 insert into armacaosolar(id, tipo_lente_solar) values (2, 2);
 insert into armacaosolar(id, tipo_lente_solar) values (3, 1);

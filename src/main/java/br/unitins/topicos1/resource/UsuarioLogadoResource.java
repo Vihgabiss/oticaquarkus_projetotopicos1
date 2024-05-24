@@ -1,21 +1,26 @@
 package br.unitins.topicos1.resource;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.application.Error;
-import br.unitins.topicos1.dto.ArmacaoSolarResponseDTO;
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.form.ArmacaoImageForm;
+import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.service.ArmacaoFileService;
-import br.unitins.topicos1.service.ArmacaoSolarService;
+import br.unitins.topicos1.service.ArmacaoService;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -42,7 +47,10 @@ public class UsuarioLogadoResource {
     ArmacaoFileService fileService;
 
     @Inject
-    ArmacaoSolarService armacaoService;
+    ArmacaoService armacaoService;
+
+    @Inject
+    ArmacaoRepository armacaoRepository;
 
     private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
 
@@ -51,7 +59,7 @@ public class UsuarioLogadoResource {
     public Response getUsuarioLogado() {
         LOG.info("Pegando e-mail do usuário logado.");
         String email = jwt.getSubject();
-        
+
         LOG.info("Retornando os dados do usuário logado.");
         return Response.ok(usuarioService.findByEmail(email)).build();
     }
@@ -70,19 +78,19 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/altera/nome/{nome}")
-    @RolesAllowed({"User", "Admin"})
-    public Response updateNomeUsuario(@PathParam("nome") String nome){
+    @RolesAllowed({ "User", "Admin" })
+    public Response updateNomeUsuario(@PathParam("nome") String nome) {
         LOG.infof("Atualizando o nome do usuário para %s", nome);
         usuarioService.updateNomeUsuarioLogado(nome);
-        
+
         LOG.info("Finalizando a atualização do nome.");
         return Response.noContent().build();
     }
 
     @PATCH
     @Path("/insere/telefone")
-    @RolesAllowed({"User", "Admin"})
-    public Response insertTelefoneUsuario(TelefoneDTO dto){
+    @RolesAllowed({ "User", "Admin" })
+    public Response insertTelefoneUsuario(TelefoneDTO dto) {
         LOG.info("Inserindo o telefone.");
         usuarioService.insertTelefoneUsuarioLogado(dto);
 
@@ -92,8 +100,8 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/update/telefone/{idTelefone}")
-    @RolesAllowed({"User", "Admin"})
-    public Response updateTelefoneUsuario(@PathParam("idTelefone") Long idTelefone, TelefoneDTO dto){
+    @RolesAllowed({ "User", "Admin" })
+    public Response updateTelefoneUsuario(@PathParam("idTelefone") Long idTelefone, TelefoneDTO dto) {
         LOG.infof("Atualizando o telefone %s", idTelefone);
         usuarioService.updateTelefoneUsuarioLogado(idTelefone, dto);
 
@@ -101,16 +109,20 @@ public class UsuarioLogadoResource {
         return Response.noContent().build();
     }
 
-    /*@PATCH
-    @Path("/insere/endereco")
-    @RolesAllowed({"User", "Admin"})
-    public Response insertEnderecoUsuario(EnderecoDTO dto){
-         LOG.info("Inserindo o endereço.");
-        usuarioService.insertEnderecoUsuarioLogado(dto);
-
-         LOG.info("Finalizando o insert de endereço.");
-        return Response.noContent().build();
-    }*/
+    /*
+     * @PATCH
+     * 
+     * @Path("/insere/endereco")
+     * 
+     * @RolesAllowed({"User", "Admin"})
+     * public Response insertEnderecoUsuario(EnderecoDTO dto){
+     * LOG.info("Inserindo o endereço.");
+     * usuarioService.insertEnderecoUsuarioLogado(dto);
+     * 
+     * LOG.info("Finalizando o insert de endereço.");
+     * return Response.noContent().build();
+     * }
+     */
 
     @PATCH
     @Path("/upload/imagem/{armacaoId}")
@@ -118,20 +130,29 @@ public class UsuarioLogadoResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
         try {
-            LOG.info("Salvando a imagem.");
-            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
-            
-            LOG.info("Atualizando a nova imagem.");
-            ArmacaoSolarResponseDTO armacaoDTO = armacaoService.updateNomeImagem(armacaoId, nomeImagem);
-            
-            LOG.info("Retornando a imagem.");
-            return Response.ok(armacaoDTO).build();
-        } catch (IOException e) {
-            e.printStackTrace();
+            // 1. Verificar se a armação existe
+            Armacao armacao = armacaoRepository.findById(armacaoId);
+            if (armacao == null) {
+                return Response.status(Status.NOT_FOUND)
+                        .entity(new Error("404", "Armação não encontrada")).build();
+            }
 
-            LOG.info("Retornando um erro do servidor.");
-            Error error = new Error("500", "Erro ao processar a imagem.");
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
+            // 2. Salvar a imagem (usando o ArmacaoFileService)
+            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
+
+            // 3. Atualizar o nome da imagem na armação
+            armacao.setNomeImagem(nomeImagem);
+            // Converte Armacao para ArmacaoDTO
+
+            // 4. Retornar a armação atualizada (opcional)
+            return Response.ok(ArmacaoResponseDTO.valueOf(armacao)).build();
+
+        } catch (EntityNotFoundException e) {
+            return Response.status(Status.NOT_FOUND).entity(new Error("404", e.getMessage())).build();
+        } catch (IOException e) {
+            LOG.error("Erro ao processar a imagem: " + e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(new Error("500", "Erro ao processar a imagem")).build();
         }
     }
 
@@ -139,27 +160,47 @@ public class UsuarioLogadoResource {
     @Path("/upload/novaImagem/{armacaoId}")
     @RolesAllowed({ "User", "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadNovaImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
+    public Response uploadNovaImagemArmacao(@MultipartForm ArmacaoImageForm form,
+            @PathParam("armacaoId") Long armacaoId) {
         try {
             LOG.info("Deletando a imagem atual.");
-            String nomeImagemAtual = armacaoService.findById(armacaoId).nomeImagem();
-            if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
-                fileService.excluir(nomeImagemAtual);
+
+            // Buscar a armação para obter o nome da imagem atual
+            Armacao armacaoAtual = armacaoRepository.findById(armacaoId);
+            if (armacaoAtual != null) {
+                String nomeImagemAtual = armacaoAtual.getNomeImagem();
+                if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
+                    fileService.excluir(nomeImagemAtual);
+                }
             }
-    
+
             LOG.info("Salvando a nova imagem.");
             String nomeImagemNovo = fileService.salvar(form.getNomeImagem(), form.getImagem());
-    
-            LOG.info("Atualizando a nova imagem.");
-            armacaoService.updateNomeImagem(armacaoId, nomeImagemNovo);
-    
+
+            // Buscar novamente a armação (após possível exclusão da imagem antiga)
+            Armacao armacao = armacaoRepository.findById(armacaoId);
+            if (armacao == null) {
+                return Response.status(Status.NOT_FOUND)
+                        .entity(new Error("404", "Armação não encontrada")).build();
+            }
+
+            // Atualizar o nome da imagem e persistir a alteração
+            armacao.setNomeImagem(nomeImagemNovo);
+            armacaoRepository.persist(armacao);
+
+            // Converter a entidade Armacao para ArmacaoResponseDTO (usando o método valueOf
+            // da subclasse)
+            ArmacaoResponseDTO armacaoDTO = ArmacaoResponseDTO.valueOf(armacao);
+
             LOG.info("Retornando a imagem atualizada.");
-            ArmacaoSolarResponseDTO armacaoDTO = armacaoService.findById(armacaoId);
-            return Response.ok(armacaoDTO).build();
+            return Response.ok(armacaoDTO).build(); // Retorna o ArmacaoResponseDTO
+
+        } catch (EntityNotFoundException e) {
+            return Response.status(Status.NOT_FOUND).entity(new Error("404", e.getMessage())).build();
         } catch (IOException e) {
-            e.printStackTrace();
-            Error error = new Error("500", "Erro ao processar a imagem.");
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
+            LOG.error("Erro ao processar a imagem: " + e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(new Error("500", "Erro ao processar a imagem")).build();
         }
     }
 
@@ -168,8 +209,24 @@ public class UsuarioLogadoResource {
     @RolesAllowed({ "User", "Admin" })
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
-        ResponseBuilder response = Response.ok(fileService.obter(nomeImagem));
-        response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
-        return response.build();
+        File file = fileService.obter(nomeImagem);
+
+        if (file == null) {
+            LOG.error("Erro: Imagem não encontrada.");
+            Error error = new Error("404", "Imagem não encontrada.");
+            return Response.status(Status.NOT_FOUND).entity(error).build();
+        }
+
+        try {
+            byte[] fileContent = Files.readAllBytes(file.toPath()); // Lê o conteúdo do arquivo em um byte[]
+            ResponseBuilder response = Response.ok(fileContent); // Retorna o byte[] no Response
+            response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
+            return response.build();
+        } catch (IOException e) {
+            LOG.error("Erro ao ler o arquivo: " + e.getMessage());
+            Error error = new Error("500", "Erro ao processar a imagem.");
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
+        }
     }
+
 }
