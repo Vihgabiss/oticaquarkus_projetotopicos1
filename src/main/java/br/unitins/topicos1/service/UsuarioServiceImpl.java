@@ -252,6 +252,26 @@ public class UsuarioServiceImpl implements UsuarioService {
         return telefones.stream().map(TelefoneResponseDTO::valueOf).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public UsuarioResponseDTO cadastroProprio(@Valid UsuarioDTO dto) {
+        
+        if (repository.findByEmail(dto.email()) != null) {
+            throw new ValidationException("email", "Email já existe.");
+        }
+
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setNome(dto.nome());
+        novoUsuario.setCpf(dto.cpf());
+        novoUsuario.setEmail(dto.email());
+        novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
+        novoUsuario.setPerfil(Perfil.USER);
+
+        repository.persist(novoUsuario);
+
+        return UsuarioResponseDTO.valueOf(novoUsuario);
+    }
+
 
     /*@Override
     @Transactional

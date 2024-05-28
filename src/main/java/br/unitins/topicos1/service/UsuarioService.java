@@ -13,6 +13,8 @@ public interface UsuarioService {
     
     public UsuarioResponseDTO insert(@Valid UsuarioDTO dto);
 
+    public UsuarioResponseDTO cadastroProprio(@Valid UsuarioDTO dto);
+
     public UsuarioResponseDTO insertTelefone(Long idUsuario, @Valid TelefoneDTO dto);
 
     public UsuarioResponseDTO update(@Valid UsuarioDTO dto, Long id);

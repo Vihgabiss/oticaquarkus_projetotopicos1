@@ -141,4 +141,10 @@ public class UsuarioResource {
         return Response.ok(service.findByIdUsuario(idUsuario)).build();
     }
 
+    @POST
+    @Path("/cadastrar")
+    public Response cadastroProprio(UsuarioDTO dto) {
+        LOG.info("Criando um cadastro de usuário no sistema.");
+        return Response.status(Status.CREATED).entity(service.cadastroProprio(dto)).build();
+    }
 }
