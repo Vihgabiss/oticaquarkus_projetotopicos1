@@ -13,7 +13,6 @@ public record ArmacaoGrauResponseDTO(
         String nome_fabricante,
         String nome_colecao,
         String tipo_aro_armacao,
-        String tipoarmacao,
         String material_armacao,
         String nomeImagem,
         String estiloOculos) {
@@ -30,7 +29,6 @@ public record ArmacaoGrauResponseDTO(
                 armacaoGrau.getFabricante().getNome(),
                 armacaoGrau.getColecao().getNome(),
                 armacaoGrau.getTipoAroArmacao().getLabel(),
-                armacaoGrau.getTipoArmacao().getLabel(),
                 armacaoGrau.getMaterialArmacao().getLabel(),
                 armacaoGrau.getNomeImagem(),
                 armacaoGrau.getEstiloOculos().getNome());

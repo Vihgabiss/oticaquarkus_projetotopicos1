@@ -3,16 +3,15 @@ package br.unitins.topicos1.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.unitins.topicos1.dto.ArmacaoSolarDTO;
-import br.unitins.topicos1.dto.ArmacaoSolarResponseDTO;
-import br.unitins.topicos1.model.ArmacaoSolar;
+import br.unitins.topicos1.dto.ArmacaoDTO;
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.model.Armacao;
 import br.unitins.topicos1.model.Colecao;
 import br.unitins.topicos1.model.EstiloOculos;
 import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.model.MaterialArmacao;
 import br.unitins.topicos1.model.TipoAroArmacao;
-import br.unitins.topicos1.model.TipoLenteSolar;
-import br.unitins.topicos1.repository.ArmacaoSolarRepository;
+import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.repository.ColecaoRepository;
 import br.unitins.topicos1.repository.EstiloOculosRepository;
 import br.unitins.topicos1.repository.FabricanteRepository;
@@ -22,10 +21,10 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @ApplicationScoped
-public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
+public class ArmacaoServiceImpl implements ArmacaoService {
 
     @Inject
-    ArmacaoSolarRepository repository;
+    ArmacaoRepository repository;
 
     @Inject
     FabricanteRepository fabricanteRepository;
@@ -38,15 +37,14 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
 
     @Override
     @Transactional
-    public ArmacaoSolarResponseDTO insert(@Valid ArmacaoSolarDTO dto) {
-        ArmacaoSolar novaArmacao = new ArmacaoSolar();
+    public ArmacaoResponseDTO insert(@Valid ArmacaoDTO dto) {
+        Armacao novaArmacao = new Armacao();
         novaArmacao.setReferencia(dto.referencia());
         novaArmacao.setCor(dto.cor());
         novaArmacao.setTamanho(dto.tamanho());
         novaArmacao.setPrecoCusto(dto.precoCusto());
         novaArmacao.setPrecoVenda(dto.precoVenda());
         novaArmacao.setQuantidade(dto.quantidade());
-        novaArmacao.setNomeImagem(dto.nomeImagem());
         novaArmacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         novaArmacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
 
@@ -71,17 +69,15 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
         }
         novaArmacao.setEstiloOculos(estiloOculos);
 
-        novaArmacao.setTipoLenteSolar(TipoLenteSolar.valueOf(dto.idTipoLenteSolar()));
-
         repository.persist(novaArmacao);
 
-        return ArmacaoSolarResponseDTO.valueOf(novaArmacao);
+        return ArmacaoResponseDTO.valueOf(novaArmacao);
     }
 
     @Override
     @Transactional
-    public ArmacaoSolarResponseDTO update(@Valid ArmacaoSolarDTO dto, Long id) {
-        ArmacaoSolar armacao = repository.findById(id);
+    public ArmacaoResponseDTO update(@Valid ArmacaoDTO dto, Long id) {
+        Armacao armacao = repository.findById(id);
         if (armacao == null) {
             throw new RuntimeException("Armacao não encontrado com o ID: " + id);
         }
@@ -91,7 +87,6 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
         armacao.setPrecoCusto(dto.precoCusto());
         armacao.setPrecoVenda(dto.precoVenda());
         armacao.setQuantidade(dto.quantidade());
-        armacao.setNomeImagem(dto.nomeImagem());
         armacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         armacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
 
@@ -115,17 +110,16 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
             throw new RuntimeException("Estilo de Óculos não encontrado com o ID: " + idEstiloOculos);
         }
         armacao.setEstiloOculos(estiloOculos);
-        armacao.setTipoLenteSolar(TipoLenteSolar.valueOf(dto.idTipoLenteSolar()));
 
         repository.persist(armacao);
 
-        return ArmacaoSolarResponseDTO.valueOf(armacao);
+        return ArmacaoResponseDTO.valueOf(armacao);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        ArmacaoSolar armacao = repository.findById(id);
+        Armacao armacao = repository.findById(id);
         if (armacao == null) {
             throw new RuntimeException("Armação solar não encontrada com o ID: " + id);
         }
@@ -133,32 +127,32 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
     }
 
     @Override
-    public ArmacaoSolarResponseDTO findById(Long id) {
-        ArmacaoSolar armacao = repository.findById(id);
+    public ArmacaoResponseDTO findById(Long id) {
+        Armacao armacao = repository.findById(id);
         if (armacao == null) {
             throw new RuntimeException("Armação solar não encontrada com o ID: " + id);
         }
-        return ArmacaoSolarResponseDTO.valueOf(armacao);
+        return ArmacaoResponseDTO.valueOf(armacao);
     }
 
     @Override
-    public List<ArmacaoSolarResponseDTO> findByReferencia(String referencia) {
-        List<ArmacaoSolar> armacaoList = repository.findByReferencia(referencia);
+    public List<ArmacaoResponseDTO> findByReferencia(String referencia) {
+        List<Armacao> armacaoList = repository.findByReferencia(referencia);
         return armacaoList.stream()
-                .map(ArmacaoSolarResponseDTO::valueOf)
+                .map(ArmacaoResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ArmacaoSolarResponseDTO> findByAll() {
+    public List<ArmacaoResponseDTO> findByAll() {
         return repository.listAll().stream()
-                .map(e -> ArmacaoSolarResponseDTO.valueOf(e)).toList();
+                .map(e -> ArmacaoResponseDTO.valueOf(e)).toList();
     }
 
     @Override
     @Transactional
-    public ArmacaoSolarResponseDTO insertNomeImagem(Long id, String nomeImagem) {
-        ArmacaoSolar armacao = repository.findById(id);
+    public ArmacaoResponseDTO insertNomeImagem(Long id, String nomeImagem) {
+        Armacao armacao = repository.findById(id);
         if (armacao == null) {
             throw new RuntimeException("Armação Solar não encontrada com o ID: " + id);
         }
@@ -167,13 +161,13 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
 
         repository.persist(armacao);
 
-        return ArmacaoSolarResponseDTO.valueOf(armacao);
+        return ArmacaoResponseDTO.valueOf(armacao);
     }
 
     @Override
     @Transactional
-    public ArmacaoSolarResponseDTO updateNomeImagem(Long id, String nomeImagem) {
-        ArmacaoSolar armacao = repository.findById(id);
+    public ArmacaoResponseDTO updateNomeImagem(Long id, String nomeImagem) {
+        Armacao armacao = repository.findById(id);
         if (armacao == null) {
             throw new RuntimeException("Armacao não encontrado com o ID: " + id);
         }
@@ -182,14 +176,14 @@ public class ArmacaoSolarServiceImpl implements ArmacaoSolarService {
 
         repository.persist(armacao);
 
-        return ArmacaoSolarResponseDTO.valueOf(armacao);
+        return ArmacaoResponseDTO.valueOf(armacao);
     }
 
     @Override
-    public List<ArmacaoSolarResponseDTO> findByFabricante(String fabricante) {
-        List<ArmacaoSolar> armacaoList = repository.findByFabricante(fabricante);
+    public List<ArmacaoResponseDTO> findByFabricante(String fabricante) {
+        List<Armacao> armacaoList = repository.findByFabricante(fabricante);
         return armacaoList.stream()
-                .map(ArmacaoSolarResponseDTO::valueOf)
+                .map(ArmacaoResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
 

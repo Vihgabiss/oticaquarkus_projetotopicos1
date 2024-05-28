@@ -10,7 +10,6 @@ import br.unitins.topicos1.model.Colecao;
 import br.unitins.topicos1.model.EstiloOculos;
 import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.model.MaterialArmacao;
-import br.unitins.topicos1.model.TipoArmacao;
 import br.unitins.topicos1.model.TipoAroArmacao;
 import br.unitins.topicos1.repository.ArmacaoGrauRepository;
 import br.unitins.topicos1.repository.ColecaoRepository;
@@ -49,8 +48,6 @@ public class ArmacaoGrauServiceImpl implements ArmacaoGrauService {
         novaArmacao.setNomeImagem(dto.nomeImagem());
         novaArmacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         novaArmacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
-
-        novaArmacao.setTipoArmacao(TipoArmacao.valueOf(dto.idTipoArmacao()));
 
         Long idFabricante = dto.idFabricante().longValue();
         Fabricante fabricante = fabricanteRepository.findById(idFabricante);
@@ -94,7 +91,7 @@ public class ArmacaoGrauServiceImpl implements ArmacaoGrauService {
         armacao.setNomeImagem(dto.nomeImagem());
         armacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         armacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
-        armacao.setTipoArmacao(TipoArmacao.valueOf(dto.idTipoArmacao()));
+
         Long idFabricante = dto.idFabricante().longValue();
         Fabricante fabricante = fabricanteRepository.findById(idFabricante);
         if (fabricante == null) {

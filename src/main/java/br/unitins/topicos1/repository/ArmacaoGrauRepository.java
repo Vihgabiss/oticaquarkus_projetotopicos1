@@ -8,6 +8,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ArmacaoGrauRepository implements PanacheRepository<ArmacaoGrau> {
+    public ArmacaoGrau findById(Long id) {
+        return find("id", id).firstResult();
+    }
+
     public List<ArmacaoGrau> findByReferencia(String referencia) {
         return find("UPPER(referencia) LIKE UPPER(?1) ", "%" + referencia + "%").list();
     }

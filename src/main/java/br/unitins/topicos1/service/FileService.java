@@ -5,10 +5,9 @@ import java.io.IOException;
 
 public interface FileService {
 
-    public String salvar(String nomeArquivo, byte[] arquivo) throws IOException;
+    String salvar(String nomeArquivo, byte[] arquivo) throws IOException;
 
-    public File obter(String nomeArquivo);
+    File obter(String nomeArquivo);
 
-    public void excluir(String nomeArquivo);
-
+    void excluir(String nomeArquivo);
 }
