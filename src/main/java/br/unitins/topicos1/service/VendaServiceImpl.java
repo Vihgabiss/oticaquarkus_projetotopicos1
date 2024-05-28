@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.dto.ItemVendaDTO;
 import br.unitins.topicos1.dto.ItemVendaResponseDTO;
 import br.unitins.topicos1.dto.VendaDTO;
@@ -13,7 +14,7 @@ import br.unitins.topicos1.model.ItemVenda;
 import br.unitins.topicos1.model.StatusVenda;
 import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.model.Venda;
-import br.unitins.topicos1.repository.ArmacaoSolarRepository;
+import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import br.unitins.topicos1.repository.VendaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -24,7 +25,7 @@ import jakarta.transaction.Transactional;
 public class VendaServiceImpl implements VendaService {
 
     @Inject
-    ArmacaoSolarRepository armacaoRepository;
+    ArmacaoRepository armacaoRepository;
 
     @Inject
     UsuarioRepository usuarioRepository;
@@ -49,18 +50,17 @@ public class VendaServiceImpl implements VendaService {
 
         venda.setTipoPagamento(TipoPagamento.valueOf(dto.idTipoPagamento()));
 
-        venda.setStatusVenda(StatusVenda.valueOf(dto.idStatusVenda()));
+        venda.setStatusVenda(StatusVenda.AGUARDANDO_PAGAMENTO);
 
         venda.setItens(new ArrayList<ItemVenda>());
 
         for (ItemVendaDTO itemDto : dto.itens()) {
             ItemVenda item = new ItemVenda();
-            item.setPreco(itemDto.preco());
             item.setQuantidade(itemDto.quantidade());
             item.setVenda(venda);
 
             Armacao armacao = armacaoRepository.findById(itemDto.idProduto());
-
+            item.setPreco(ArmacaoResponseDTO.valueOf(armacao).precoVenda());
             item.setArmacao(armacao);
 
             armacao.setQuantidade(armacao.getQuantidade() - item.getQuantidade());
