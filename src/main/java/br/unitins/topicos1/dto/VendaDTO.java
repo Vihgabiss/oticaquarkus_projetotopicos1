@@ -10,7 +10,7 @@ public record VendaDTO(
 
         List<ItemVendaDTO> itens,
 
-        @NotNull(message = "O id do status de venda não pode ser nulo")
+        @NotNull(message = "O id do status de venda não pode ser nulo") 
         Integer idStatusVenda) {
 
 }

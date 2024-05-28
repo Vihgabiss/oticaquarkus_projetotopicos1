@@ -1,4 +1,4 @@
-package br.unitins.topicos1.resource;//@RolesAllowed({ "Admin" })
+package br.unitins.topicos1.resource;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import br.unitins.topicos1.dto.FabricanteDTO;
 import br.unitins.topicos1.dto.FabricanteResponseDTO;
 import br.unitins.topicos1.dto.MarcaDTO;
 import br.unitins.topicos1.service.FabricanteService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -35,7 +36,7 @@ public class FabricanteResource {
     private static final Logger LOG = Logger.getLogger(FabricanteResource.class);
 
     @POST
-    //// @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     public Response insert(@Valid FabricanteDTO dto) {
         LOG.info("Inserindo fabricante");
@@ -49,7 +50,7 @@ public class FabricanteResource {
 
     @PATCH
     @Path("/insere-marca/{idFabricante}")
-    // @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Response insertMarca(MarcaDTO dto, @PathParam("idFabricante") Long idFabricante) {
 
         LOG.infof("Cadastrando um marca para o usuario %s", idFabricante);
@@ -61,7 +62,7 @@ public class FabricanteResource {
 
     @PATCH
     @Path("/atualiza-marca/{id}/{idMarca}")
-    // @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Response updateMarca(MarcaDTO dto, @PathParam("id") Long id, @PathParam("idMarca") Long idMarca) {
         LOG.info("Atualizando marca.");
         service.updateMarca(id, idMarca, dto);
@@ -72,7 +73,7 @@ public class FabricanteResource {
 
     @DELETE
     @Path("/deleta-marca/{id}/{idMarca}")
-    // @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Response deleteMarca(@PathParam("id") Long id, @PathParam("idMarca") Long idMarca) {
         LOG.infof("Deletando marca %s", idMarca);
         service.deleteMarca(id, idMarca);
@@ -82,7 +83,7 @@ public class FabricanteResource {
     }
 
     @PUT
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Transactional
     @Path("/{id}")
     public Response update(FabricanteDTO dto, @PathParam("id") Long id) {
@@ -109,7 +110,7 @@ public class FabricanteResource {
     }
 
     @GET
-    // @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando fabricante por ID");

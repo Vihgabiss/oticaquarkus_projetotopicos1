@@ -78,5 +78,4 @@ public class Fabricante extends DefaultEntity {
     public void setListaMarca(List<Marca> listaMarca) {
         this.listaMarca = listaMarca;
     }
-
 }

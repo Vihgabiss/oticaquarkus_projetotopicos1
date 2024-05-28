@@ -7,12 +7,12 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.topicos1.application.Error;
-import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.dto.ArmacaoSolarResponseDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.form.ArmacaoImageForm;
 import br.unitins.topicos1.service.ArmacaoFileService;
-import br.unitins.topicos1.service.ArmacaoService;
+import br.unitins.topicos1.service.ArmacaoSolarService;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -42,7 +42,7 @@ public class UsuarioLogadoResource {
     ArmacaoFileService fileService;
 
     @Inject
-    ArmacaoService armacaoService;
+    ArmacaoSolarService armacaoService;
 
     private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
 
@@ -122,7 +122,7 @@ public class UsuarioLogadoResource {
             String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
             
             LOG.info("Atualizando a nova imagem.");
-            ArmacaoResponseDTO armacaoDTO = armacaoService.updateNomeImagem(armacaoId, nomeImagem);
+            ArmacaoSolarResponseDTO armacaoDTO = armacaoService.updateNomeImagem(armacaoId, nomeImagem);
             
             LOG.info("Retornando a imagem.");
             return Response.ok(armacaoDTO).build();
@@ -154,7 +154,7 @@ public class UsuarioLogadoResource {
             armacaoService.updateNomeImagem(armacaoId, nomeImagemNovo);
     
             LOG.info("Retornando a imagem atualizada.");
-            ArmacaoResponseDTO armacaoDTO = armacaoService.findById(armacaoId);
+            ArmacaoSolarResponseDTO armacaoDTO = armacaoService.findById(armacaoId);
             return Response.ok(armacaoDTO).build();
         } catch (IOException e) {
             e.printStackTrace();

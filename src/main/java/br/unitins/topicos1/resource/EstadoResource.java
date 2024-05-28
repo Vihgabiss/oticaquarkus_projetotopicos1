@@ -6,6 +6,7 @@ import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import br.unitins.topicos1.dto.CidadeDTO;
 import br.unitins.topicos1.dto.EstadoDTO;
 import br.unitins.topicos1.service.EstadoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -25,30 +26,30 @@ import jakarta.ws.rs.core.Response.Status;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EstadoResource {
-    
+
     @Inject
     EstadoService service;
 
     private static final Logger LOG = Logger.getLogger(EstadoResource.class);
 
     @POST
-    //@RolesAllowed({"Admin"})
-    public Response insert(EstadoDTO dto){
+    @RolesAllowed({ "Admin" })
+    public Response insert(EstadoDTO dto) {
         LOG.info("Inserindo um estado");
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
     @GET
-    public Response findAll(        
-        @QueryParam("page") @DefaultValue("0") int page,
-        @QueryParam("pageSize") @DefaultValue("100") int pageSize){
+    public Response findAll(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
         LOG.info("Listando todos os estados");
         return Response.ok(service.findByAll(page, pageSize)).build();
     }
 
     @GET
     @Path("/count")
-    public long count(){
+    public long count() {
         return service.count();
     }
 
@@ -59,17 +60,17 @@ public class EstadoResource {
     }
 
     @GET
-    //@RolesAllowed({ "User", "Admin" })
+    // @RolesAllowed({ "User", "Admin" })
     @Path("/sigla/{sigla}")
-    public Response findBySigla(@Valid @PathParam("sigla") String sigla){
+    public Response findBySigla(@Valid @PathParam("sigla") String sigla) {
         LOG.infof("Listando o estado com a sigla %s", sigla);
         return Response.ok(service.findBySigla(sigla)).build();
     }
 
     @PUT
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
-    public Response update(EstadoDTO dto, @PathParam("id") Long id){
+    @RolesAllowed({ "Admin" })
+    public Response update(EstadoDTO dto, @PathParam("id") Long id) {
         LOG.info("Atualizando estado.");
         service.update(id, dto);
 
@@ -79,28 +80,28 @@ public class EstadoResource {
 
     @DELETE
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
-    public Response delete(@PathParam("id") Long id){
+    @RolesAllowed({ "Admin" })
+    public Response delete(@PathParam("id") Long id) {
         LOG.infof("Deletando estado de id %s", id);
         service.delete(id);
 
         LOG.info("Estado deletado.");
         return Response.noContent().build();
-    
+
     }
 
     @GET
     @Path("/nome/{nome}")
-    //@RolesAllowed({ "User", "Admin"})
-    public Response findByNome(@PathParam("nome") String nome){
+    // @RolesAllowed({ "User", "Admin"})
+    public Response findByNome(@PathParam("nome") String nome) {
         LOG.infof("Listando estados com nome %s", nome);
         return Response.ok(service.findByNome(nome)).build();
     }
 
     @POST
     @Path("/insere-cidade/")
-   //@RolesAllowed({"Admin"})
-    public Response insertCidade(CidadeDTO dto){
+    @RolesAllowed({ "Admin" })
+    public Response insertCidade(CidadeDTO dto) {
         LOG.info("Inserindo cidade.");
         service.insertCidade(dto);
 
@@ -110,40 +111,39 @@ public class EstadoResource {
 
     @PUT
     @Path("/atualiza-cidade/{idCidade}")
-    //@RolesAllowed({"Admin"})
-        public Response updateCidade(CidadeDTO dto, @PathParam("idCidade") Long idCidade){
+    @RolesAllowed({ "Admin" })
+    public Response updateCidade(CidadeDTO dto, @PathParam("idCidade") Long idCidade) {
         LOG.info("Atualizando cidade.");
         service.updateCidade(idCidade, dto);
-        
+
         LOG.info("Finalizando a atualização de cidade.");
         return Response.noContent().build();
     }
 
     @DELETE
     @Path("/deleta-cidade/{idCidade}")
-    //@RolesAllowed({"Admin"})
-    public Response deleteCidade(@PathParam("idCidade") Long idCidade){
+    @RolesAllowed({ "Admin" })
+    public Response deleteCidade(@PathParam("idCidade") Long idCidade) {
         LOG.info("Deletando cidade.");
         service.deleteCidade(idCidade);
-        
+
         LOG.info("Cidade deletada.");
         return Response.noContent().build();
     }
 
     @GET
     @Path("/allCities")
-    //@RolesAllowed({ "User", "Admin"})
+    // @RolesAllowed({ "User", "Admin"})
     public Response findAllCities(
-        @QueryParam("page") @DefaultValue("0") int page,
-        @QueryParam("pageSize") @DefaultValue("100") int pageSize
-    ){
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
         LOG.info("Listando todas as cidades.");
         return Response.ok(service.findAllCities(page, pageSize)).build();
     }
 
     @GET
     @Path("/countCidade")
-    public long countCidade(){
+    public long countCidade() {
         return service.countCidade();
     }
 
