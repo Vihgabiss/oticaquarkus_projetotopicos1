@@ -95,7 +95,7 @@ public class UsuarioResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin", "User" })
     public Response findByAll() {
         LOG.info("Listando todos os usuarios.");
         return Response.ok(service.findByAll()).build();
