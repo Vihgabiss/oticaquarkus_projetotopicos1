@@ -25,6 +25,10 @@ public class Venda extends DefaultEntity {
 
     private Double valorTotal;
 
+    @OneToMany
+    @JoinColumn(name = "id_cupom")
+    private Cupom cupom;
+
     private StatusVenda statusVenda;
 
     public LocalDateTime getDataHora() {
@@ -73,6 +77,14 @@ public class Venda extends DefaultEntity {
 
     public void setStatusVenda(StatusVenda statusVenda) {
         this.statusVenda = statusVenda;
+    }
+
+    public Cupom getCupom() {
+        return cupom;
+    }
+
+    public void setCupom(Cupom cupom) {
+        this.cupom = cupom;
     }
 
 }

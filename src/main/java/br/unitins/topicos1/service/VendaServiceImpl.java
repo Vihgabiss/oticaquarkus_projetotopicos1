@@ -68,6 +68,8 @@ public class VendaServiceImpl implements VendaService {
             venda.getItens().add(item);
         }
 
+        venda.setCupom(dto.cupom());
+
         venda.setUsuario(usuarioRepository.findByEmail(email));
 
         vendaRepository.persist(venda);
@@ -107,4 +109,30 @@ public class VendaServiceImpl implements VendaService {
         }
     }
 
+    @Override
+    @Transactional
+    public VendaResponseDTO editStatusVenda(Long id, Integer novoStatusId) {
+        Venda venda = vendaRepository.findById(id);
+        if (venda == null) {
+            throw new RuntimeException("Venda não encontrada com o ID: " + id);
+        }
+
+        try {
+            StatusVenda novoStatus = StatusVenda.valueOf(novoStatusId);
+            venda.setStatusVenda(novoStatus);
+            vendaRepository.persist(venda);
+            return VendaResponseDTO.valueOf(venda);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Status de venda inválido: " + novoStatusId);
+        }
+    }
+
+
+    @Override
+    public VendaResponseDTO payment(Long id, String login) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'payment'");
+    }
+
+  
 }

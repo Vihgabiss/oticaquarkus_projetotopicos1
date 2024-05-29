@@ -16,4 +16,8 @@ public interface VendaService {
     public List<VendaResponseDTO> findByAll(String email);
 
     public VendaResponseDTO findItemVendaById(Long id);
+
+    public VendaResponseDTO editStatusVenda(Long id, Integer novoStatusId);
+
+    public VendaResponseDTO payment(Long id, String login);
 }
