@@ -68,7 +68,7 @@ public class VendaServiceImpl implements VendaService {
             venda.getItens().add(item);
         }
 
-        venda.setCupom(dto.cupom());
+        //venda.setCupom(dto.cupom());
 
         venda.setUsuario(usuarioRepository.findByEmail(email));
 
