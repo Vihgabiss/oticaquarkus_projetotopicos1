@@ -3,22 +3,40 @@ package br.unitins.topicos1.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.dto.BoletoDTO;
+import br.unitins.topicos1.dto.CartaoCreditoDTO;
+import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.ItemVendaDTO;
 import br.unitins.topicos1.dto.ItemVendaResponseDTO;
+import br.unitins.topicos1.dto.PixDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.model.Boleto;
+import br.unitins.topicos1.model.CartaoCredito;
+import br.unitins.topicos1.model.CartaoDebito;
+import br.unitins.topicos1.model.Cupom;
 import br.unitins.topicos1.model.ItemVenda;
+import br.unitins.topicos1.model.Pix;
 import br.unitins.topicos1.model.StatusVenda;
 import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.model.Venda;
 import br.unitins.topicos1.repository.ArmacaoRepository;
+import br.unitins.topicos1.repository.BoletoRepository;
+import br.unitins.topicos1.repository.CartaoCreditoRepository;
+import br.unitins.topicos1.repository.CartaoDebitoRepository;
+import br.unitins.topicos1.repository.CupomRepository;
+import br.unitins.topicos1.repository.PagamentoRepository;
+import br.unitins.topicos1.repository.PixRepository;
+import br.unitins.topicos1.repository.TipoPagamentoRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import br.unitins.topicos1.repository.VendaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
@@ -32,6 +50,27 @@ public class VendaServiceImpl implements VendaService {
 
     @Inject
     VendaRepository vendaRepository;
+
+    @Inject
+    CupomRepository cupomRepository;
+
+    @Inject
+    PagamentoRepository pagamentoRepository;
+
+    @Inject
+    TipoPagamentoRepository tipoPagamentoRepository;
+
+    @Inject
+    BoletoRepository boletoRepository;
+
+    @Inject
+    CartaoCreditoRepository cartaoCreditoRepository;
+
+    @Inject
+    CartaoDebitoRepository cartaoDebitoRepository;
+
+    @Inject
+    PixRepository pixRepository;
 
     @Override
     @Transactional
@@ -48,7 +87,14 @@ public class VendaServiceImpl implements VendaService {
 
         venda.setValorTotal(total);
 
-        venda.setTipoPagamento(TipoPagamento.valueOf(dto.idTipoPagamento()));
+        TipoPagamento tipoPagamento = tipoPagamentoRepository.findById(dto.idTipoPagamento()); // Fetch TipoPagamento
+                                                                                               // entity
+
+        if (tipoPagamento == null) {
+            throw new RuntimeException("Tipo de pagamento inválido: " + dto.idTipoPagamento());
+        }
+
+        venda.setTipoPagamento(tipoPagamento);
 
         venda.setStatusVenda(StatusVenda.AGUARDANDO_PAGAMENTO);
 
@@ -68,7 +114,20 @@ public class VendaServiceImpl implements VendaService {
             venda.getItens().add(item);
         }
 
-        //venda.setCupom(dto.cupom());
+        // adicionando o valor do cupom
+        if (dto.cupom() != null && !dto.cupom().isEmpty()) {
+            Cupom cupom = cupomRepository.findByNome(dto.cupom());
+            if (cupom != null) {
+                venda.setCupom(cupom);
+
+                // Aplicar o desconto do cupom (porcentagem)
+                double valorDesconto = (venda.getValorTotal() * cupom.getPorcentagemDesconto()) / 100.0;
+                total -= valorDesconto; // Subtrai o valor do desconto do total
+                venda.setValorTotal(total);
+            } else {
+                throw new RuntimeException("Cupom inválido: " + dto.cupom());
+            }
+        }
 
         venda.setUsuario(usuarioRepository.findByEmail(email));
 
@@ -84,7 +143,7 @@ public class VendaServiceImpl implements VendaService {
 
     @Override
     public List<VendaResponseDTO> findByAll(String email) {
-        return vendaRepository.findAll(email).stream()
+        return vendaRepository.findAllByEmail(email).stream()
                 .map(e -> VendaResponseDTO.valueOf(e))
                 .toList();
     }
@@ -127,12 +186,67 @@ public class VendaServiceImpl implements VendaService {
         }
     }
 
-
     @Override
-    public VendaResponseDTO payment(Long id, String login) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'payment'");
+    @Transactional
+    public VendaResponseDTO realizarPagamento(Long vendaId, Object pagamentoDTO) {
+
+        Optional<Venda> optionalVenda = vendaRepository.findByIdOptional(vendaId);
+        if (optionalVenda.isEmpty()) {
+            throw new EntityNotFoundException("Venda não encontrada com o ID: " + vendaId);
+        }
+
+        Venda venda = optionalVenda.get();
+
+        // Obtém o tipo de pagamento da venda
+        TipoPagamento tipoPagamento = venda.getTipoPagamento();
+
+        // Verifica o tipo de pagamento e realiza as operações específicas
+        if (tipoPagamento.getNome().equals("Boleto")) {
+            BoletoDTO boletoDTO = (BoletoDTO) pagamentoDTO;
+
+            // Create Boleto using the constructor
+            Boleto boleto = new Boleto(boletoDTO.codigoBarras());
+
+            // Persiste o boleto no banco de dados
+            boletoRepository.persist(boleto);
+        } else if (tipoPagamento.getNome().equals("Pix")) {
+            PixDTO pixDTO = (PixDTO) pagamentoDTO;
+            Pix pix = new Pix();
+            pix.setChavePix(pixDTO.chavePix());
+            pix.setQrCode(pixDTO.qrCode());
+
+            // Persiste o pix no banco de dados
+            pixRepository.persist(pix);
+        } else if (tipoPagamento.getNome().equals("Cartão de Crédito")) {
+            CartaoCreditoDTO cartaoCreditoDTO = (CartaoCreditoDTO) pagamentoDTO;
+            CartaoCredito cartaoCredito = new CartaoCredito();
+            cartaoCredito.setNumeroCartao(cartaoCreditoDTO.numeroCartao());
+            cartaoCredito.setNomeTitular(cartaoCreditoDTO.nomeTitular());
+            cartaoCredito.setValidade(cartaoCreditoDTO.validade());
+            cartaoCredito.setCvv(cartaoCreditoDTO.cvv());
+            cartaoCredito.setParcelas(cartaoCreditoDTO.parcelas());
+
+            // Persiste o cartão de crédito no banco de dados
+            cartaoCreditoRepository.persist(cartaoCredito);
+        } else if (tipoPagamento.getNome().equals("Cartão de Débito")) {
+            CartaoDebitoDTO cartaoDebitoDTO = (CartaoDebitoDTO) pagamentoDTO;
+            CartaoDebito cartaoDebito = new CartaoDebito();
+            cartaoDebito.setNumeroCartao(cartaoDebitoDTO.numeroCartao());
+            cartaoDebito.setNomeTitular(cartaoDebitoDTO.nomeTitular());
+            cartaoDebito.setValidade(cartaoDebitoDTO.validade());
+            cartaoDebito.setCvv(cartaoDebitoDTO.cvv());
+
+            // Persiste o cartão de débito no banco de dados
+            cartaoDebitoRepository.persist(cartaoDebito);
+        } else {
+            throw new RuntimeException("Tipo de pagamento inválido: " + tipoPagamento.getNome());
+        }
+
+        // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
+        venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);
+        vendaRepository.persist(venda);
+
+        return VendaResponseDTO.valueOf(venda);
     }
 
-  
 }

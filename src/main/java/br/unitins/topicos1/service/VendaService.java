@@ -19,5 +19,6 @@ public interface VendaService {
 
     public VendaResponseDTO editStatusVenda(Long id, Integer novoStatusId);
 
-    public VendaResponseDTO payment(Long id, String login);
+    public VendaResponseDTO realizarPagamento(Long vendaId, Object pagamentoDTO);
+
 }

@@ -67,12 +67,21 @@ insert into usuario_endereco (id_usuario, id_endereco) values(1, 1);
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 2); 
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
 
+--Insert de tipoPagamento
+INSERT INTO tipoPagamento (descricao) VALUES
+    ('Dinheiro'),
+    ('Cartão de Crédito'),
+    ('Cartão de Débito'),
+    ('Pix');
+
 -- teste de venda
 
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+INSERT INTO Venda (dataHora, id_usuario, valorTotal, id_tipoPagamento, id_statusVenda) VALUES ('2023-11-30T14:57:14.1212501', 1, 100.00, 1, 1); 
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, id_statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+
+INSERT INTO Pagamento (id_venda, id_tipo_pagamento) VALUES (1, 1);
 
 insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (200.00, 2, 1, 1);
 insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3, 2, 1);
@@ -84,5 +93,5 @@ insert into itemvenda(preco, quantidade, id_armacao, id_venda) values (400.00, 3
 insert into evento(descricao, nome) values ('Comemoração do mês da mulher', 'Mês da Mulher - MARÇO');
 insert into evento(descricao, nome) values ('Feliz Natal', 'Natal - Dezembro');
 
-insert into cupom (nome, descricao, dataLancamento, id_evento) values ('Cupom do Mês da Mulher', 'Este cupom oferece 20% de desconto em todos os produtos', '2024-04-04', 1);
-insert into cupom (nome, descricao, dataLancamento, id_evento) values ('Cupom de Natal', 'Use este cupom para obter frete grátis no Natal!', '2024-03-30', 2);
+insert into cupom (nome, descricao, dataLancamento, id_evento, porcentagemDesconto) values ('Cupom do Mês da Mulher', 'Este cupom oferece 20% de desconto em todos os produtos', '2024-04-04', 1, 20);
+insert into cupom (nome, descricao, dataLancamento, id_evento, porcentagemDesconto) values ('Cupom de Natal', 'Use este cupom para obter frete grátis no Natal!', '2024-03-30', 2, 20);

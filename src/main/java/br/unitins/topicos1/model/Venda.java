@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Venda extends DefaultEntity {
@@ -21,15 +23,21 @@ public class Venda extends DefaultEntity {
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda")
     private List<ItemVenda> itens;
 
+    @OneToOne
+    @JoinColumn(name = "id_tipoPagamento")
     private TipoPagamento tipoPagamento;
 
     private Double valorTotal;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_cupom")
     private Cupom cupom;
 
+    @Column(name = "id_statusVenda")
     private StatusVenda statusVenda;
+
+    @OneToOne(mappedBy = "venda", cascade = CascadeType.ALL)
+    private Pagamento pagamento; // agora é bidirecional
 
     public LocalDateTime getDataHora() {
         return dataHora;
@@ -85,6 +93,14 @@ public class Venda extends DefaultEntity {
 
     public void setCupom(Cupom cupom) {
         this.cupom = cupom;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 
 }

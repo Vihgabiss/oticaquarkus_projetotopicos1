@@ -8,12 +8,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class VendaRepository implements PanacheRepository<Venda> {
-    public List<Venda> findAll(String email) {
+    public List<Venda> findAllByEmail(String email) {
         return find("usuario.email = ?1", email).list();
     }
-
-    public List<Venda> findAll(Long idUsuario) {
+    
+    public List<Venda> findAllByIdUsuario(Long idUsuario) {
         return find("usuario.id = ?1", idUsuario).list();
     }
+    
 
 }
