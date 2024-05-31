@@ -1,5 +1,6 @@
 package br.unitins.topicos1.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -19,6 +20,18 @@ public class Pagamento extends DefaultEntity {
     @JoinColumn(name = "id_tipo_pagamento", nullable = false)
     private TipoPagamento tipoPagamento;
 
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Boleto boleto;
+
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Pix pix;
+
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CartaoCredito cartaoCredito;
+
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CartaoDebito cartaoDebito;
+
     public Venda getVenda() {
         return venda;
     }
@@ -33,6 +46,38 @@ public class Pagamento extends DefaultEntity {
 
     public void setTipoPagamento(TipoPagamento tipoPagamento) {
         this.tipoPagamento = tipoPagamento;
+    }
+
+    public Boleto getBoleto() {
+        return boleto;
+    }
+
+    public void setBoleto(Boleto boleto) {
+        this.boleto = boleto;
+    }
+
+    public Pix getPix() {
+        return pix;
+    }
+
+    public void setPix(Pix pix) {
+        this.pix = pix;
+    }
+
+    public CartaoCredito getCartaoCredito() {
+        return cartaoCredito;
+    }
+
+    public void setCartaoCredito(CartaoCredito cartaoCredito) {
+        this.cartaoCredito = cartaoCredito;
+    }
+
+    public CartaoDebito getCartaoDebito() {
+        return cartaoDebito;
+    }
+
+    public void setCartaoDebito(CartaoDebito cartaoDebito) {
+        this.cartaoDebito = cartaoDebito;
     }
 
 }

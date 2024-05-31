@@ -16,10 +16,12 @@ import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.Armacao;
 import br.unitins.topicos1.model.Boleto;
+import br.unitins.topicos1.model.BoletoFactory;
 import br.unitins.topicos1.model.CartaoCredito;
 import br.unitins.topicos1.model.CartaoDebito;
 import br.unitins.topicos1.model.Cupom;
 import br.unitins.topicos1.model.ItemVenda;
+import br.unitins.topicos1.model.Pagamento;
 import br.unitins.topicos1.model.Pix;
 import br.unitins.topicos1.model.StatusVenda;
 import br.unitins.topicos1.model.TipoPagamento;
@@ -188,8 +190,7 @@ public class VendaServiceImpl implements VendaService {
 
     @Override
     @Transactional
-    public VendaResponseDTO realizarPagamento(Long vendaId, Object pagamentoDTO) {
-
+    public VendaResponseDTO realizarPagamentoBoleto(Long vendaId, BoletoDTO boletoDTO, TipoPagamento tipoPagamento) {
         Optional<Venda> optionalVenda = vendaRepository.findByIdOptional(vendaId);
         if (optionalVenda.isEmpty()) {
             throw new EntityNotFoundException("Venda não encontrada com o ID: " + vendaId);
@@ -197,50 +198,121 @@ public class VendaServiceImpl implements VendaService {
 
         Venda venda = optionalVenda.get();
 
-        // Obtém o tipo de pagamento da venda
-        TipoPagamento tipoPagamento = venda.getTipoPagamento();
+        // Cria o boleto (usando o BoletoFactory)
+        Boleto boleto = BoletoFactory.criarBoleto(boletoDTO.codigoBarras());
 
-        // Verifica o tipo de pagamento e realiza as operações específicas
-        if (tipoPagamento.getNome().equals("Boleto")) {
-            BoletoDTO boletoDTO = (BoletoDTO) pagamentoDTO;
+        // Persiste o boleto no banco de dados
+        boletoRepository.persist(boleto);
 
-            // Create Boleto using the constructor
-            Boleto boleto = new Boleto(boletoDTO.codigoBarras());
+        // Associa o pagamento à venda
+        Pagamento pagamento = new Pagamento();
+        pagamento.setVenda(venda);
+        pagamento.setTipoPagamento(tipoPagamento);
+        pagamento.setBoleto(boleto);
+        pagamentoRepository.persist(pagamento);
 
-            // Persiste o boleto no banco de dados
-            boletoRepository.persist(boleto);
-        } else if (tipoPagamento.getNome().equals("Pix")) {
-            PixDTO pixDTO = (PixDTO) pagamentoDTO;
-            Pix pix = new Pix();
-            pix.setChavePix(pixDTO.chavePix());
-            pix.setQrCode(pixDTO.qrCode());
+        // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
+        venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);
+        vendaRepository.persist(venda);
 
-            // Persiste o pix no banco de dados
-            pixRepository.persist(pix);
-        } else if (tipoPagamento.getNome().equals("Cartão de Crédito")) {
-            CartaoCreditoDTO cartaoCreditoDTO = (CartaoCreditoDTO) pagamentoDTO;
-            CartaoCredito cartaoCredito = new CartaoCredito();
-            cartaoCredito.setNumeroCartao(cartaoCreditoDTO.numeroCartao());
-            cartaoCredito.setNomeTitular(cartaoCreditoDTO.nomeTitular());
-            cartaoCredito.setValidade(cartaoCreditoDTO.validade());
-            cartaoCredito.setCvv(cartaoCreditoDTO.cvv());
-            cartaoCredito.setParcelas(cartaoCreditoDTO.parcelas());
+        return VendaResponseDTO.valueOf(venda);
+    }
 
-            // Persiste o cartão de crédito no banco de dados
-            cartaoCreditoRepository.persist(cartaoCredito);
-        } else if (tipoPagamento.getNome().equals("Cartão de Débito")) {
-            CartaoDebitoDTO cartaoDebitoDTO = (CartaoDebitoDTO) pagamentoDTO;
-            CartaoDebito cartaoDebito = new CartaoDebito();
-            cartaoDebito.setNumeroCartao(cartaoDebitoDTO.numeroCartao());
-            cartaoDebito.setNomeTitular(cartaoDebitoDTO.nomeTitular());
-            cartaoDebito.setValidade(cartaoDebitoDTO.validade());
-            cartaoDebito.setCvv(cartaoDebitoDTO.cvv());
-
-            // Persiste o cartão de débito no banco de dados
-            cartaoDebitoRepository.persist(cartaoDebito);
-        } else {
-            throw new RuntimeException("Tipo de pagamento inválido: " + tipoPagamento.getNome());
+    @Override
+    @Transactional
+    public VendaResponseDTO realizarPagamentoPix(Long vendaId, PixDTO pixDTO, TipoPagamento tipoPagamento) {
+        Optional<Venda> optionalVenda = vendaRepository.findByIdOptional(vendaId);
+        if (optionalVenda.isEmpty()) {
+            throw new EntityNotFoundException("Venda não encontrada com o ID: " + vendaId);
         }
+
+        Venda venda = optionalVenda.get();
+
+        // Cria o pix
+        Pix pix = new Pix();
+        pix.setChavePix(pixDTO.chavePix());
+        pix.setQrCode(pixDTO.qrCode());
+
+        // Persiste o pix no banco de dados
+        pixRepository.persist(pix);
+
+        // Associa o pagamento à venda
+        Pagamento pagamento = new Pagamento();
+        pagamento.setVenda(venda);
+        pagamento.setTipoPagamento(tipoPagamento);
+        pagamento.setPix(pix);
+        pagamentoRepository.persist(pagamento);
+
+        // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
+        venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);
+        vendaRepository.persist(venda);
+
+        return VendaResponseDTO.valueOf(venda);
+    }
+
+    @Override
+    @Transactional
+    public VendaResponseDTO realizarPagamentoCartaoCredito(Long vendaId, CartaoCreditoDTO cartaoCreditoDTO,
+            TipoPagamento tipoPagamento) {
+        Optional<Venda> optionalVenda = vendaRepository.findByIdOptional(vendaId);
+        if (optionalVenda.isEmpty()) {
+            throw new EntityNotFoundException("Venda não encontrada com o ID: " + vendaId);
+        }
+
+        Venda venda = optionalVenda.get();
+
+        // Cria o cartão de crédito
+        CartaoCredito cartaoCredito = new CartaoCredito();
+        cartaoCredito.setNumeroCartao(cartaoCreditoDTO.numeroCartao());
+        cartaoCredito.setNomeTitular(cartaoCreditoDTO.nomeTitular());
+        cartaoCredito.setValidade(cartaoCreditoDTO.validade());
+        cartaoCredito.setCvv(cartaoCreditoDTO.cvv());
+        cartaoCredito.setParcelas(cartaoCreditoDTO.parcelas());
+
+        // Persiste o cartão de crédito no banco de dados
+        cartaoCreditoRepository.persist(cartaoCredito);
+
+        // Associa o pagamento à venda
+        Pagamento pagamento = new Pagamento();
+        pagamento.setVenda(venda);
+        pagamento.setTipoPagamento(tipoPagamento);
+        pagamento.setCartaoCredito(cartaoCredito);
+        pagamentoRepository.persist(pagamento);
+
+        // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
+        venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);
+        vendaRepository.persist(venda);
+
+        return VendaResponseDTO.valueOf(venda);
+    }
+
+    @Override
+    @Transactional
+    public VendaResponseDTO realizarPagamentoCartaoDebito(Long vendaId, CartaoDebitoDTO cartaoDebitoDTO,
+            TipoPagamento tipoPagamento) {
+        Optional<Venda> optionalVenda = vendaRepository.findByIdOptional(vendaId);
+        if (optionalVenda.isEmpty()) {
+            throw new EntityNotFoundException("Venda não encontrada com o ID: " + vendaId);
+        }
+
+        Venda venda = optionalVenda.get();
+
+        // Cria o cartão de débito
+        CartaoDebito cartaoDebito = new CartaoDebito();
+        cartaoDebito.setNumeroCartao(cartaoDebitoDTO.numeroCartao());
+        cartaoDebito.setNomeTitular(cartaoDebitoDTO.nomeTitular());
+        cartaoDebito.setValidade(cartaoDebitoDTO.validade());
+        cartaoDebito.setCvv(cartaoDebitoDTO.cvv());
+
+        // Persiste o cartão de débito no banco de dados
+        cartaoDebitoRepository.persist(cartaoDebito);
+
+        // Associa o pagamento à venda
+        Pagamento pagamento = new Pagamento();
+        pagamento.setVenda(venda);
+        pagamento.setTipoPagamento(tipoPagamento);
+        pagamento.setCartaoDebito(cartaoDebito);
+        pagamentoRepository.persist(pagamento);
 
         // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
         venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);

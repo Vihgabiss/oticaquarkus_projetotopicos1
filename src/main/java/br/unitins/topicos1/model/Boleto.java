@@ -13,7 +13,7 @@ public class Boleto extends DefaultEntity {
     private String qrCode;
 
     @OneToOne
-    @JoinColumn(name = "id_pagamento", nullable = false)
+    @JoinColumn(name = "id_pagamento") // Chave estrangeira para Pagamento
     private Pagamento pagamento;
 
     public Boleto(String codigoBarras) {
@@ -29,16 +29,32 @@ public class Boleto extends DefaultEntity {
         return codigoBarras;
     }
 
+    public void setCodigoBarras(String codigoBarras) {
+        this.codigoBarras = codigoBarras;
+    }
+
     public LocalDate getDataVencimento() {
         return dataVencimento;
+    }
+
+    public void setDataVencimento(LocalDate dataVencimento) {
+        this.dataVencimento = dataVencimento;
     }
 
     public String getQrCode() {
         return qrCode;
     }
 
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
     public Pagamento getPagamento() {
         return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 
 }

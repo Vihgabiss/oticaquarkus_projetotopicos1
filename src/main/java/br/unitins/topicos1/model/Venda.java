@@ -23,7 +23,7 @@ public class Venda extends DefaultEntity {
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "venda")
     private List<ItemVenda> itens;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_tipoPagamento")
     private TipoPagamento tipoPagamento;
 

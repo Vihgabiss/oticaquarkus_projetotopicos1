@@ -13,7 +13,7 @@ public class CartaoCredito extends DefaultEntity {
     private Integer parcelas;
 
     @OneToOne
-    @JoinColumn(name = "id_pagamento", nullable = false)
+    @JoinColumn(name = "id_pagamento") // Chave estrangeira para Pagamento
     private Pagamento pagamento;
 
     public String getNumeroCartao() {

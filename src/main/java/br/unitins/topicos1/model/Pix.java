@@ -10,7 +10,7 @@ public class Pix extends DefaultEntity {
     private String qrCode;
 
     @OneToOne
-    @JoinColumn(name = "id_pagamento", nullable = false)
+    @JoinColumn(name = "id_pagamento") // Chave estrangeira para Pagamento
     private Pagamento pagamento;
 
     public String getChavePix() {

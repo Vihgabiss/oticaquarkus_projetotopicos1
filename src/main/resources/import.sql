@@ -68,8 +68,8 @@ insert into usuario_endereco (id_usuario, id_endereco) values(1, 2);
 insert into usuario_endereco (id_usuario, id_endereco) values(2, 3); 
 
 --Insert de tipoPagamento
-INSERT INTO tipoPagamento (descricao) VALUES
-    ('Dinheiro'),
+INSERT INTO tipoPagamento (nome) VALUES
+    ('Boleto'),
     ('Cartão de Crédito'),
     ('Cartão de Débito'),
     ('Pix');
@@ -77,9 +77,9 @@ INSERT INTO tipoPagamento (descricao) VALUES
 -- teste de venda
 
 INSERT INTO Venda (dataHora, id_usuario, valorTotal, id_tipoPagamento, id_statusVenda) VALUES ('2023-11-30T14:57:14.1212501', 1, 100.00, 1, 1); 
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, id_statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
-insert into venda(id_usuario, dataHora, tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
+insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
 
 INSERT INTO Pagamento (id_venda, id_tipo_pagamento) VALUES (1, 1);
 

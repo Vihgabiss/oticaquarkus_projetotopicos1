@@ -138,32 +138,74 @@ public class VendaResource {
 
     // Endpoint para realizar pagamento (independente do tipo)
     @POST
-    @Path("/{id}/pagamento")
-    public Response realizarPagamento(@PathParam("id") Long vendaId, @RequestBody Object pagamentoDTO) {
-        LOG.info("Realizando pagamento para a venda: " + vendaId);
+    @Path("/{id}/pagamento/boleto")
+    public Response realizarPagamentoBoleto(@PathParam("id") Long vendaId, @Valid @RequestBody BoletoDTO boletoDTO) {
+        LOG.info("Realizando pagamento com boleto para a venda: " + vendaId);
         try {
-            // Determine the payment type from the DTO class
-            TipoPagamento tipoPagamento = null;
-            if (pagamentoDTO instanceof BoletoDTO) {
-                tipoPagamento = tipoPagamentoRepository.findByNome("Boleto");
-            } else if (pagamentoDTO instanceof PixDTO) {
-                tipoPagamento = tipoPagamentoRepository.findByNome("Pix");
-            } else if (pagamentoDTO instanceof CartaoCreditoDTO) {
-                tipoPagamento = tipoPagamentoRepository.findByNome("Cartão de Crédito");
-            } else if (pagamentoDTO instanceof CartaoDebitoDTO) {
-                tipoPagamento = tipoPagamentoRepository.findByNome("Cartão de Débito");
-            }
-
+            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Boleto");
             if (tipoPagamento == null) {
-                throw new RuntimeException("Tipo de pagamento inválido");
+                throw new RuntimeException("Tipo de pagamento 'Boleto' não encontrado.");
             }
-
-            VendaResponseDTO vendaAtualizada = service.realizarPagamento(vendaId, pagamentoDTO);
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoBoleto(vendaId, boletoDTO, tipoPagamento);
             return Response.ok(vendaAtualizada).build();
         } catch (RuntimeException e) {
-            LOG.error("Erro ao realizar pagamento: " + e.getMessage());
+            LOG.error("Erro ao realizar pagamento com boleto: " + e.getMessage());
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 
+    @POST
+    @Path("/{id}/pagamento/pix")
+    public Response realizarPagamentoPix(@PathParam("id") Long vendaId, @Valid @RequestBody PixDTO pixDTO) {
+        LOG.info("Realizando pagamento com Pix para a venda: " + vendaId);
+        try {
+            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Pix");
+            if (tipoPagamento == null) {
+                throw new RuntimeException("Tipo de pagamento 'Pix' não encontrado.");
+            }
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoPix(vendaId, pixDTO, tipoPagamento);
+            return Response.ok(vendaAtualizada).build();
+        } catch (RuntimeException e) {
+            LOG.error("Erro ao realizar pagamento com Pix: " + e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/{id}/pagamento/cartao-credito")
+    public Response realizarPagamentoCartaoCredito(@PathParam("id") Long vendaId,
+            @Valid @RequestBody CartaoCreditoDTO cartaoCreditoDTO) {
+        LOG.info("Realizando pagamento com cartão de crédito para a venda: " + vendaId);
+        try {
+            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Cartão de Crédito");
+            if (tipoPagamento == null) {
+                throw new RuntimeException("Tipo de pagamento 'Cartão de Crédito' não encontrado.");
+            }
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoCartaoCredito(vendaId, cartaoCreditoDTO,
+                    tipoPagamento);
+            return Response.ok(vendaAtualizada).build();
+        } catch (RuntimeException e) {
+            LOG.error("Erro ao realizar pagamento com cartão de crédito: " + e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/{id}/pagamento/cartao-debito")
+    public Response realizarPagamentoCartaoDebito(@PathParam("id") Long vendaId,
+            @Valid @RequestBody CartaoDebitoDTO cartaoDebitoDTO) {
+        LOG.info("Realizando pagamento com cartão de débito para a venda: " + vendaId);
+        try {
+            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Cartão de Débito");
+            if (tipoPagamento == null) {
+                throw new RuntimeException("Tipo de pagamento 'Cartão de Débito' não encontrado.");
+            }
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoCartaoDebito(vendaId, cartaoDebitoDTO,
+                    tipoPagamento);
+            return Response.ok(vendaAtualizada).build();
+        } catch (RuntimeException e) {
+            LOG.error("Erro ao realizar pagamento com cartão de débito: " + e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
 }
