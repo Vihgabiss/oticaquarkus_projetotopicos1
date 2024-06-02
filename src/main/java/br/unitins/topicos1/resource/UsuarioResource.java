@@ -34,6 +34,7 @@ public class UsuarioResource {
     // @RolesAllowed({ "User", "Admin"})
     public Response insert(UsuarioDTO dto) throws Exception {
         LOG.info("Cadastrando um usuario.");
+        LOG.info(dto.idPerfil());
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
