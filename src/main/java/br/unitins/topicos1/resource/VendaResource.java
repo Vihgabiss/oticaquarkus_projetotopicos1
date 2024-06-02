@@ -139,6 +139,7 @@ public class VendaResource {
     // Endpoint para realizar pagamento (independente do tipo)
     @POST
     @Path("/{id}/pagamento/boleto")
+    @RolesAllowed("Admin, User")
     public Response realizarPagamentoBoleto(@PathParam("id") Long vendaId, @Valid @RequestBody BoletoDTO boletoDTO) {
         LOG.info("Realizando pagamento com boleto para a venda: " + vendaId);
         try {
@@ -156,6 +157,7 @@ public class VendaResource {
 
     @POST
     @Path("/{id}/pagamento/pix")
+    @RolesAllowed("Admin, User")
     public Response realizarPagamentoPix(@PathParam("id") Long vendaId, @Valid @RequestBody PixDTO pixDTO) {
         LOG.info("Realizando pagamento com Pix para a venda: " + vendaId);
         try {
@@ -173,6 +175,7 @@ public class VendaResource {
 
     @POST
     @Path("/{id}/pagamento/cartao-credito")
+    @RolesAllowed("Admin, User")
     public Response realizarPagamentoCartaoCredito(@PathParam("id") Long vendaId,
             @Valid @RequestBody CartaoCreditoDTO cartaoCreditoDTO) {
         LOG.info("Realizando pagamento com cartão de crédito para a venda: " + vendaId);
@@ -192,6 +195,7 @@ public class VendaResource {
 
     @POST
     @Path("/{id}/pagamento/cartao-debito")
+    @RolesAllowed("Admin, User")
     public Response realizarPagamentoCartaoDebito(@PathParam("id") Long vendaId,
             @Valid @RequestBody CartaoDebitoDTO cartaoDebitoDTO) {
         LOG.info("Realizando pagamento com cartão de débito para a venda: " + vendaId);

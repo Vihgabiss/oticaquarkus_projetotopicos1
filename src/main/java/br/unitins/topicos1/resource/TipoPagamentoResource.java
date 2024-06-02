@@ -6,6 +6,7 @@ import org.jboss.logging.Logger;
 
 import br.unitins.topicos1.dto.TipoPagamentoDTO;
 import br.unitins.topicos1.service.TipoPagamentoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
@@ -41,6 +42,7 @@ public class TipoPagamentoResource {
     // CREATE
     @POST
     @Transactional
+    @RolesAllowed("Admin")
     public Response create(@Valid TipoPagamentoDTO tipoPagamentoDTO) {
         LOG.info("Criando novo tipo de pagamento: " + tipoPagamentoDTO);
         try {
@@ -57,6 +59,7 @@ public class TipoPagamentoResource {
 
     // READ
     @GET
+    @RolesAllowed("Admin")
     public Response getAll() {
         LOG.info("Listando todos os tipos de pagamento");
         return Response.ok(service.getAll()).build();
@@ -64,6 +67,7 @@ public class TipoPagamentoResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("Admin")
     public Response getById(@PathParam("id") Long id) {
         LOG.info("Buscando tipo de pagamento por ID: " + id);
         try {
@@ -78,6 +82,7 @@ public class TipoPagamentoResource {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed("Admin")
     public Response update(@PathParam("id") Long id, @Valid TipoPagamentoDTO tipoPagamentoDTO) {
         LOG.info("Atualizando tipo de pagamento com ID: " + id);
         try {
@@ -98,6 +103,7 @@ public class TipoPagamentoResource {
     // DELETE
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("Admin")
     @Transactional
     public Response delete(@PathParam("id") Long id) {
         LOG.info("Excluindo tipo de pagamento com ID: " + id);
