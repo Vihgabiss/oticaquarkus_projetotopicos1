@@ -89,13 +89,10 @@ public class VendaServiceImpl implements VendaService {
 
         venda.setValorTotal(total);
 
-        TipoPagamento tipoPagamento = tipoPagamentoRepository.findById(dto.idTipoPagamento()); // Fetch TipoPagamento
-                                                                                               // entity
-
+        TipoPagamento tipoPagamento = tipoPagamentoRepository.findById(dto.idTipoPagamento());
         if (tipoPagamento == null) {
             throw new RuntimeException("Tipo de pagamento inválido: " + dto.idTipoPagamento());
         }
-
         venda.setTipoPagamento(tipoPagamento);
 
         venda.setStatusVenda(StatusVenda.AGUARDANDO_PAGAMENTO);
@@ -198,20 +195,15 @@ public class VendaServiceImpl implements VendaService {
 
         Venda venda = optionalVenda.get();
 
-        // Cria o boleto (usando o BoletoFactory)
-        Boleto boleto = BoletoFactory.criarBoleto(boletoDTO.codigoBarras());
-
-        // Persiste o boleto no banco de dados
+        Boleto boleto = BoletoFactory.criarBoleto();
         boletoRepository.persist(boleto);
 
-        // Associa o pagamento à venda
         Pagamento pagamento = new Pagamento();
         pagamento.setVenda(venda);
         pagamento.setTipoPagamento(tipoPagamento);
         pagamento.setBoleto(boleto);
         pagamentoRepository.persist(pagamento);
 
-        // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
         venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);
         vendaRepository.persist(venda);
 
@@ -228,10 +220,14 @@ public class VendaServiceImpl implements VendaService {
 
         Venda venda = optionalVenda.get();
 
-        // Cria o pix
+        // Cria o pix (a chave e o QR Code são gerados automaticamente no construtor)
         Pix pix = new Pix();
-        pix.setChavePix(pixDTO.chavePix());
-        pix.setQrCode(pixDTO.qrCode());
+
+        // Verifica se a chave PIX já existe
+        Pix existingPix = pixRepository.findByChavePix(pix.getChavePix());
+        if (existingPix != null) {
+            throw new RuntimeException("Chave PIX já cadastrada.");
+        }
 
         // Persiste o pix no banco de dados
         pixRepository.persist(pix);

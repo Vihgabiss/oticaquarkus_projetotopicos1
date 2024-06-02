@@ -10,8 +10,4 @@ public class BoletoRepository implements PanacheRepository<Boleto> {
     public Boleto findById(Long id) {
         return find("id", id).firstResult();
     }
-
-    public Boleto findByCodigoBarras(String codigoBarras) {
-        return find("codigoBarras", codigoBarras).firstResult();
-    }
 }

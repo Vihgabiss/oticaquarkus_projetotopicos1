@@ -46,7 +46,6 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
         novaArmacao.setPrecoCusto(dto.precoCusto());
         novaArmacao.setPrecoVenda(dto.precoVenda());
         novaArmacao.setQuantidade(dto.quantidade());
-        novaArmacao.setNomeImagem(dto.nomeImagem());
         novaArmacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         novaArmacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
 
@@ -91,7 +90,6 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
         armacao.setPrecoCusto(dto.precoCusto());
         armacao.setPrecoVenda(dto.precoVenda());
         armacao.setQuantidade(dto.quantidade());
-        armacao.setNomeImagem(dto.nomeImagem());
         armacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         armacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
 
@@ -192,5 +190,14 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
                 .map(ArmacaoCliponResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
+    @Override
+    public List<ArmacaoCliponResponseDTO> getAll(int page, int pageSize) {
+        List<ArmacaoClipon> list = repository
+                                .findAll()
+                                .page(page, pageSize)
+                                .list();
+        
+        return list.stream().map(e -> ArmacaoCliponResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }    
 
 }
