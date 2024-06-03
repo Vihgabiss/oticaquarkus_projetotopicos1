@@ -24,6 +24,10 @@ public class Venda extends DefaultEntity {
     private List<ItemVenda> itens;
 
     @ManyToOne
+    @JoinColumn(name = "id_endereco")
+    private Endereco enderecoEntrega;
+
+    @ManyToOne
     @JoinColumn(name = "id_tipoPagamento")
     private TipoPagamento tipoPagamento;
 
@@ -103,4 +107,11 @@ public class Venda extends DefaultEntity {
         this.pagamento = pagamento;
     }
 
+    public Endereco getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+    public void setEnderecoEntrega(Endereco enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
+    }
 }

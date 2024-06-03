@@ -79,10 +79,10 @@ INSERT INTO tipoPagamento (nome) VALUES
 
 -- teste de venda
 
-INSERT INTO Venda (dataHora, id_usuario, valorTotal, id_tipoPagamento, id_statusVenda) VALUES ('2023-11-30T14:57:14.1212501', 1, 100.00, 1, 1); 
-insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
-insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1);
-insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2);
+INSERT INTO Venda (dataHora, id_usuario, valorTotal, id_tipoPagamento, id_statusVenda, id_endereco) VALUES ('2023-11-30T14:57:14.1212501', 1, 100.00, 1, 1, 1); 
+insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda, id_endereco) values (1, '2023-11-30T14:57:14.1212501', 3, 200.00, 2,2);
+insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda, id_endereco) values (2, '2023-11-30T14:57:14.1212501', 1, 100.00, 1, 3);
+insert into venda(id_usuario, dataHora, id_tipoPagamento, valorTotal, id_statusVenda, id_endereco) values (2, '2023-11-30T14:57:14.1212501', 3, 200.00, 2,3);
 
 INSERT INTO Pagamento (id_venda, id_tipo_pagamento) VALUES (1, 1);
 

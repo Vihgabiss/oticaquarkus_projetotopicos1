@@ -20,6 +20,7 @@ import br.unitins.topicos1.model.BoletoFactory;
 import br.unitins.topicos1.model.CartaoCredito;
 import br.unitins.topicos1.model.CartaoDebito;
 import br.unitins.topicos1.model.Cupom;
+import br.unitins.topicos1.model.Endereco;
 import br.unitins.topicos1.model.ItemVenda;
 import br.unitins.topicos1.model.Pagamento;
 import br.unitins.topicos1.model.Pix;
@@ -31,6 +32,7 @@ import br.unitins.topicos1.repository.BoletoRepository;
 import br.unitins.topicos1.repository.CartaoCreditoRepository;
 import br.unitins.topicos1.repository.CartaoDebitoRepository;
 import br.unitins.topicos1.repository.CupomRepository;
+import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.PagamentoRepository;
 import br.unitins.topicos1.repository.PixRepository;
 import br.unitins.topicos1.repository.TipoPagamentoRepository;
@@ -58,6 +60,9 @@ public class VendaServiceImpl implements VendaService {
 
     @Inject
     PagamentoRepository pagamentoRepository;
+
+    @Inject
+    EnderecoRepository enderecoRepository;
 
     @Inject
     TipoPagamentoRepository tipoPagamentoRepository;
@@ -94,6 +99,12 @@ public class VendaServiceImpl implements VendaService {
             throw new RuntimeException("Tipo de pagamento inválido: " + dto.idTipoPagamento());
         }
         venda.setTipoPagamento(tipoPagamento);
+
+        Endereco endereco = enderecoRepository.findById(dto.idEnderecoEntrega());
+        if (endereco == null) {
+            throw new RuntimeException("Endereco inválido: " + dto.idEnderecoEntrega());
+        }
+        venda.setEnderecoEntrega(endereco);
 
         venda.setStatusVenda(StatusVenda.AGUARDANDO_PAGAMENTO);
 

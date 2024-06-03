@@ -10,6 +10,9 @@ public record VendaDTO(
 
         List<ItemVendaDTO> itens,
 
-        String cupom) {
+        String cupom,
+
+        @NotNull(message = "O id do endereço não pode ser nulo")
+        Long idEnderecoEntrega) {
 
 }
