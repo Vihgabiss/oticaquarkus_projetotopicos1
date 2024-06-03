@@ -206,15 +206,21 @@ public class VendaServiceImpl implements VendaService {
 
         Venda venda = optionalVenda.get();
 
+        // Cria o boleto (código de barras e data de vencimento são gerados
+        // automaticamente)
         Boleto boleto = BoletoFactory.criarBoleto();
+
+        // Persiste o boleto no banco de dados
         boletoRepository.persist(boleto);
 
+        // Associa o pagamento à venda
         Pagamento pagamento = new Pagamento();
         pagamento.setVenda(venda);
-        pagamento.setTipoPagamento(tipoPagamento);
+        pagamento.setTipoPagamento(tipoPagamento); // Define o tipo de pagamento como BOLETO
         pagamento.setBoleto(boleto);
         pagamentoRepository.persist(pagamento);
 
+        // Atualiza o status da venda para "PAGAMENTO_CONFIRMADO"
         venda.setStatusVenda(StatusVenda.PAGAMENTO_CONFIRMADO);
         vendaRepository.persist(venda);
 

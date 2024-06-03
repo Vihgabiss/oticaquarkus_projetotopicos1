@@ -11,7 +11,7 @@ public class BoletoFactory {
         // Código de barras aleatório de 44 dígitos
         boleto.setCodigoBarras(RandomStringUtils.randomNumeric(44));
         
-        boleto.setDataVencimento(LocalDate.now().plusDays(30)); 
+        boleto.setDataVencimento(LocalDate.now().plusDays(3)); 
         return boleto;
     }
 }
