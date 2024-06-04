@@ -4,10 +4,10 @@ import br.unitins.topicos1.model.Pagamento;
 
 public record PagamentoResponseDTO(
         Long id,
-        String tipoPagamento) {
+        TipoPagamentoResponseDTO tipoPagamento) {
     public static PagamentoResponseDTO valueOf(Pagamento pagamento) {
         return new PagamentoResponseDTO(
                 pagamento.getId(),
-                pagamento.getTipoPagamento().getLabel());
+                TipoPagamentoResponseDTO.valueOf(pagamento.getTipoPagamento()));
     }
 }

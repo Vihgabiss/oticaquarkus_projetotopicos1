@@ -27,11 +27,11 @@ public class Venda extends DefaultEntity {
     @JoinColumn(name = "id_endereco")
     private Endereco enderecoEntrega;
 
-    private Double valorTotal;
+    @ManyToOne
+    @JoinColumn(name = "id_tipoPagamento")
+    private TipoPagamento tipoPagamento;
 
-    @OneToOne(cascade = CascadeType.ALL) // Cascade to ensure Pagamento is saved when Venda is saved
-    @JoinColumn(name = "id_pagamento")
-    private Pagamento pagamento;
+    private Double valorTotal;
 
     @ManyToOne
     @JoinColumn(name = "id_cupom")
@@ -39,6 +39,9 @@ public class Venda extends DefaultEntity {
 
     @Column(name = "id_statusVenda")
     private StatusVenda statusVenda;
+
+    @OneToOne(mappedBy = "venda", cascade = CascadeType.ALL)
+    private Pagamento pagamento; // agora é bidirecional
 
     public LocalDateTime getDataHora() {
         return dataHora;
@@ -62,6 +65,14 @@ public class Venda extends DefaultEntity {
 
     public void setItens(List<ItemVenda> itens) {
         this.itens = itens;
+    }
+
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
     }
 
     public Double getValorTotal() {
@@ -88,19 +99,19 @@ public class Venda extends DefaultEntity {
         this.cupom = cupom;
     }
 
-    public Endereco getEnderecoEntrega() {
-        return enderecoEntrega;
-    }
-
-    public void setEnderecoEntrega(Endereco enderecoEntrega) {
-        this.enderecoEntrega = enderecoEntrega;
-    }
-
     public Pagamento getPagamento() {
         return pagamento;
     }
 
     public void setPagamento(Pagamento pagamento) {
         this.pagamento = pagamento;
+    }
+
+    public Endereco getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+    public void setEnderecoEntrega(Endereco enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
     }
 }

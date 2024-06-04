@@ -63,4 +63,5 @@ public class CartaoCredito extends DefaultEntity {
     public void setPagamento(Pagamento pagamento) {
         this.pagamento = pagamento;
     }
+
 }

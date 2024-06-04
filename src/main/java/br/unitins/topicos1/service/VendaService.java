@@ -8,6 +8,7 @@ import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.PixDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
+import br.unitins.topicos1.model.TipoPagamento;
 
 public interface VendaService {
 
@@ -23,11 +24,13 @@ public interface VendaService {
 
         public VendaResponseDTO editStatusVenda(Long id, Integer novoStatusId);
 
-        public VendaResponseDTO realizarPagamentoBoleto(Long vendaId, BoletoDTO boletoDTO);
+        public VendaResponseDTO realizarPagamentoBoleto(Long vendaId, BoletoDTO boletoDTO, TipoPagamento tipoPagamento);
 
-        public VendaResponseDTO realizarPagamentoPix(Long vendaId, PixDTO pixDTO);
+        public VendaResponseDTO realizarPagamentoPix(Long vendaId, PixDTO pixDTO, TipoPagamento tipoPagamento);
 
-        public VendaResponseDTO realizarPagamentoCartaoCredito(Long vendaId, CartaoCreditoDTO cartaoCreditoDTO);
+        public VendaResponseDTO realizarPagamentoCartaoCredito(Long vendaId, CartaoCreditoDTO cartaoCreditoDTO,
+                        TipoPagamento tipoPagamento);
 
-        public VendaResponseDTO realizarPagamentoCartaoDebito(Long vendaId, CartaoDebitoDTO cartaoDebitoDTO);
+        public VendaResponseDTO realizarPagamentoCartaoDebito(Long vendaId, CartaoDebitoDTO cartaoDebitoDTO,
+                        TipoPagamento tipoPagamento);
 }

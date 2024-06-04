@@ -1,31 +1,53 @@
 package br.unitins.topicos1.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Pagamento extends DefaultEntity {
 
     @OneToOne
     @JoinColumn(name = "id_venda")
     private Venda venda;
 
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_pagamento", nullable = false)
     private TipoPagamento tipoPagamento;
 
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Boleto boleto;
 
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Pix pix;
 
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private CartaoCredito cartaoCredito;
 
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private CartaoDebito cartaoDebito;
 
-    // Getters and setters for boleto, pix, cartaoCredito, and cartaoDebito
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
+    }
+
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
+
     public Boleto getBoleto() {
         return boleto;
     }
@@ -58,20 +80,4 @@ public class Pagamento extends DefaultEntity {
         this.cartaoDebito = cartaoDebito;
     }
 
-    public Venda getVenda() {
-        return venda;
-    }
-
-    public void setVenda(Venda venda) {
-        this.venda = venda;
-    }
-
-    // Getters and setters for tipoPagamento
-    public TipoPagamento getTipoPagamento() {
-        return tipoPagamento;
-    }
-
-    public void setTipoPagamento(TipoPagamento tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
-    }
 }

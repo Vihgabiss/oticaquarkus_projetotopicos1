@@ -13,9 +13,9 @@ public record VendaResponseDTO(
         Double valorTotal,
         List<ItemVendaResponseDTO> itens,
         EnderecoResponseDTO enderecoEntrega,
+        String tipoPagamento,
         String statusVenda,
-        Cupom cupom, 
-        PagamentoResponseDTO pagamento) { // Adicionei o campo para representar o pagamento
+        Cupom cupom) { // Adicionei o campo para representar o pagamento
 
     public static VendaResponseDTO valueOf(Venda venda) {
         return new VendaResponseDTO(
@@ -25,12 +25,13 @@ public record VendaResponseDTO(
                 venda.getValorTotal(),
                 ItemVendaResponseDTO.valueOf(venda.getItens()),
                 EnderecoResponseDTO.valueOf(venda.getEnderecoEntrega()),
+                venda.getTipoPagamento().getNome(),
                 venda.getStatusVenda().getLabel(),
-                venda.getCupom(),
-                PagamentoResponseDTO.valueOf(venda.getPagamento())); // Adicionei o campo para representar o pagamento
+                venda.getCupom()); // Adicionei o campo para representar o pagamento
     }
 
     public VendaResponseDTO itens(List<ItemVendaResponseDTO> itens) {
-        return new VendaResponseDTO(id, dataHora, usuario, valorTotal, itens, enderecoEntrega,statusVenda, cupom, pagamento);
+        return new VendaResponseDTO(id, dataHora, usuario, valorTotal, itens, enderecoEntrega, tipoPagamento,
+                statusVenda, cupom);
     }
 }

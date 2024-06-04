@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotNull;
 public record PagamentoDTO(
     Long id, 
     @NotNull(message = "O tipo de pagamento não pode ser nulo")
-    Integer tipoPagamentoId
+    Long tipoPagamentoId 
 ) {}
