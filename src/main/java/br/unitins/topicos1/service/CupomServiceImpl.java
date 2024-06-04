@@ -36,7 +36,6 @@ public class CupomServiceImpl implements CupomService{
         cupom.setDescricao(dto.descricao());
         cupom.setDataLancamento(dto.dataLancamento());
         cupom.setIdevento(eventoRepository.findById(dto.idEvento()));
-        cupom.setPorcentagemDesconto(dto.porcentagemDesconto());
 
         cupomRepository.persist(cupom);
 
@@ -56,7 +55,6 @@ public class CupomServiceImpl implements CupomService{
        cupom.setDescricao(dto.descricao());
        cupom.setDataLancamento(dto.dataLancamento());
        cupom.setIdevento(eventoRepository.findById(dto.idEvento()));
-       cupom.setPorcentagemDesconto(dto.porcentagemDesconto());
        cupomRepository.persist(cupom);
 
        return CupomResponseDTO.valueOf(cupom);

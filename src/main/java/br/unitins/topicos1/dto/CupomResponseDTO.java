@@ -9,15 +9,13 @@ public record CupomResponseDTO(
         String nome,
         String descricao,
         LocalDate dataLancamento,
-        EventoResponseDTO evento,
-        Integer porcentagemDesconto) {
+        EventoResponseDTO evento) {
     public static CupomResponseDTO valueOf(Cupom cupom) {
         return new CupomResponseDTO(
                 cupom.getId(),
                 cupom.getNome(),
                 cupom.getDescricao(),
                 cupom.getDataLancamento(),
-                EventoResponseDTO.valueOf(cupom.getIdevento()),
-                cupom.getPorcentagemDesconto());
+                EventoResponseDTO.valueOf(cupom.getIdevento()));
     }
 }

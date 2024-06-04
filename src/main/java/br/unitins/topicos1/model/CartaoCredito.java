@@ -1,8 +1,6 @@
 package br.unitins.topicos1.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class CartaoCredito extends DefaultEntity {
@@ -11,10 +9,6 @@ public class CartaoCredito extends DefaultEntity {
     private String validade;
     private String cvv;
     private Integer parcelas;
-
-    @OneToOne
-    @JoinColumn(name = "id_pagamento") // Chave estrangeira para Pagamento
-    private Pagamento pagamento;
 
     public String getNumeroCartao() {
         return numeroCartao;
@@ -54,14 +48,6 @@ public class CartaoCredito extends DefaultEntity {
 
     public void setParcelas(Integer parcelas) {
         this.parcelas = parcelas;
-    }
-
-    public Pagamento getPagamento() {
-        return pagamento;
-    }
-
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
     }
 
 }

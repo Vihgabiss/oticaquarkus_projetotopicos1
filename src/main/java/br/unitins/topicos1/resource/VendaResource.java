@@ -10,9 +10,7 @@ import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.PixDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
-import br.unitins.topicos1.model.TipoPagamento;
 import br.unitins.topicos1.repository.PagamentoRepository;
-import br.unitins.topicos1.repository.TipoPagamentoRepository;
 import br.unitins.topicos1.service.UsuarioService;
 import br.unitins.topicos1.service.VendaService;
 import jakarta.annotation.security.RolesAllowed;
@@ -50,9 +48,6 @@ public class VendaResource {
 
     @Inject
     PagamentoRepository pagamentoRepository;
-
-    @Inject
-    TipoPagamentoRepository tipoPagamentoRepository;
 
     // Logger para registrar informações e erros
     private static final Logger LOG = Logger.getLogger(VendaResource.class);
@@ -143,11 +138,7 @@ public class VendaResource {
     public Response realizarPagamentoBoleto(@PathParam("id") Long vendaId, @Valid @RequestBody BoletoDTO boletoDTO) {
         LOG.info("Realizando pagamento com boleto para a venda: " + vendaId);
         try {
-            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Boleto");
-            if (tipoPagamento == null) {
-                throw new RuntimeException("Tipo de pagamento 'Boleto' não encontrado.");
-            }
-            VendaResponseDTO vendaAtualizada = service.realizarPagamentoBoleto(vendaId, boletoDTO, tipoPagamento);
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoBoleto(vendaId, boletoDTO);
             return Response.ok(vendaAtualizada).build();
         } catch (RuntimeException e) {
             LOG.error("Erro ao realizar pagamento com boleto: " + e.getMessage());
@@ -161,11 +152,7 @@ public class VendaResource {
     public Response realizarPagamentoPix(@PathParam("id") Long vendaId, @Valid @RequestBody PixDTO pixDTO) {
         LOG.info("Realizando pagamento com Pix para a venda: " + vendaId);
         try {
-            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Pix");
-            if (tipoPagamento == null) {
-                throw new RuntimeException("Tipo de pagamento 'Pix' não encontrado.");
-            }
-            VendaResponseDTO vendaAtualizada = service.realizarPagamentoPix(vendaId, pixDTO, tipoPagamento);
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoPix(vendaId, pixDTO);
             return Response.ok(vendaAtualizada).build();
         } catch (RuntimeException e) {
             LOG.error("Erro ao realizar pagamento com Pix: " + e.getMessage());
@@ -180,12 +167,7 @@ public class VendaResource {
             @Valid @RequestBody CartaoCreditoDTO cartaoCreditoDTO) {
         LOG.info("Realizando pagamento com cartão de crédito para a venda: " + vendaId);
         try {
-            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Cartão de Crédito");
-            if (tipoPagamento == null) {
-                throw new RuntimeException("Tipo de pagamento 'Cartão de Crédito' não encontrado.");
-            }
-            VendaResponseDTO vendaAtualizada = service.realizarPagamentoCartaoCredito(vendaId, cartaoCreditoDTO,
-                    tipoPagamento);
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoCartaoCredito(vendaId, cartaoCreditoDTO);
             return Response.ok(vendaAtualizada).build();
         } catch (RuntimeException e) {
             LOG.error("Erro ao realizar pagamento com cartão de crédito: " + e.getMessage());
@@ -200,12 +182,7 @@ public class VendaResource {
             @Valid @RequestBody CartaoDebitoDTO cartaoDebitoDTO) {
         LOG.info("Realizando pagamento com cartão de débito para a venda: " + vendaId);
         try {
-            TipoPagamento tipoPagamento = tipoPagamentoRepository.findByNome("Cartão de Débito");
-            if (tipoPagamento == null) {
-                throw new RuntimeException("Tipo de pagamento 'Cartão de Débito' não encontrado.");
-            }
-            VendaResponseDTO vendaAtualizada = service.realizarPagamentoCartaoDebito(vendaId, cartaoDebitoDTO,
-                    tipoPagamento);
+            VendaResponseDTO vendaAtualizada = service.realizarPagamentoCartaoDebito(vendaId, cartaoDebitoDTO);
             return Response.ok(vendaAtualizada).build();
         } catch (RuntimeException e) {
             LOG.error("Erro ao realizar pagamento com cartão de débito: " + e.getMessage());
