@@ -130,29 +130,28 @@ public class UsuarioLogadoResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
         try {
-            // 1. Verificar se a armação existe
-            Armacao armacao = armacaoRepository.findById(armacaoId);
-            if (armacao == null) {
-                return Response.status(Status.NOT_FOUND)
-                        .entity(new Error("404", "Armação não encontrada")).build();
-            }
+            Armacao armacao = armacaoRepository.findByIdOptional(armacaoId)
+                    .orElseThrow(() -> new EntityNotFoundException("Armação não encontrada"));
 
-            // 2. Salvar a imagem (usando o ArmacaoFileService)
-            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
+            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem()); // No need for .data()
+                                                                                            // anymore
+            // Use
+            // form.getImagem().data()
+            // to get the byte
+            // array
 
-            // 3. Atualizar o nome da imagem na armação
             armacao.setNomeImagem(nomeImagem);
-            // Converte Armacao para ArmacaoDTO
+            armacaoRepository.persist(armacao);
 
-            // 4. Retornar a armação atualizada (opcional)
             return Response.ok(ArmacaoResponseDTO.valueOf(armacao)).build();
 
         } catch (EntityNotFoundException e) {
+            LOG.error("Armação não encontrada: " + e.getMessage());
             return Response.status(Status.NOT_FOUND).entity(new Error("404", e.getMessage())).build();
         } catch (IOException e) {
             LOG.error("Erro ao processar a imagem: " + e.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .entity(new Error("500", "Erro ao processar a imagem")).build();
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Error("500", "Erro ao processar a imagem"))
+                    .build();
         }
     }
 
@@ -211,21 +210,20 @@ public class UsuarioLogadoResource {
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
         File file = fileService.obter(nomeImagem);
 
-        if (file == null) {
-            LOG.error("Erro: Imagem não encontrada.");
-            Error error = new Error("404", "Imagem não encontrada.");
-            return Response.status(Status.NOT_FOUND).entity(error).build();
+        if (file == null || !file.exists()) {
+            LOG.error("Imagem não encontrada: " + nomeImagem);
+            return Response.status(Status.NOT_FOUND).entity(new Error("404", "Imagem não encontrada")).build();
         }
 
         try {
-            byte[] fileContent = Files.readAllBytes(file.toPath()); // Lê o conteúdo do arquivo em um byte[]
-            ResponseBuilder response = Response.ok(fileContent); // Retorna o byte[] no Response
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            ResponseBuilder response = Response.ok(fileContent);
             response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
             return response.build();
         } catch (IOException e) {
             LOG.error("Erro ao ler o arquivo: " + e.getMessage());
-            Error error = new Error("500", "Erro ao processar a imagem.");
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Error("500", "Erro ao processar a imagem"))
+                    .build();
         }
     }
 

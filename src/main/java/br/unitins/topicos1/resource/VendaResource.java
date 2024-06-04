@@ -11,8 +11,10 @@ import br.unitins.topicos1.dto.PixDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.TipoPagamento;
+import br.unitins.topicos1.model.Venda;
 import br.unitins.topicos1.repository.PagamentoRepository;
 import br.unitins.topicos1.repository.TipoPagamentoRepository;
+import br.unitins.topicos1.repository.VendaRepository;
 import br.unitins.topicos1.service.UsuarioService;
 import br.unitins.topicos1.service.VendaService;
 import jakarta.annotation.security.RolesAllowed;
@@ -52,6 +54,10 @@ public class VendaResource {
     PagamentoRepository pagamentoRepository;
 
     @Inject
+    VendaRepository vendaRepository;
+
+
+    @Inject
     TipoPagamentoRepository tipoPagamentoRepository;
 
     // Logger para registrar informações e erros
@@ -87,8 +93,11 @@ public class VendaResource {
     @RolesAllowed({ "User", "Admin" })
     public Response findById(@PathParam("id") Long id) { // Obtém o ID da venda a partir da URL
         LOG.info("Buscando venda por ID: " + id); // Registra a busca por ID
-        VendaResponseDTO retorno = service.findById(id);
-        return Response.ok(retorno).build(); // Retorna a venda encontrada, ou null caso não encontre
+        Venda venda = vendaRepository.findById(id);
+        if (venda == null) {
+            return Response.status(Status.NOT_FOUND).build(); // Retorna 404 se não encontrar
+        }
+        return Response.ok(venda).build(); // Retorna a venda encontrada, ou null caso não encontre
     }
 
     // Endpoint para listar as vendas do usuário logado
