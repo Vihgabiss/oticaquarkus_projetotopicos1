@@ -203,20 +203,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuario;
     }
 
-    @Override
-    @Transactional
-    public void updateSenha(@Valid SenhaDTO dto){
-        Usuario usuario = getUsuarioByEmail();
-        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
-
-        if (usuario.getSenha().equals(senhaAtualHash)){
-                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
-        } 
-
-        else
-            throw new ValidationException("senha", "Senha errada!");
-    }
-
+    
     @Override
     @Transactional
     public UsuarioResponseDTO updateNomeUsuarioLogado(String nome){
@@ -229,7 +216,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return UsuarioResponseDTO.valueOf(usuario);
     }
-
+    
     @Override
     @Transactional
     public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto){
@@ -248,7 +235,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public List<TelefoneResponseDTO> findByIdUsuario(Long idUsuario) {
         Usuario usuario = repository.findById(idUsuario);
         List<Telefone> telefones = usuario.getListaTelefone();
- 
+        
         return telefones.stream().map(TelefoneResponseDTO::valueOf).collect(Collectors.toList());
     }
 
@@ -266,12 +253,26 @@ public class UsuarioServiceImpl implements UsuarioService {
         novoUsuario.setEmail(dto.email());
         novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
         novoUsuario.setPerfil(Perfil.USER);
-
+        
         repository.persist(novoUsuario);
-
+        
         return UsuarioResponseDTO.valueOf(novoUsuario);
     }
+    
 
+    @Override
+    @Transactional
+    public void updateSenha(@Valid SenhaDTO dto){
+        Usuario usuario = getUsuarioByEmail();
+        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
+    
+        if (usuario.getSenha().equals(senhaAtualHash) && dto.senhaConfirmada().equals(dto.senhaNova())){
+                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
+        } 
+    
+        else
+            throw new ValidationException("senha", "Senha errada!");
+    }
 
     /*@Override
     @Transactional

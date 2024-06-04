@@ -10,7 +10,11 @@ public record SenhaDTO(
 
     @NotBlank(message = "A senha é obrigatória") 
     @Size(min = 3, message = "A senha deve ter pelo menos 3 dígitos")
-    String senhaNova
+    String senhaNova,
+
+    @NotBlank(message = "A senha é obrigatória") 
+    @Size(min = 3, message = "A senha deve ter pelo menos 3 dígitos")
+    String senhaConfirmada
 ) {
     
 }

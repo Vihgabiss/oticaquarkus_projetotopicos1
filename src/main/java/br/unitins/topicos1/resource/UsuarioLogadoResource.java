@@ -65,7 +65,7 @@ public class UsuarioLogadoResource {
     }
 
     @PATCH
-    @Path("/altera/senha/")
+    @Path("/altera/senha")
     @RolesAllowed({ "User", "Admin" })
     public Response updateSenha(SenhaDTO dto) {
         LOG.info("Atualizando a senha do usuário.");
