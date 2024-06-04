@@ -11,6 +11,8 @@ public class Pagamento extends DefaultEntity {
     @JoinColumn(name = "id_venda")
     private Venda venda;
 
+    private TipoPagamento tipoPagamento;
+
     @OneToOne(mappedBy = "pagamento")
     private Boleto boleto;
 
@@ -64,4 +66,12 @@ public class Pagamento extends DefaultEntity {
         this.venda = venda;
     }
 
+    // Getters and setters for tipoPagamento
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
 }

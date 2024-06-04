@@ -1,5 +1,9 @@
 package br.unitins.topicos1.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public record PagamentoDTO(
-        Long id) {
-}
+    Long id, 
+    @NotNull(message = "O tipo de pagamento não pode ser nulo")
+    Integer tipoPagamentoId
+) {}
