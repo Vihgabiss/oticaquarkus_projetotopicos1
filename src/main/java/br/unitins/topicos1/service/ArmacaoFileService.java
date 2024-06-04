@@ -8,47 +8,42 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.io.FilenameUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ArmacaoFileService implements FileService {
 
-    @ConfigProperty(name = "armacao.image.upload.dir")
-    String uploadDir;
+    private final String PATH_ARMACAO = System.getProperty("user.home")
+            + File.separator + "Documents"
+            + File.separator + "Quarkus"
+            + File.separator;
+
     private static final List<String> SUPPORTED_MIME_TYPES = Arrays.asList("image/jpeg", "image/jpg", "image/png",
             "image/gif");
     private static final int MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
 
     @Override
-    public String salvar(String originalFileName, byte[] fileData) throws IOException {
-        verificarTamanhoImagem(fileData);
+    public String salvar(String nomeArquivo, byte[] arquivo) throws IOException {
+        verificarTamanhoImagem(arquivo);
+        verificarTipoImagem(nomeArquivo);
 
-        // Determine the file extension from the original filename
-        String extension = FilenameUtils.getExtension(originalFileName);
-
-        // Generate a unique filename to prevent overwriting
-        String fileName = UUID.randomUUID() + "." + extension;
-
-        // Ensure the upload directory exists
-        Path diretorio = Paths.get(uploadDir);
+        Path diretorio = Paths.get(PATH_ARMACAO);
         Files.createDirectories(diretorio);
 
-        Path filePath = diretorio.resolve(fileName);
+        Path filePath = diretorio.resolve(nomeArquivo);
 
+        // Sobrescrever o arquivo existente, SEMPRE
         try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
-            fos.write(fileData);
+            fos.write(arquivo);
         }
+
         return filePath.toFile().getName();
     }
 
     @Override
     public File obter(String nomeArquivo) {
-        return new File(uploadDir + nomeArquivo);
+        return new File(PATH_ARMACAO + nomeArquivo);
     }
 
     private void verificarTamanhoImagem(byte[] arquivo) throws IOException {
@@ -57,9 +52,16 @@ public class ArmacaoFileService implements FileService {
         }
     }
 
+    private void verificarTipoImagem(String nomeArquivo) throws IOException {
+        String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
+        if (!SUPPORTED_MIME_TYPES.contains(mimeType)) {
+            throw new IOException("Tipo de imagem não suportado.");
+        }
+    }
+
     @Override
     public void excluir(String nomeArquivo) {
-        File file = new File(uploadDir + nomeArquivo);
+        File file = new File(PATH_ARMACAO + nomeArquivo);
         if (file.exists() && file.isFile()) {
             try {
                 Files.deleteIfExists(file.toPath());
