@@ -3,16 +3,10 @@ package br.unitins.topicos1.resource;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
-
-import br.unitins.topicos1.application.Error;
-import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.dto.DadosUsuarioLogadoDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.UsuarioResponseDTO;
-import br.unitins.topicos1.form.ArmacaoImageForm;
-import br.unitins.topicos1.model.Armacao;
-import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.service.ArmacaoFileService;
 import br.unitins.topicos1.service.ArmacaoService;
