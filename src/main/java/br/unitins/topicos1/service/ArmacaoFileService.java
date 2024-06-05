@@ -21,7 +21,7 @@ public class ArmacaoFileService implements FileService {
     private final String PATH_USER = System.getProperty("user.home")
             + File.separator + "Documents"
             + File.separator + "Quarkus"
-            + File.separator + "armacao" + File.separator;
+            + File.separator;
 
     @Inject
     ArmacaoRepository armacaoRepository;
