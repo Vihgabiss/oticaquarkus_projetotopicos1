@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UsuarioDTO(
@@ -13,7 +12,6 @@ public record UsuarioDTO(
     String nome,
 
     @NotBlank(message = "O cpf não pode ser nulo.")
-    @Pattern(regexp = "(^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$)", message = "Preencha o cpf de acordo com o formato xxx.xxx.xxx-xx")
     String cpf,
 
     @NotBlank(message = "O campo email deve ser preenchido.")
@@ -25,6 +23,7 @@ public record UsuarioDTO(
     String senha,
 
     Integer idPerfil,
+    
     List<TelefoneDTO> listaTelefone
 
 ) {

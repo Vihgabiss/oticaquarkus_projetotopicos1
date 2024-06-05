@@ -54,6 +54,7 @@ public class EnderecoResource {
         LOG.infof("Listando o endereço do id %s", id);
         return Response.ok(service.findById(id)).build();
     }
+    
 
     @GET
     @Path("/cep/{cep}")
@@ -61,6 +62,14 @@ public class EnderecoResource {
     public Response findByCep(@PathParam("cep") String cep) {
         LOG.infof("Listando o endereço do cep %s", cep);
         return Response.ok(service.findByCep(cep)).build();
+    }
+
+    @GET
+    @Path("/idUsuario/{idUsuario}")
+    //@RolesAllowed({"Admin"})
+    public Response findByIdUsuario(@PathParam("idUsuario") Long idUsuario){
+        LOG.infof("Listando o endereço do usuario %s", idUsuario);
+        return Response.ok(service.findByIdUsuario(idUsuario)).build();
     }
 
     @POST

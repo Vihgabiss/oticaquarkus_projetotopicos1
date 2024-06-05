@@ -20,6 +20,8 @@ public interface EnderecoService {
 
     public List<EnderecoResponseDTO> findByAll(int page, int pageSize);
 
+    public List<EnderecoResponseDTO> findByIdUsuario(Long idUsuario);
+
     long count();
 
 }

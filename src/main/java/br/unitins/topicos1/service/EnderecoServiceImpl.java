@@ -123,4 +123,10 @@ public class EnderecoServiceImpl implements EnderecoService {
        return repositoryEnd.count();
     }
 
+    @Override
+    public List<EnderecoResponseDTO> findByIdUsuario(Long idUsuario) {
+        return repositoryEnd.findByIdUsuario(idUsuario).stream()
+        .map(e -> EnderecoResponseDTO.valueOf(e)).toList();
+    }
+
 }

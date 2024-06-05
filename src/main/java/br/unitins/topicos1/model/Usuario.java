@@ -3,6 +3,8 @@ package br.unitins.topicos1.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +19,7 @@ public class Usuario extends DefaultEntity {
     private String nome;
 
     @Column(length = 14)
+    @CPF
     private String cpf;
 
     @Column(length = 40)

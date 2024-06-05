@@ -1,6 +1,7 @@
 package br.unitins.topicos1.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.EstiloOculosDTO;
 import br.unitins.topicos1.dto.EstiloOculosResponseDTO;
@@ -54,9 +55,43 @@ public class EstiloOculosServiceImpl implements EstiloOculosService{
     }
 
     @Override
-    public List<EstiloOculosResponseDTO> findByAll() {
-        return repositoryEstiloOculos.findAllInOrder().stream()
+    public List<EstiloOculosResponseDTO> findByIdList(Long idEstiloOculos, int page, int pageSize) {
+        List<EstiloOculos> list = repositoryEstiloOculos.findByIdList(idEstiloOculos).page(page, pageSize).list(); 
+        return list.stream().map(e -> EstiloOculosResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EstiloOculosResponseDTO> findByAll(int page, int pageSize) {
+        List<EstiloOculos> list = repositoryEstiloOculos.findAll().page(page, pageSize).list();
+        return list.stream().map(e -> EstiloOculosResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EstiloOculosResponseDTO> findByNome(String nome) {
+        return repositoryEstiloOculos.findByNome(nome).stream()
         .map(e -> EstiloOculosResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public List<EstiloOculosResponseDTO> findByDescricao(String descricao) {
+        return repositoryEstiloOculos.findByDescricao(descricao).stream()
+        .map(e -> EstiloOculosResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public List<EstiloOculosResponseDTO> findInAllFields(String termo) {
+        return repositoryEstiloOculos.findInAllFields(termo).stream()
+        .map(e -> EstiloOculosResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public long count() {
+       return repositoryEstiloOculos.count();
+    }
+
+    @Override
+    public long countById(Long id){
+        return repositoryEstiloOculos.findByIdList(id).count();
     }
     
 }

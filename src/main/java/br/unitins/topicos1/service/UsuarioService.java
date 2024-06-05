@@ -2,6 +2,7 @@ package br.unitins.topicos1.service;
 
 import java.util.List;
 
+import br.unitins.topicos1.dto.DadosUsuarioLogadoDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
@@ -12,6 +13,8 @@ import jakarta.validation.Valid;
 public interface UsuarioService {
     
     public UsuarioResponseDTO insert(@Valid UsuarioDTO dto);
+
+    public UsuarioResponseDTO cadastroProprio(@Valid UsuarioDTO dto);
 
     public UsuarioResponseDTO insertTelefone(Long idUsuario, @Valid TelefoneDTO dto);
 
@@ -39,12 +42,14 @@ public interface UsuarioService {
 
     public void updateSenha(@Valid SenhaDTO dto);
 
-    public UsuarioResponseDTO updateNomeUsuarioLogado(String nome);
-
+    
     public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto);
-
+    
     public UsuarioResponseDTO updateTelefoneUsuarioLogado(Long idTelefone, @Valid TelefoneDTO dto);
-
+    
+    public List<TelefoneResponseDTO> findByIdUsuario(Long idUsuario);
+    
+    public UsuarioResponseDTO updateDadosUsuarioLogado(@Valid DadosUsuarioLogadoDTO dto);
     //public EnderecoResponseDTO insertEnderecoUsuarioLogado(@Valid EnderecoDTO dto);
 
 

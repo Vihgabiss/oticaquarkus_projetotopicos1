@@ -3,8 +3,16 @@ package br.unitins.topicos1.resource;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
+
+import br.unitins.topicos1.application.Error;
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.dto.DadosUsuarioLogadoDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
+import br.unitins.topicos1.dto.UsuarioResponseDTO;
+import br.unitins.topicos1.form.ArmacaoImageForm;
+import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.service.ArmacaoFileService;
 import br.unitins.topicos1.service.ArmacaoService;
@@ -48,12 +56,14 @@ public class UsuarioLogadoResource {
         LOG.info("Pegando e-mail do usuário logado.");
         String email = jwt.getSubject();
 
+        UsuarioResponseDTO usuarioAtualizado = usuarioService.findByEmail(email);
+
         LOG.info("Retornando os dados do usuário logado.");
-        return Response.ok(usuarioService.findByEmail(email)).build();
+        return Response.ok(usuarioAtualizado).build();
     }
 
     @PATCH
-    @Path("/altera/senha/")
+    @Path("/altera/senha")
     @RolesAllowed({ "User", "Admin" })
     public Response updateSenha(SenhaDTO dto) {
         LOG.info("Atualizando a senha do usuário.");
@@ -65,13 +75,13 @@ public class UsuarioLogadoResource {
     }
 
     @PATCH
-    @Path("/altera/nome/{nome}")
+    @Path("/altera/dados")
     @RolesAllowed({ "User", "Admin" })
-    public Response updateNomeUsuario(@PathParam("nome") String nome) {
-        LOG.infof("Atualizando o nome do usuário para %s", nome);
-        usuarioService.updateNomeUsuarioLogado(nome);
+    public Response updateNomeUsuario(DadosUsuarioLogadoDTO dto) {
+        LOG.infof("Atualizando os dados do usuário");
+        usuarioService.updateDadosUsuarioLogado(dto);
 
-        LOG.info("Finalizando a atualização do nome.");
+        LOG.info("Finalizando a atualização dos dados.");
         return Response.noContent().build();
     }
 

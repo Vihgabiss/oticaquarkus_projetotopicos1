@@ -7,12 +7,18 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class EnderecoRepository implements PanacheRepository<Endereco> {
-    public PanacheQuery<Endereco> findByCep(String cep) {
-        return find("cep", cep);
+    
+    public PanacheQuery<Endereco> findAllInOrder(){
+        return find("SELeCT e FROM Endereco e ORDER BY e.cep");
     }
 
-    public PanacheQuery<Endereco> findAllInOrder() {
-        return find("SELeCT e FROM Endereco e ORDER BY e.cep");
+    public  PanacheQuery<Endereco> findByCep(String cep) {
+        return find("lower(cep) like ?1", "%"+cep.toLowerCase()+"%");
+    }
+
+
+    public  PanacheQuery<Endereco> findByIdUsuario(Long idUsuario) {
+        return find("idUsuario", idUsuario);
     }
 
     // precisei adicionar esse método para colocar a opção de selecionar um endereço

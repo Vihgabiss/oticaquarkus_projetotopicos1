@@ -49,7 +49,8 @@ public class AuthResource {
         String token = jwtService.generateJwt(result);
 
         LOG.info("Finalizando o processo de login.");
+        LOG.info(result.nome());
 
-        return Response.ok().header("Authorization", token).build();
+        return Response.ok(result).header("Authorization", token).build();
     }
 }
