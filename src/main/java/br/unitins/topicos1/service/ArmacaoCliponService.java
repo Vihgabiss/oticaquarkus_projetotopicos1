@@ -26,4 +26,5 @@ public interface ArmacaoCliponService {
     public ArmacaoCliponResponseDTO insertNomeImagem(Long id, String nomeImagem);
 
     public ArmacaoCliponResponseDTO updateNomeImagem(Long id, String nomeImagem);
+    
 }
