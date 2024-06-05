@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import br.unitins.topicos1.dto.FabricanteDTO;
 import br.unitins.topicos1.dto.FabricanteResponseDTO;
 import br.unitins.topicos1.dto.MarcaDTO;
-import br.unitins.topicos1.dto.MarcaResponseDTO;
 import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.model.Marca;
 import br.unitins.topicos1.repository.FabricanteRepository;
@@ -38,13 +37,17 @@ public class FabricanteServiceImpl implements FabricanteService {
         fabricante.setCnpj(dto.cnpj());
 
         if (dto.listaMarca() != null && !dto.listaMarca().isEmpty()) {
-            fabricante.setListaMarca(new ArrayList<Marca>());
+            fabricante.setListaMarca(new ArrayList<>());
 
-            for (MarcaResponseDTO mar : dto.listaMarca()) {
-                Marca marca = new Marca();
-                marca.setNome(mar.nome());
-
-                fabricante.getListaMarca().add(marca);
+            for (Long idMarca : dto.listaMarca()) {
+                Marca marca = marcaRepository.findById(idMarca);
+                if (marca != null) {
+                    fabricante.getListaMarca().add(marca);
+                } else {
+                    // Aqui, você pode lançar uma exceção ou lidar com marcas não encontradas de
+                    // outra maneira.
+                    throw new RuntimeException("Marca não encontrada com o ID: " + idMarca);
+                }
             }
         }
 
@@ -55,27 +58,38 @@ public class FabricanteServiceImpl implements FabricanteService {
     @Override
     @Transactional
     public FabricanteResponseDTO update(FabricanteDTO dto, Long id) {
-        Fabricante novoFabricante = repository.findById(id);
-        if (novoFabricante == null) {
+        Fabricante fabricanteExistente = repository.findById(id);
+        if (fabricanteExistente == null) {
             throw new RuntimeException("Fabricante não encontrado com o ID: " + id);
         }
-        novoFabricante.setNome(dto.nome());
-        novoFabricante.setTelefone(dto.telefone());
-        novoFabricante.setEndereco(dto.endereco());
-        novoFabricante.setEmail(dto.email());
-        novoFabricante.setCnpj(dto.cnpj());
+
+        fabricanteExistente.setNome(dto.nome());
+        fabricanteExistente.setTelefone(dto.telefone());
+        fabricanteExistente.setEndereco(dto.endereco());
+        fabricanteExistente.setEmail(dto.email());
+        fabricanteExistente.setCnpj(dto.cnpj());
+
+        // Atualização da lista de marcas
         if (dto.listaMarca() != null && !dto.listaMarca().isEmpty()) {
-            novoFabricante.setListaMarca(new ArrayList<Marca>());
+            List<Marca> novasMarcas = new ArrayList<>();
 
-            for (MarcaResponseDTO mar : dto.listaMarca()) {
-                Marca marca = new Marca();
-                marca.setNome(mar.nome());
-
-                novoFabricante.getListaMarca().add(marca);
+            for (Long idMarca : dto.listaMarca()) {
+                Marca marca = marcaRepository.findById(idMarca);
+                if (marca != null) {
+                    novasMarcas.add(marca);
+                } else {
+                    // Aqui, você pode lançar uma exceção ou lidar com marcas não encontradas de
+                    // outra maneira.
+                    throw new RuntimeException("Marca não encontrada com o ID: " + idMarca);
+                }
             }
+
+            fabricanteExistente.getListaMarca().clear();
+            fabricanteExistente.getListaMarca().addAll(novasMarcas);
         }
-        repository.persist(novoFabricante);
-        return FabricanteResponseDTO.valueOf(novoFabricante);
+
+        repository.persist(fabricanteExistente);
+        return FabricanteResponseDTO.valueOf(fabricanteExistente);
     }
 
     @Override

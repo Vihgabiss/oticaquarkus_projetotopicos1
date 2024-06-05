@@ -1,12 +1,8 @@
 package br.unitins.topicos1.resource;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
 
 import br.unitins.topicos1.application.Error;
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
@@ -23,7 +19,6 @@ import br.unitins.topicos1.service.ArmacaoService;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -32,8 +27,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.ResponseBuilder;
-import jakarta.ws.rs.core.Response.Status;
 
 @Path("/usuariologado")
 @Produces(MediaType.APPLICATION_JSON)
@@ -128,110 +121,5 @@ public class UsuarioLogadoResource {
      * return Response.noContent().build();
      * }
      */
-
-    @PATCH
-    @Path("/upload/imagem/{armacaoId}")
-    @RolesAllowed({ "User", "Admin" })
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
-        try {
-            // 1. Verificar se a armação existe
-            Armacao armacao = armacaoRepository.findById(armacaoId);
-            if (armacao == null) {
-                return Response.status(Status.NOT_FOUND)
-                        .entity(new Error("404", "Armação não encontrada")).build();
-            }
-
-            // 2. Salvar a imagem (usando o ArmacaoFileService)
-            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
-
-            // 3. Atualizar o nome da imagem na armação
-            armacao.setNomeImagem(nomeImagem);
-            // Converte Armacao para ArmacaoDTO
-
-            // 4. Retornar a armação atualizada (opcional)
-            return Response.ok(ArmacaoResponseDTO.valueOf(armacao)).build();
-
-        } catch (EntityNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).entity(new Error("404", e.getMessage())).build();
-        } catch (IOException e) {
-            LOG.error("Erro ao processar a imagem: " + e.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .entity(new Error("500", "Erro ao processar a imagem")).build();
-        }
-    }
-
-    @PATCH
-    @Path("/upload/novaImagem/{armacaoId}")
-    @RolesAllowed({ "User", "Admin" })
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadNovaImagemArmacao(@MultipartForm ArmacaoImageForm form,
-            @PathParam("armacaoId") Long armacaoId) {
-        try {
-            LOG.info("Deletando a imagem atual.");
-
-            // Buscar a armação para obter o nome da imagem atual
-            Armacao armacaoAtual = armacaoRepository.findById(armacaoId);
-            if (armacaoAtual != null) {
-                String nomeImagemAtual = armacaoAtual.getNomeImagem();
-                if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
-                    fileService.excluir(nomeImagemAtual);
-                }
-            }
-
-            LOG.info("Salvando a nova imagem.");
-            String nomeImagemNovo = fileService.salvar(form.getNomeImagem(), form.getImagem());
-
-            // Buscar novamente a armação (após possível exclusão da imagem antiga)
-            Armacao armacao = armacaoRepository.findById(armacaoId);
-            if (armacao == null) {
-                return Response.status(Status.NOT_FOUND)
-                        .entity(new Error("404", "Armação não encontrada")).build();
-            }
-
-            // Atualizar o nome da imagem e persistir a alteração
-            armacao.setNomeImagem(nomeImagemNovo);
-            armacaoRepository.persist(armacao);
-
-            // Converter a entidade Armacao para ArmacaoResponseDTO (usando o método valueOf
-            // da subclasse)
-            ArmacaoResponseDTO armacaoDTO = ArmacaoResponseDTO.valueOf(armacao);
-
-            LOG.info("Retornando a imagem atualizada.");
-            return Response.ok(armacaoDTO).build(); // Retorna o ArmacaoResponseDTO
-
-        } catch (EntityNotFoundException e) {
-            return Response.status(Status.NOT_FOUND).entity(new Error("404", e.getMessage())).build();
-        } catch (IOException e) {
-            LOG.error("Erro ao processar a imagem: " + e.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .entity(new Error("500", "Erro ao processar a imagem")).build();
-        }
-    }
-
-    @GET
-    @Path("/download/imagem/{nomeImagem}")
-    @RolesAllowed({ "User", "Admin" })
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response download(@PathParam("nomeImagem") String nomeImagem) {
-        File file = fileService.obter(nomeImagem);
-
-        if (file == null) {
-            LOG.error("Erro: Imagem não encontrada.");
-            Error error = new Error("404", "Imagem não encontrada.");
-            return Response.status(Status.NOT_FOUND).entity(error).build();
-        }
-
-        try {
-            byte[] fileContent = Files.readAllBytes(file.toPath()); // Lê o conteúdo do arquivo em um byte[]
-            ResponseBuilder response = Response.ok(fileContent); // Retorna o byte[] no Response
-            response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
-            return response.build();
-        } catch (IOException e) {
-            LOG.error("Erro ao ler o arquivo: " + e.getMessage());
-            Error error = new Error("500", "Erro ao processar a imagem.");
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
 
 }

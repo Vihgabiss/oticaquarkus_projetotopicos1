@@ -8,13 +8,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Cupom extends DefaultEntity{
+public class Cupom extends DefaultEntity {
     @Column(length = 60, nullable = false)
     private String nome;
 
     private String descricao;
 
     private LocalDate dataLancamento;
+
+    //adicionei essa porcentagem para utilzar o desconto
+    private Integer porcentagemDesconto;
 
     @OneToOne
     @JoinColumn(name = "id_evento")
@@ -52,5 +55,12 @@ public class Cupom extends DefaultEntity{
         this.idevento = idevento;
     }
 
-    
+    public Integer getPorcentagemDesconto() {
+        return porcentagemDesconto;
+    }
+
+    public void setPorcentagemDesconto(Integer porcentagemDesconto) {
+        this.porcentagemDesconto = porcentagemDesconto;
+    }
+
 }
