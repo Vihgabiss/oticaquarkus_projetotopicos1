@@ -106,7 +106,6 @@ public class ArmacaoGrauResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos as armações de Grau");
         List<ArmacaoGrauResponseDTO> retorno = service.findByAll();

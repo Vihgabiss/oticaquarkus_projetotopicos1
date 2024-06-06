@@ -39,15 +39,15 @@ insert into colecao (nome, descricao, dataLancamento) values('Coleção Inverno 
 
 -- inserção de óculos
 insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('C12A3', '#A2', '145', 85.00, 120.00, 10, 1,1,1, 'armacao1.jpg', 1,1);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('B2023', '#C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2, 2);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('G2023', '#C6', '145', 78.00, 110.00, 5, 2,3,2,'armacao2.jpg', 2, 2);
 insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('B2023', '#C5', '140', 99.90, 135.80, 2, 2,2,3,'armacao3.jpg', 2, 1);
-insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('A62G3', '#B2', '50', 100.00, 110.00, 12, 1,1,2, 'armacao4.jpg', 1,2);
+insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('J52T1', '#B2', '50', 100.00, 110.00, 12, 1,1,2, 'armacao4.jpg', 1,2);
 insert into armacao (referencia, cor, tamanho, precoCusto, precoVenda, quantidade, id_fabricante,tipo_aro_armacao, material_armacao, nomeImagem, id_estiloOculos,id_colecao) values ('A62G3', '3B2', '50', 100.00, 110.00, 12, 2,1,2, 'armacao5.jpg', 1,2);
 insert into armacaograu(id) values (1);
+insert into armacaograu(id) values (5);
 insert into armacaosolar(id, tipo_lente_solar) values (2, 2);
 insert into armacaosolar(id, tipo_lente_solar) values (3, 1);
 insert into armacaoclipon(id, tipo_lente_solar) values (4, 3);
-insert into armacaoclipon(id, tipo_lente_solar) values (5, 3);
 
 insert into usuario(nome, cpf, email, perfil, senha) values('Elon Musk', '17898178033', 'musk@gmail.com', 2, 'DzdKfFtHned4y7fLASqK0gH9EqUAMZgn6HuhapPc6l0ycYnZ/AZB2mFjbV5ADHvCpr8u3Vm8SkIIJ55gmKQDdA==');
 insert into usuario(nome, cpf, email, perfil, senha) values('Bill Gates','76598852005', 'gates@gmail.com', 1, 'cQa5YaODDHhULIAmdDvDQ/YyU9jAzqqhz1hzmFU7LB1CHLRrUEgu9r/O5cyup6ghql/1J5J60tVChoWwa5XL6Q==');
