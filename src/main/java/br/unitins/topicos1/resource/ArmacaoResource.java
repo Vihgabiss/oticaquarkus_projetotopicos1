@@ -6,6 +6,7 @@ import org.jboss.logging.Logger;
 
 import br.unitins.topicos1.dto.ArmacaoDTO;
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.service.ArmacaoFileService;
 import br.unitins.topicos1.service.ArmacaoService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -21,6 +22,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
 
 @Path("/Armacao")
@@ -30,6 +32,9 @@ public class ArmacaoResource {
 
     @Inject
     ArmacaoService service;
+
+    @Inject
+    ArmacaoFileService fileService;
 
     private static final Logger LOG = Logger.getLogger(ArmacaoResource.class);
 
@@ -63,7 +68,6 @@ public class ArmacaoResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
         LOG.info("Buscando Armação de  por ID");
@@ -90,10 +94,19 @@ public class ArmacaoResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos as armações de ");
         List<ArmacaoResponseDTO> retorno = service.findByAll();
         return Response.ok(retorno).build();
+    }
+
+    @GET
+    @Path("/imagem/download/{nomeImagem}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("nomeImagem") String nomeImagem) {
+        System.out.println(nomeImagem);
+        ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
+        response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
+        return response.build();
     }
 }

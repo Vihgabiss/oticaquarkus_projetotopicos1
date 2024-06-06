@@ -105,7 +105,6 @@ public class ArmacaoSolarResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
     public Response findByAll() {
         LOG.info("Listando todos as armações solar");
         List<ArmacaoSolarResponseDTO> retorno = service.findByAll();
