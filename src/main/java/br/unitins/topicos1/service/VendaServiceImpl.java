@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import br.unitins.topicos1.dto.ArmacaoResponseDTO;
 import br.unitins.topicos1.dto.BoletoDTO;
@@ -12,6 +13,7 @@ import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.ItemVendaDTO;
 import br.unitins.topicos1.dto.ItemVendaResponseDTO;
 import br.unitins.topicos1.dto.PixDTO;
+import br.unitins.topicos1.dto.TipoPagamentoDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.Armacao;
@@ -326,6 +328,18 @@ public class VendaServiceImpl implements VendaService {
         vendaRepository.persist(venda);
 
         return VendaResponseDTO.valueOf(venda);
+    }
+
+    @Override
+    public List<TipoPagamentoDTO> getTipoPagamentos() {
+        // Recupera todos os tipos de pagamento do banco de dados (ou da sua fonte de
+        // dados)
+        List<TipoPagamento> tipoPagamentos = tipoPagamentoRepository.findAll().list(); // Assuming you have a repository
+
+        // Converte para DTOs e retorna
+        return tipoPagamentos.stream()
+                .map(tipoPagamento -> new TipoPagamentoDTO(tipoPagamento.getId(), tipoPagamento.getNome()))
+                .collect(Collectors.toList());
     }
 
 }

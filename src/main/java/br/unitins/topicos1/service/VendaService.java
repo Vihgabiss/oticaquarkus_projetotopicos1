@@ -6,6 +6,7 @@ import br.unitins.topicos1.dto.BoletoDTO;
 import br.unitins.topicos1.dto.CartaoCreditoDTO;
 import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.PixDTO;
+import br.unitins.topicos1.dto.TipoPagamentoDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.TipoPagamento;
@@ -33,4 +34,6 @@ public interface VendaService {
 
         public VendaResponseDTO realizarPagamentoCartaoDebito(Long vendaId, CartaoDebitoDTO cartaoDebitoDTO,
                         TipoPagamento tipoPagamento);
+
+        public List<TipoPagamentoDTO> getTipoPagamentos();
 }

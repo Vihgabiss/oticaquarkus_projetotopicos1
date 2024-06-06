@@ -1,5 +1,7 @@
 package br.unitins.topicos1.resource;
 
+import java.util.List;
+
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jboss.logging.Logger;
@@ -8,6 +10,7 @@ import br.unitins.topicos1.dto.BoletoDTO;
 import br.unitins.topicos1.dto.CartaoCreditoDTO;
 import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.PixDTO;
+import br.unitins.topicos1.dto.TipoPagamentoDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
 import br.unitins.topicos1.model.TipoPagamento;
@@ -55,7 +58,6 @@ public class VendaResource {
 
     @Inject
     VendaRepository vendaRepository;
-
 
     @Inject
     TipoPagamentoRepository tipoPagamentoRepository;
@@ -219,6 +221,20 @@ public class VendaResource {
         } catch (RuntimeException e) {
             LOG.error("Erro ao realizar pagamento com cartão de débito: " + e.getMessage());
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
+    @Path("/tipos-pagamento")
+    @RolesAllowed({ "User", "Admin" })
+    public Response getTipoPagamentos() {
+        LOG.info("Listando todos os tipos de pagamento");
+        try {
+            List<TipoPagamentoDTO> tiposPagamento = service.getTipoPagamentos();
+            return Response.ok(tiposPagamento).build();
+        } catch (Exception e) {
+            LOG.error("Erro ao listar tipos de pagamento: " + e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
