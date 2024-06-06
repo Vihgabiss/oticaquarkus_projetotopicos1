@@ -3,10 +3,15 @@ package br.unitins.topicos1.form;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.core.MediaType;
 
 public class ArmacaoImageForm {
+    @FormParam("id")
+    @PartType(MediaType.TEXT_PLAIN)
+    private Long id;
 
     @FormParam("nomeImagem")
+    @PartType(MediaType.TEXT_PLAIN)
     private String nomeImagem;
 
     @FormParam("imagem")
@@ -27,5 +32,13 @@ public class ArmacaoImageForm {
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

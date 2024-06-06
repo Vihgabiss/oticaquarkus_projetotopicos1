@@ -10,7 +10,6 @@ import br.unitins.topicos1.model.Colecao;
 import br.unitins.topicos1.model.EstiloOculos;
 import br.unitins.topicos1.model.Fabricante;
 import br.unitins.topicos1.model.MaterialArmacao;
-import br.unitins.topicos1.model.TipoArmacao;
 import br.unitins.topicos1.model.TipoAroArmacao;
 import br.unitins.topicos1.model.TipoLenteSolar;
 import br.unitins.topicos1.repository.ArmacaoCliponRepository;
@@ -47,10 +46,8 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
         novaArmacao.setPrecoCusto(dto.precoCusto());
         novaArmacao.setPrecoVenda(dto.precoVenda());
         novaArmacao.setQuantidade(dto.quantidade());
-        novaArmacao.setNomeImagem(dto.nomeImagem());
         novaArmacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         novaArmacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
-        novaArmacao.setTipoArmacao(TipoArmacao.valueOf(dto.idTipoArmacao()));
 
         Long idFabricante = dto.idFabricante().longValue();
         Fabricante fabricante = fabricanteRepository.findById(idFabricante);
@@ -93,10 +90,9 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
         armacao.setPrecoCusto(dto.precoCusto());
         armacao.setPrecoVenda(dto.precoVenda());
         armacao.setQuantidade(dto.quantidade());
-        armacao.setNomeImagem(dto.nomeImagem());
         armacao.setTipoAroArmacao(TipoAroArmacao.valueOf(dto.idTipoAroArmacao()));
         armacao.setMaterialArmacao(MaterialArmacao.valueOf(dto.idTipoMaterialArmacao()));
-        armacao.setTipoArmacao(TipoArmacao.valueOf(dto.idTipoArmacao()));
+
         Long idFabricante = dto.idFabricante().longValue();
         Fabricante fabricante = fabricanteRepository.findById(idFabricante);
         if (fabricante == null) {
@@ -194,5 +190,14 @@ public class ArmacaoCliponServiceImpl implements ArmacaoCliponService {
                 .map(ArmacaoCliponResponseDTO::valueOf)
                 .collect(Collectors.toList());
     }
+    @Override
+    public List<ArmacaoCliponResponseDTO> getAll(int page, int pageSize) {
+        List<ArmacaoClipon> list = repository
+                                .findAll()
+                                .page(page, pageSize)
+                                .list();
+        
+        return list.stream().map(e -> ArmacaoCliponResponseDTO.valueOf(e)).collect(Collectors.toList());
+    }    
 
 }

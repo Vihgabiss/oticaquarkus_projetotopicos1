@@ -25,8 +25,6 @@ public record ArmacaoSolarDTO(
 
         @NotNull(message = "O id do tipo do aro da armação não pode ser nulo.") Integer idTipoAroArmacao,
 
-        @NotNull(message = "O id do tipo da armação não pode ser nulo.") Integer idTipoArmacao,
-
         @NotNull(message = "O id do material da armação não pode ser nulo.") Integer idTipoMaterialArmacao,
 
         @NotNull(message = "O nome da imagem não pode ser nulo.") String nomeImagem,

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import br.unitins.topicos1.dto.DadosUsuarioLogadoDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
@@ -202,34 +203,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return usuario;
     }
-
-    @Override
-    @Transactional
-    public void updateSenha(@Valid SenhaDTO dto){
-        Usuario usuario = getUsuarioByEmail();
-        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
-
-        if (usuario.getSenha().equals(senhaAtualHash)){
-                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
-        } 
-
-        else
-            throw new ValidationException("senha", "Senha errada!");
-    }
-
-    @Override
-    @Transactional
-    public UsuarioResponseDTO updateNomeUsuarioLogado(String nome){
-        Usuario usuario = getUsuarioByEmail();
-
-        if (nome != null && !nome.isEmpty())
-            usuario.setNome(nome);
-        else
-        throw new ValidationException("nome", "Nome não pode ser nulo.");
-
-        return UsuarioResponseDTO.valueOf(usuario);
-    }
-
+    
     @Override
     @Transactional
     public UsuarioResponseDTO insertTelefoneUsuarioLogado(@Valid TelefoneDTO dto){
@@ -248,10 +222,62 @@ public class UsuarioServiceImpl implements UsuarioService {
     public List<TelefoneResponseDTO> findByIdUsuario(Long idUsuario) {
         Usuario usuario = repository.findById(idUsuario);
         List<Telefone> telefones = usuario.getListaTelefone();
- 
+        
         return telefones.stream().map(TelefoneResponseDTO::valueOf).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public UsuarioResponseDTO cadastroProprio(@Valid UsuarioDTO dto) {
+        
+        if (repository.findByEmail(dto.email()) != null) {
+            throw new ValidationException("email", "Email já existe.");
+        }
+
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setNome(dto.nome());
+        novoUsuario.setCpf(dto.cpf());
+        novoUsuario.setEmail(dto.email());
+        novoUsuario.setSenha(hashService.getHashSenha(dto.senha()));
+        novoUsuario.setPerfil(Perfil.USER);
+        
+        repository.persist(novoUsuario);
+        
+        return UsuarioResponseDTO.valueOf(novoUsuario);
+    }
+    
+
+    @Override
+    @Transactional
+    public void updateSenha(@Valid SenhaDTO dto){
+        Usuario usuario = getUsuarioByEmail();
+        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
+    
+        if (usuario.getSenha().equals(senhaAtualHash) && dto.senhaConfirmada().equals(dto.senhaNova())){
+                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
+        } 
+    
+        else
+            throw new ValidationException("senha", "Senha errada!");
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO updateDadosUsuarioLogado(DadosUsuarioLogadoDTO dto){
+        Usuario usuario = getUsuarioByEmail();
+
+        if (dto.nome() != null && !dto.nome().isEmpty())
+            usuario.setNome(dto.nome());
+        else
+        throw new ValidationException("nome", "Nome não pode ser nulo.");
+
+        if(dto.email() != null && !dto.email().isEmpty())
+            usuario.setEmail(dto.email());
+        else
+            throw new ValidationException("nome", "Nome não pode ser nulo.");
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
 
     /*@Override
     @Transactional

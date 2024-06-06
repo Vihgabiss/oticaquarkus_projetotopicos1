@@ -21,7 +21,10 @@ public interface ArmacaoCliponService {
 
     public List<ArmacaoCliponResponseDTO> findByAll();
 
+    List<ArmacaoCliponResponseDTO> getAll(int page, int pageSize);
+
     public ArmacaoCliponResponseDTO insertNomeImagem(Long id, String nomeImagem);
 
     public ArmacaoCliponResponseDTO updateNomeImagem(Long id, String nomeImagem);
+    
 }

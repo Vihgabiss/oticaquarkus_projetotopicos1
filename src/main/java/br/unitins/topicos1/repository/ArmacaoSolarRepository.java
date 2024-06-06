@@ -8,6 +8,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ArmacaoSolarRepository implements PanacheRepository<ArmacaoSolar> {
+    public ArmacaoSolar findById(Long id) {
+        return find("id", id).firstResult();
+    }
+
     public List<ArmacaoSolar> findByReferencia(String referencia) {
         return find("UPPER(referencia) LIKE UPPER(?1) ", "%" + referencia + "%").list();
     }

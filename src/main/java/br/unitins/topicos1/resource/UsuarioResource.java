@@ -34,6 +34,7 @@ public class UsuarioResource {
     // @RolesAllowed({ "User", "Admin"})
     public Response insert(UsuarioDTO dto) throws Exception {
         LOG.info("Cadastrando um usuario.");
+        LOG.info(dto.idPerfil());
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();
     }
 
@@ -95,7 +96,7 @@ public class UsuarioResource {
     }
 
     @GET
-    @RolesAllowed({ "Admin" })
+    @RolesAllowed({ "Admin", "User" })
     public Response findByAll() {
         LOG.info("Listando todos os usuarios.");
         return Response.ok(service.findByAll()).build();
@@ -141,4 +142,10 @@ public class UsuarioResource {
         return Response.ok(service.findByIdUsuario(idUsuario)).build();
     }
 
+    @POST
+    @Path("/cadastrar")
+    public Response cadastroProprio(UsuarioDTO dto) {
+        LOG.info("Criando um cadastro de usuário no sistema.");
+        return Response.status(Status.CREATED).entity(service.cadastroProprio(dto)).build();
+    }
 }

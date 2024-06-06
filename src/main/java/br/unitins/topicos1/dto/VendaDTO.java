@@ -5,12 +5,12 @@ import java.util.List;
 import jakarta.validation.constraints.NotNull;
 
 public record VendaDTO(
-        @NotNull(message = "O id do tipo de pagamento não pode ser nulo") 
-        Integer idTipoPagamento,
+        @NotNull(message = "O id do tipo de pagamento não pode ser nulo") Long idTipoPagamento,
 
         List<ItemVendaDTO> itens,
 
-        @NotNull(message = "O id do status de venda não pode ser nulo") 
-        Integer idStatusVenda) {
+        String cupom,
+
+        @NotNull(message = "O id do endereço não pode ser nulo") Long idEnderecoEntrega) {
 
 }

@@ -1,18 +1,21 @@
 package br.unitins.topicos1.resource;
 
-import java.io.IOException;
-
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
 
 import br.unitins.topicos1.application.Error;
-import br.unitins.topicos1.dto.ArmacaoSolarResponseDTO;
+import br.unitins.topicos1.dto.ArmacaoResponseDTO;
+import br.unitins.topicos1.dto.DadosUsuarioLogadoDTO;
 import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
+import br.unitins.topicos1.dto.UsuarioResponseDTO;
 import br.unitins.topicos1.form.ArmacaoImageForm;
+import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.model.Usuario;
+import br.unitins.topicos1.repository.ArmacaoRepository;
 import br.unitins.topicos1.service.ArmacaoFileService;
-import br.unitins.topicos1.service.ArmacaoSolarService;
+import br.unitins.topicos1.service.ArmacaoService;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -24,8 +27,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.ResponseBuilder;
-import jakarta.ws.rs.core.Response.Status;
 
 @Path("/usuariologado")
 @Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +43,10 @@ public class UsuarioLogadoResource {
     ArmacaoFileService fileService;
 
     @Inject
-    ArmacaoSolarService armacaoService;
+    ArmacaoService armacaoService;
+
+    @Inject
+    ArmacaoRepository armacaoRepository;
 
     private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
 
@@ -51,13 +55,15 @@ public class UsuarioLogadoResource {
     public Response getUsuarioLogado() {
         LOG.info("Pegando e-mail do usuário logado.");
         String email = jwt.getSubject();
-        
+
+        UsuarioResponseDTO usuarioAtualizado = usuarioService.findByEmail(email);
+
         LOG.info("Retornando os dados do usuário logado.");
-        return Response.ok(usuarioService.findByEmail(email)).build();
+        return Response.ok(usuarioAtualizado).build();
     }
 
     @PATCH
-    @Path("/altera/senha/")
+    @Path("/altera/senha")
     @RolesAllowed({ "User", "Admin" })
     public Response updateSenha(SenhaDTO dto) {
         LOG.info("Atualizando a senha do usuário.");
@@ -69,20 +75,20 @@ public class UsuarioLogadoResource {
     }
 
     @PATCH
-    @Path("/altera/nome/{nome}")
-    @RolesAllowed({"User", "Admin"})
-    public Response updateNomeUsuario(@PathParam("nome") String nome){
-        LOG.infof("Atualizando o nome do usuário para %s", nome);
-        usuarioService.updateNomeUsuarioLogado(nome);
-        
-        LOG.info("Finalizando a atualização do nome.");
+    @Path("/altera/dados")
+    @RolesAllowed({ "User", "Admin" })
+    public Response updateNomeUsuario(DadosUsuarioLogadoDTO dto) {
+        LOG.infof("Atualizando os dados do usuário");
+        usuarioService.updateDadosUsuarioLogado(dto);
+
+        LOG.info("Finalizando a atualização dos dados.");
         return Response.noContent().build();
     }
 
     @PATCH
     @Path("/insere/telefone")
-    @RolesAllowed({"User", "Admin"})
-    public Response insertTelefoneUsuario(TelefoneDTO dto){
+    @RolesAllowed({ "User", "Admin" })
+    public Response insertTelefoneUsuario(TelefoneDTO dto) {
         LOG.info("Inserindo o telefone.");
         usuarioService.insertTelefoneUsuarioLogado(dto);
 
@@ -92,8 +98,8 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/update/telefone/{idTelefone}")
-    @RolesAllowed({"User", "Admin"})
-    public Response updateTelefoneUsuario(@PathParam("idTelefone") Long idTelefone, TelefoneDTO dto){
+    @RolesAllowed({ "User", "Admin" })
+    public Response updateTelefoneUsuario(@PathParam("idTelefone") Long idTelefone, TelefoneDTO dto) {
         LOG.infof("Atualizando o telefone %s", idTelefone);
         usuarioService.updateTelefoneUsuarioLogado(idTelefone, dto);
 
@@ -101,75 +107,19 @@ public class UsuarioLogadoResource {
         return Response.noContent().build();
     }
 
-    /*@PATCH
-    @Path("/insere/endereco")
-    @RolesAllowed({"User", "Admin"})
-    public Response insertEnderecoUsuario(EnderecoDTO dto){
-         LOG.info("Inserindo o endereço.");
-        usuarioService.insertEnderecoUsuarioLogado(dto);
+    /*
+     * @PATCH
+     * 
+     * @Path("/insere/endereco")
+     * 
+     * @RolesAllowed({"User", "Admin"})
+     * public Response insertEnderecoUsuario(EnderecoDTO dto){
+     * LOG.info("Inserindo o endereço.");
+     * usuarioService.insertEnderecoUsuarioLogado(dto);
+     * 
+     * LOG.info("Finalizando o insert de endereço.");
+     * return Response.noContent().build();
+     * }
+     */
 
-         LOG.info("Finalizando o insert de endereço.");
-        return Response.noContent().build();
-    }*/
-
-    @PATCH
-    @Path("/upload/imagem/{armacaoId}")
-    @RolesAllowed({ "User", "Admin" })
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
-        try {
-            LOG.info("Salvando a imagem.");
-            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
-            
-            LOG.info("Atualizando a nova imagem.");
-            ArmacaoSolarResponseDTO armacaoDTO = armacaoService.updateNomeImagem(armacaoId, nomeImagem);
-            
-            LOG.info("Retornando a imagem.");
-            return Response.ok(armacaoDTO).build();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            LOG.info("Retornando um erro do servidor.");
-            Error error = new Error("500", "Erro ao processar a imagem.");
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
-
-    @PATCH
-    @Path("/upload/novaImagem/{armacaoId}")
-    @RolesAllowed({ "User", "Admin" })
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadNovaImagemArmacao(@MultipartForm ArmacaoImageForm form, @PathParam("armacaoId") Long armacaoId) {
-        try {
-            LOG.info("Deletando a imagem atual.");
-            String nomeImagemAtual = armacaoService.findById(armacaoId).nomeImagem();
-            if (nomeImagemAtual != null && !nomeImagemAtual.isBlank()) {
-                fileService.excluir(nomeImagemAtual);
-            }
-    
-            LOG.info("Salvando a nova imagem.");
-            String nomeImagemNovo = fileService.salvar(form.getNomeImagem(), form.getImagem());
-    
-            LOG.info("Atualizando a nova imagem.");
-            armacaoService.updateNomeImagem(armacaoId, nomeImagemNovo);
-    
-            LOG.info("Retornando a imagem atualizada.");
-            ArmacaoSolarResponseDTO armacaoDTO = armacaoService.findById(armacaoId);
-            return Response.ok(armacaoDTO).build();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Error error = new Error("500", "Erro ao processar a imagem.");
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).build();
-        }
-    }
-
-    @GET
-    @Path("/download/imagem/{nomeImagem}")
-    @RolesAllowed({ "User", "Admin" })
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response download(@PathParam("nomeImagem") String nomeImagem) {
-        ResponseBuilder response = Response.ok(fileService.obter(nomeImagem));
-        response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
-        return response.build();
-    }
 }

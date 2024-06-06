@@ -8,6 +8,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ArmacaoCliponRepository implements PanacheRepository<ArmacaoClipon> {
+    public ArmacaoClipon findById(Long id) {
+        return find("id", id).firstResult();
+    }
+
     public List<ArmacaoClipon> findByReferencia(String referencia) {
         return find("UPPER(referencia) LIKE UPPER(?1) ", "%" + referencia + "%").list();
     }

@@ -3,8 +3,7 @@ package br.unitins.topicos1.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import br.unitins.topicos1.model.StatusVenda;
-import br.unitins.topicos1.model.TipoPagamento;
+import br.unitins.topicos1.model.Cupom;
 import br.unitins.topicos1.model.Venda;
 
 public record VendaResponseDTO(
@@ -13,8 +12,11 @@ public record VendaResponseDTO(
         UsuarioResponseDTO usuario,
         Double valorTotal,
         List<ItemVendaResponseDTO> itens,
-        TipoPagamento tipoPagamento,
-        StatusVenda statusVenda) {
+        EnderecoResponseDTO enderecoEntrega,
+        String tipoPagamento,
+        String statusVenda,
+        Cupom cupom) { // Adicionei o campo para representar o pagamento
+
     public static VendaResponseDTO valueOf(Venda venda) {
         return new VendaResponseDTO(
                 venda.getId(),
@@ -22,11 +24,14 @@ public record VendaResponseDTO(
                 UsuarioResponseDTO.valueOf(venda.getUsuario()),
                 venda.getValorTotal(),
                 ItemVendaResponseDTO.valueOf(venda.getItens()),
-                venda.getTipoPagamento(),
-                venda.getStatusVenda());
+                EnderecoResponseDTO.valueOf(venda.getEnderecoEntrega()),
+                venda.getTipoPagamento().getNome(),
+                venda.getStatusVenda().getLabel(),
+                venda.getCupom()); // Adicionei o campo para representar o pagamento
     }
 
     public VendaResponseDTO itens(List<ItemVendaResponseDTO> itens) {
-        return new VendaResponseDTO(id, dataHora, usuario, valorTotal, itens, tipoPagamento, statusVenda);
+        return new VendaResponseDTO(id, dataHora, usuario, valorTotal, itens, enderecoEntrega, tipoPagamento,
+                statusVenda, cupom);
     }
 }

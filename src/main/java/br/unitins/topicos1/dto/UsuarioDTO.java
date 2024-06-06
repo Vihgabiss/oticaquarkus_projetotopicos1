@@ -23,6 +23,7 @@ public record UsuarioDTO(
     String senha,
 
     Integer idPerfil,
+    
     List<TelefoneDTO> listaTelefone
 
 ) {

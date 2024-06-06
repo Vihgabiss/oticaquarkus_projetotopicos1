@@ -4,81 +4,103 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import br.unitins.topicos1.model.Armacao;
+import br.unitins.topicos1.repository.ArmacaoRepository;
+import br.unitins.topicos1.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class ArmacaoFileService implements FileService {
-    // /Users/janio/quarkus/images/usuario/
-    private final String PATH_ARMACAO = System.getProperty("user.home") +
 
-            File.separator + "Documents"+
-            File.separator + "Quarkus"+ File.separator;
+    private final String PATH_USER = System.getProperty("user.home")
+            + File.separator + "Documents"
+            + File.separator + "Quarkus"
+            + File.separator;
 
-    private static final List<String> SUPPORTED_MIME_TYPES = Arrays.asList("image/jpeg", "image/jpg", "image/png",
-            "image/gif");
-
-    private static final int MAX_FILE_SIZE = 1024 * 1024 * 10; // 10mb
+    @Inject
+    ArmacaoRepository armacaoRepository;
 
     @Override
-    public String salvar(String nomeArquivo, byte[] arquivo) throws IOException {
-        verificarTamanhoImagem(arquivo);
-        verificarTipoImagem(nomeArquivo);
+    @Transactional
+    public void salvar(Long id, String nomeImagem, byte[] imagem) {
+        Armacao armacao = armacaoRepository.findById(id);
 
-        // criar diretório caso não exista
-        Path diretorio = Paths.get(PATH_ARMACAO);
-        Files.createDirectories(diretorio);
+        try {
+            // Store the current image name for deletion
+            String nomeImagemAntiga = armacao.getNomeImagem();
 
-        // criando o nome do arquivo randomico
-        String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
-        String extensao = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-        String novoNomeArquivo = UUID.randomUUID() + "." + extensao;
+            String novoNomeImagem = salvarImagem(imagem, nomeImagem);
+            armacao.setNomeImagem(novoNomeImagem);
 
-        // definindo o caminho completo do arquivo
-        Path filePath = diretorio.resolve(novoNomeArquivo);
-
-        if (filePath.toFile().exists())
-            throw new IOException("Nome de arquivo já existe.");
-
-        // salvar arquivo
-        try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
-            fos.write(arquivo);
-        }
-
-        return filePath.toFile().getName();
-    }
-
-    @Override
-    public File obter(String nomeArquivo) {
-        File file = new File(PATH_ARMACAO + nomeArquivo);
-        return file;
-    }
-
-    private void verificarTamanhoImagem(byte[] arquivo) throws IOException {
-        if (arquivo.length > MAX_FILE_SIZE)
-            throw new IOException("Arquivo maior que 10mb.");
-    }
-
-    private void verificarTipoImagem(String nomeArquivo) throws IOException {
-        String mimeType = Files.probeContentType(Paths.get(nomeArquivo));
-        if (!SUPPORTED_MIME_TYPES.contains(mimeType))
-            throw new IOException("Tipo de imagem não suportado.");
-    }
-
-    @Override
-    public void excluir(String nomeArquivo) {
-        File file = new File(PATH_ARMACAO + nomeArquivo);
-        if (file.exists() && file.isFile()) {
-            try {
-                Files.deleteIfExists(file.toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
+            // Delete the old image only if it exists and is not the same as the new one
+            if (nomeImagemAntiga != null && !nomeImagemAntiga.equals(novoNomeImagem)) {
+                excluirImagem(nomeImagemAntiga);
             }
+        } catch (IOException e) {
+            throw new ValidationException("imagem", e.toString());
         }
+    }
+
+    private void excluirImagem(String nomeArquivo) throws IOException {
+        File file = new File(PATH_USER + nomeArquivo);
+        if (file.exists() && !file.delete()) {
+            throw new IOException("Erro ao excluir a imagem antiga: " + nomeArquivo);
+        }
+    }
+
+    private String salvarImagem(byte[] imagem, String nomeImagem) throws IOException {
+
+        // verificando o tipo da imagem
+        String mimeType = Files.probeContentType(new File(nomeImagem).toPath());
+        List<String> listMimeType = Arrays.asList("image/jpg", "image/jpeg", "image/png", "image/gif");
+        if (!listMimeType.contains(mimeType)) {
+            throw new IOException("Tipo de imagem não suportada.");
+        }
+
+        // verificando o tamanho do arquivo - nao permitir maior que 10 megas
+        if (imagem.length > (1024 * 1024 * 10))
+            throw new IOException("Arquivo muito grande.");
+
+        // criando as pastas quando não existir
+        File diretorio = new File(PATH_USER);
+        if (!diretorio.exists())
+            diretorio.mkdirs();
+
+        // gerando o nome do arquivo
+        String nomeArquivo = UUID.randomUUID()
+                + "." + mimeType.substring(mimeType.lastIndexOf("/") + 1);
+
+        String path = PATH_USER + nomeArquivo;
+
+        // salvando o arquivo
+        File file = new File(path);
+        // alunos (melhorar :)
+        if (file.exists())
+            throw new IOException("O nome gerado da imagem está repedido.");
+
+        // criando um arquivo no S.O.
+        file.createNewFile();
+
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(imagem);
+        // garantindo o envio do ultimo lote de bytes
+        fos.flush();
+        fos.close();
+
+        return nomeArquivo;
+
+    }
+
+    @Override
+    public File download(String nomeArquivo) {
+        System.out.println(PATH_USER + nomeArquivo);
+        File file = new File(PATH_USER + nomeArquivo);
+        return file;
     }
 }
