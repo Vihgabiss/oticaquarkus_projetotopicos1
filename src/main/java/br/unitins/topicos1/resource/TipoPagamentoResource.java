@@ -59,7 +59,7 @@ public class TipoPagamentoResource {
 
     // READ
     @GET
-    @RolesAllowed("Admin")
+
     public Response getAll() {
         LOG.info("Listando todos os tipos de pagamento");
         return Response.ok(service.getAll()).build();
