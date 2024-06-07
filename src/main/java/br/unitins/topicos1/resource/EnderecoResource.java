@@ -74,7 +74,6 @@ public class EnderecoResource {
 
     @POST
     @Path("/insere-endereco")
-    @RolesAllowed({ "Admin" })
     public Response insert(EnderecoDTO dto) {
         LOG.info("Inserindo endereço.");
         return Response.status(Status.CREATED).entity(service.insert(dto)).build();

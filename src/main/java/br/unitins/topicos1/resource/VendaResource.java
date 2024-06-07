@@ -81,23 +81,27 @@ public class VendaResource {
 
     // Endpoint para listar todas as vendas (apenas para Admin)
     @GET
-    @RolesAllowed({ "Admin" })
     public Response findAll() {
         LOG.info("Listando todas as vendas"); // Registra a tentativa de listar todas as vendas
         return Response.ok(service.findByAll()).build(); // Retorna a lista de vendas
     }
 
+       // Endpoint para listar todas as vendas (apenas para Admin)
+       @GET
+       @Path("/pagamento/debito")
+       @RolesAllowed({ "Admin" })
+       public Response findAllPagamentos() {
+           LOG.info("Listando todas os pagamentos"); // Registra a tentativa de listar todas as vendas
+           return Response.ok(service.findByAllPagamento()).build(); // Retorna a lista de vendas
+       }
+
     // Endpoint para buscar uma venda pelo ID
     @GET
     @Path("/{id}")
-    @RolesAllowed({ "User", "Admin" })
     public Response findById(@PathParam("id") Long id) { // Obtém o ID da venda a partir da URL
         LOG.info("Buscando venda por ID: " + id); // Registra a busca por ID
-        Venda venda = vendaRepository.findById(id);
-        if (venda == null) {
-            return Response.status(Status.NOT_FOUND).build(); // Retorna 404 se não encontrar
-        }
-        return Response.ok(venda).build(); // Retorna a venda encontrada, ou null caso não encontre
+      
+        return Response.ok(service.findById(id)).build(); // Retorna a venda encontrada, ou null caso não encontre
     }
 
     // Endpoint para listar as vendas do usuário logado
@@ -184,7 +188,6 @@ public class VendaResource {
 
     @POST
     @Path("/{id}/pagamento/cartao-credito")
-    @RolesAllowed("Admin, User")
     public Response realizarPagamentoCartaoCredito(@PathParam("id") Long vendaId,
             @Valid @RequestBody CartaoCreditoDTO cartaoCreditoDTO) {
         LOG.info("Realizando pagamento com cartão de crédito para a venda: " + vendaId);
@@ -204,7 +207,6 @@ public class VendaResource {
 
     @POST
     @Path("/{id}/pagamento/cartao-debito")
-    @RolesAllowed("Admin, User")
     public Response realizarPagamentoCartaoDebito(@PathParam("id") Long vendaId,
             @Valid @RequestBody CartaoDebitoDTO cartaoDebitoDTO) {
         LOG.info("Realizando pagamento com cartão de débito para a venda: " + vendaId);

@@ -5,6 +5,7 @@ import java.util.List;
 import br.unitins.topicos1.dto.BoletoDTO;
 import br.unitins.topicos1.dto.CartaoCreditoDTO;
 import br.unitins.topicos1.dto.CartaoDebitoDTO;
+import br.unitins.topicos1.dto.PagamentoResponseDTO;
 import br.unitins.topicos1.dto.PixDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
@@ -17,6 +18,8 @@ public interface VendaService {
         public VendaResponseDTO findById(Long id);
 
         public List<VendaResponseDTO> findByAll();
+
+         public List<PagamentoResponseDTO> findByAllPagamento();
 
         public List<VendaResponseDTO> findByAll(String email);
 

@@ -71,7 +71,7 @@ insert into cidade(nome, id_estado) values('Paraíso', 1);
 insert into cidade(nome, id_estado) values('Salvador', 2);
 
 insert into endereco(cep, bairro, rua, numero, complemento, id_cidade, idUsuario) values('77006-020', '110 Norte', 'alameda 15', 25, 'casa', 1, 1);
-insert into endereco(cep, bairro, rua, numero, complemento, id_cidade, idUsuario) values('77010-000', '106 Norte', 'Av.JK', 10, 'loja 1, Sapataria', 1, 1);
+insert into endereco(cep, bairro, rua, numero, complemento, id_cidade, idUsuario) values('77010-000', '106 Norte', 'Av.JK', 10, 'Sapataria', 1, 1);
 insert into endereco(cep, bairro, rua, numero, complemento, id_cidade, idUsuario) values('77006-500', '204 Sul', 'alameda 02', 13, 'casa', 2, 2);
 
 insert into usuario_endereco (id_usuario, id_endereco) values(1, 1); 

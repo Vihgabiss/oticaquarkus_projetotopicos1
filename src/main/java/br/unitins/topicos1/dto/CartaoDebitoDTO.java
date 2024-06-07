@@ -12,8 +12,7 @@ public record CartaoDebitoDTO(
                 @NotBlank(message = "O nome do titular não pode ser vazio")
                 String nomeTitular,
 
-                @NotBlank(message = "A validade não pode ser vazia")
-                @Pattern(regexp = "(0[1-9]|1[0-2])/[0-9]{2}", message = "A validade deve estar no formato MM/AA") 
+                @NotBlank(message = "A validade não pode ser vazia") 
                 String validade,
 
                 @NotBlank(message = "O CVV não pode ser vazio") 

@@ -11,6 +11,7 @@ import br.unitins.topicos1.dto.CartaoCreditoDTO;
 import br.unitins.topicos1.dto.CartaoDebitoDTO;
 import br.unitins.topicos1.dto.ItemVendaDTO;
 import br.unitins.topicos1.dto.ItemVendaResponseDTO;
+import br.unitins.topicos1.dto.PagamentoResponseDTO;
 import br.unitins.topicos1.dto.PixDTO;
 import br.unitins.topicos1.dto.VendaDTO;
 import br.unitins.topicos1.dto.VendaResponseDTO;
@@ -149,6 +150,11 @@ public class VendaServiceImpl implements VendaService {
     public List<VendaResponseDTO> findByAll() {
         return vendaRepository.listAll().stream()
                 .map(e -> VendaResponseDTO.valueOf(e)).toList();
+    }
+
+    public List<PagamentoResponseDTO> findByAllPagamento() {
+        return pagamentoRepository.listAll().stream()
+                .map(e -> PagamentoResponseDTO.valueOf(e)).toList();
     }
 
     @Override
@@ -297,12 +303,8 @@ public class VendaServiceImpl implements VendaService {
     @Transactional
     public VendaResponseDTO realizarPagamentoCartaoDebito(Long vendaId, CartaoDebitoDTO cartaoDebitoDTO,
             TipoPagamento tipoPagamento) {
-        Optional<Venda> optionalVenda = vendaRepository.findByIdOptional(vendaId);
-        if (optionalVenda.isEmpty()) {
-            throw new EntityNotFoundException("Venda não encontrada com o ID: " + vendaId);
-        }
 
-        Venda venda = optionalVenda.get();
+        Venda venda = vendaRepository.findById(vendaId);
 
         // Cria o cartão de débito
         CartaoDebito cartaoDebito = new CartaoDebito();
