@@ -133,7 +133,7 @@ public class VendaServiceImpl implements VendaService {
                 venda.setCupom(cupom);
 
                 // Aplicar o desconto do cupom (porcentagem)
-                double valorDesconto = (venda.getValorTotal() * 10) / 100.0;
+                double valorDesconto = (venda.getValorTotal() * cupom.getPorcentagemDesconto()) / 100.0;
                 total -= valorDesconto; // Subtrai o valor do desconto do total
                 venda.setValorTotal(total);
             } else {
