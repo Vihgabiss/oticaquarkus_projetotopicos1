@@ -6,7 +6,6 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.topicos1.dto.EnderecoDTO;
 import br.unitins.topicos1.dto.EnderecoResponseDTO;
-import br.unitins.topicos1.dto.SenhaDTO;
 import br.unitins.topicos1.dto.TelefoneDTO;
 import br.unitins.topicos1.dto.TelefoneResponseDTO;
 import br.unitins.topicos1.dto.UsuarioDTO;
@@ -188,20 +187,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findByEmail(email);
 
         return usuario;
-    }
-
-    @Override
-    @Transactional
-    public void updateSenha(@Valid SenhaDTO dto){
-        Usuario usuario = getUsuarioByEmail();
-        String senhaAtualHash = hashService.getHashSenha(dto.senhaAtual());
-
-        if (usuario.getSenha().equals(senhaAtualHash)){
-                usuario.setSenha(hashService.getHashSenha(dto.senhaNova()));     
-        } 
-
-        else
-            throw new ValidationException("senha", "Senha errada!");
     }
 
     @Override
